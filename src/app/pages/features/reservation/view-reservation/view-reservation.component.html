@@ -1,0 +1,206 @@
+<mat-tab-group>
+  <mat-tab label="Reservation details">
+    <div class="page-view-container details">
+      <div fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="20px">
+        <div fxFlex class="action-section">
+          <div fxFlex="100" fxLayout="column" >
+            <div *ngIf="allowedAction.reschedule || allowedAction.approval || allowedAction.complete || allowedAction.cancelation">
+              <h4 class="action-header-text">Action</h4>
+              <ul fxLayout="column" class="action-menu">
+                <li *ngIf="allowedAction.reschedule">
+                  <button [disabled]="!reservationAction.reschedule" mat-stroked-button (click)="onReschedule()">
+                    <div class="button-wrapper">
+                      <mat-icon>today</mat-icon>
+                      <span>Reschedule</span>
+                    </div>
+                  </button>
+                </li>
+                <li *ngIf="allowedAction.approval">
+                  <button [disabled]="!reservationAction.approval" mat-stroked-button color="primary" (click)="changeStatus(2)">
+                    <div class="button-wrapper">
+                      <mat-icon>check</mat-icon>
+                      <span>Approved</span>
+                    </div>
+                  </button>
+                </li>
+                <li *ngIf="allowedAction.complete">
+                  <button [disabled]="!reservationAction.complete" mat-flat-button color="primary" (click)="changeStatus(3)">
+                    <div class="button-wrapper">
+                      <mat-icon>check</mat-icon>
+                      <span>Complete</span>
+                    </div>
+                  </button>
+                </li>
+                <li *ngIf="allowedAction.cancelation">
+                  <button [disabled]="!reservationAction.cancelation" mat-stroked-button color="warn" (click)="changeStatus(4)">
+                    <div class="button-wrapper">
+                      <mat-icon>close</mat-icon>
+                      <span>Cancel</span>
+                    </div>
+                  </button>
+                </li>
+              </ul>
+              <mat-divider></mat-divider>
+            </div>
+            <ul fxFlex="100" fxLayout="column" class="action-menu">
+              <li style="margin: 0">
+                <button mat-stroked-button routerLink="/reservations">
+                  <div class="button-wrapper">
+                    <mat-icon>keyboard_backspace</mat-icon>
+                    <span>Back to list</span>
+                  </div>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div fxFlex.gt-xs="65%" fxFlex.gt-md="80%" fxLayout="column" fxLayoutGap="20px">
+          <mat-card fxFlex="100">
+            <mat-card-header>
+              <mat-card-subtitle><strong>Reservation details</strong></mat-card-subtitle>
+              <div fxFlex></div>
+              <div *ngIf="!isLoading">
+                <h4>Status:
+                  <strong *ngIf="reservation.reservationStatus.reservationStatusId === '1'" style="color: #FFC107;">{{reservation.reservationStatus.name}}</strong>
+                  <strong *ngIf="reservation.reservationStatus.reservationStatusId === '2'" style="color: #009688;">{{reservation.reservationStatus.name}}</strong>
+                  <strong *ngIf="reservation.reservationStatus.reservationStatusId === '3'" style="color: #03A9F4;">{{reservation.reservationStatus.name}}</strong>
+                  <strong *ngIf="reservation.reservationStatus.reservationStatusId === '4'" style="color: #FF5722;">{{reservation.reservationStatus.name}}</strong>
+                </h4>
+              </div>
+            </mat-card-header>
+
+            <mat-card-content fxLayout="column">
+              <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
+                <!-- Reservation type -->
+                <mat-list
+                  *ngIf="!isLoading; else elseLoadingLoadingReservationType">
+                  <mat-list-item >
+                    <mat-icon mat-list-icon>check_box</mat-icon>
+                    <div mat-line>
+                      <strong>{{ reservation.reservationType.name }}</strong>
+                    </div>
+                    <div mat-line>Reservation Type</div>
+                  </mat-list-item>
+                </mat-list>
+                <ng-template #elseLoadingLoadingReservationType>
+                  <mat-list-item>
+                    <div mat-line>
+                      <ngx-skeleton-loader
+                        fxFlex
+                        [theme]="{ height: '20px', width: '20%' }"
+                      ></ngx-skeleton-loader>
+                    </div>
+                    <div mat-line>
+                      <ngx-skeleton-loader
+                        fxFlex
+                        [theme]="{ height: '20px', width: '20%' }"
+                      ></ngx-skeleton-loader>
+                    </div>
+                  </mat-list-item>
+                </ng-template>
+                <!-- end -->
+                <!-- Client info -->
+                <mat-list *ngIf="!isLoading; else elseLoadingLoadingClientInfo">
+                  <mat-list-item mat-ripple style="cursor: pointer" (click)="viewClientInfo(reservation.client.user.userId)">
+                    <mat-icon mat-list-icon>person</mat-icon>
+                    <div mat-line>
+                      <strong>{{reservation.client.fullName}}</strong>
+                    </div>
+                    <div mat-line>
+                      {{ reservation.client.mobileNumber }}
+                    </div>
+                    <mat-icon
+                      style="position: absolute; right: 0 !important"
+                      mat-list-icon
+                      >keyboard_arrow_right</mat-icon>
+                  </mat-list-item>
+                </mat-list>
+                <ng-template #elseLoadingLoadingClientInfo>
+                  <mat-list-item>
+                    <mat-icon mat-list-icon>person</mat-icon>
+                    <div mat-line>
+                      <ngx-skeleton-loader
+                        fxFlex
+                        [theme]="{ height: '20px', width: '20%' }"
+                      ></ngx-skeleton-loader>
+                    </div>
+                    <div mat-line>
+                      <ngx-skeleton-loader
+                        fxFlex
+                        [theme]="{ height: '20px', width: '20%' }"
+                      ></ngx-skeleton-loader>
+                    </div>
+                  </mat-list-item>
+                </ng-template>
+                <!-- end -->
+                <mat-divider></mat-divider>
+                <!-- Reservation schedule -->
+                <mat-list *ngIf="!isLoading; else elseLoadingLoadingClientInfo">
+                  <mat-list-item>
+                    <mat-icon mat-list-icon>date_range</mat-icon>
+                    <div mat-line>
+                      <strong>{{
+                        reservation.reservationDate + " " + reservation.time
+                          | date: "hh:mm a"
+                      }}</strong>
+                    </div>
+                    <div mat-line>
+                      <div mat-line>{{ reservation.reservationDate | date: 'MMM dd, yyyy' }}</div>
+                    </div>
+                  </mat-list-item>
+                </mat-list>
+                <ng-template #elseLoadingLoadingClientInfo>
+                  <mat-list-item>
+                    <mat-icon mat-list-icon>event_note</mat-icon>
+                    <div mat-line>
+                      <ngx-skeleton-loader
+                        fxFlex
+                        [theme]="{ height: '20px', width: '20%' }"
+                      ></ngx-skeleton-loader>
+                    </div>
+                    <div mat-line>
+                      <ngx-skeleton-loader
+                        fxFlex
+                        [theme]="{ height: '20px', width: '20%' }"
+                      ></ngx-skeleton-loader>
+                    </div>
+                  </mat-list-item>
+                </ng-template>
+                <!-- end -->
+                <mat-divider></mat-divider>
+                <!-- Remarks -->
+                <mat-list *ngIf="!isLoading; else elseLoadingLoadingRemarks">
+                  <mat-list-item>
+                    <mat-icon mat-list-icon>comment</mat-icon>
+                    <div mat-line><strong>Remarks</strong></div>
+                    <div mat-line>{{ reservation.remarks }}</div>
+                  </mat-list-item>
+                </mat-list>
+                <ng-template #elseLoadingLoadingRemarks>
+                  <mat-list-item>
+                    <mat-icon mat-list-icon>comment</mat-icon>
+                    <div mat-line>
+                      <ngx-skeleton-loader
+                        fxFlex
+                        [theme]="{ height: '20px', width: '20%' }"
+                      ></ngx-skeleton-loader>
+                    </div>
+                    <div mat-line>
+                      <ngx-skeleton-loader
+                        fxFlex
+                        [theme]="{ height: '20px', width: '20%' }"
+                      ></ngx-skeleton-loader>
+                    </div>
+                  </mat-list-item>
+                </ng-template>
+                <!-- end -->
+              </div>
+              <br />
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+
+  </mat-tab>
+</mat-tab-group>

@@ -1,0 +1,327 @@
+app-view-reservation {
+  display: flex;
+  flex-direction: column;
+  height: 100%!important;
+  .mat-tab-group {
+    display: flex;
+    flex-direction: column;
+    height: 100%!important;
+    flex-grow: 1;
+    .mat-tab-body-wrapper {
+      display: flex;
+      flex-grow: 1;
+      flex-grow: 1;
+      height: 100%!important;
+      .mat-tab-body {
+        display: flex;
+        flex-grow: 1;
+        height: 100%;
+        flex-direction: column;
+        .mat-tab-body-content {
+          display: flex;
+          flex-grow: 1;
+          height: 100%;
+          flex-direction: column;
+          .page-view-container {
+            &.details {
+              .action-section {
+                mat-divider {
+                  margin: 10px 0!important;
+                }
+                .action-header-text {
+                  margin: 0!important;
+                }
+                .action-menu {
+                  margin: 0;
+                  padding: 0;
+                  list-style: none;
+                  &:first-child {
+                    li {
+                      &:first-child {
+                        margin-top: 0;
+                      }
+                    }
+
+                  }
+                  li {
+                    display: flex;
+                    flex-direction: column;
+                    margin-bottom: 10px;
+                    &:first-child {
+                      margin-top: 10px;
+                    }
+                    button {
+                      .button-wrapper {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        span {
+                          flex-grow: 1;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            &.connect {
+              height: 100%;
+              flex-direction: row;
+              display: flex;
+              flex-grow: 1;
+              overflow: hidden;
+              margin-bottom: 90px !important;
+              .connect-action-header {
+                display: flex;
+                width: 100%;
+                flex-grow: 1;
+                padding: 10px;
+                background-color: #FFFFFF;
+                box-sizing: border-box;
+                justify-content: flex-end;
+              }
+              .convo-section {
+                display: flex;
+                height: 100%;
+                flex-direction: column-reverse;
+                overflow: auto;
+                margin-top: 20px;
+                .message-list {
+                  margin: 0 10px 20px 0!important;
+                  padding: 0;
+                  display: flex;
+                  row-gap: 10px;
+                  flex-direction: column-reverse;
+                  li {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    .chat-item-box {
+                      display: flex;
+                      padding: 8px 12px!important;
+                      margin: 0!important;
+                      background-color: #E4E6EB;
+                      border-radius: 18px;
+                      max-width: 500px;
+                    }
+                    .from-label {
+                      font-size: 80%!important;
+                    }
+                    &.from-me {
+                      align-items: flex-end;
+                      .chat-item-box {
+                        background: #009688!important;
+                        color:#FFFFFF!important;
+                        &.sending {
+                          background-color: #00968845!important;
+                        }
+                      }
+                    }
+                    &.load-more {
+                      display: flex;
+                      align-items: center;
+                      .message-loader-indicator {
+                        position: absolute;
+                        top: 20px;
+                        display: flex;
+                        h3 {
+                          margin: 0!important;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              .action-section {
+                display: flex;
+                position: absolute;
+                bottom: 20px;
+                padding-right: 60px;
+                width: 100%;
+                button {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  .mat-button-wrapper {
+                    display: flex;
+                    mat-icon {
+                      display: flex;
+                      font-size: 30px!important;
+                      width: 100%;
+                      flex-grow: 1;
+                    }
+                  }
+                }
+                .chat-input {
+                  width: 100%;
+                  display: flex;
+                  align-items: center;
+                  .mat-form-field-wrapper {
+                    padding: 0!important;
+                    margin: 0!important;
+                  }
+                }
+              }
+            }
+            &.attachments {
+              mat-card {
+                padding: 0!important;
+                box-sizing: border-box;
+                overflow: hidden;
+                img {
+                  width: 100%;
+                  height: 100%;
+                  box-sizing: border-box;
+                  box-sizing: border-box;
+                  object-position: center;
+                  object-fit: contain;
+                }
+                .thumb-overlay {
+                  cursor: pointer;
+                  width: 100%;
+                  height: 100%;
+                  position: absolute;
+                  display: flex;
+                  span {
+                    flex-grow: 1;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    opacity: 0;
+                    color: #FFFFFF;
+                    z-index: 100;
+                  }
+                  .thumb-overlay-background {
+                    flex-grow: 1;
+                    width: 100%;
+                    height: 100%;
+                    background-color: #000000;
+                    transition: 0.2s;
+                    opacity: 0;
+                    display: flex;
+                    position: absolute;
+                    z-index: 1;
+                  }
+                  &:hover {
+                    .thumb-overlay-background {
+                      opacity: 0.5;
+                    }
+                    span {
+                      opacity: 1;
+                    }
+                  }
+                  &:focus {
+                    .thumb-overlay-background {
+                      opacity: 0.5;
+                    }
+                    span {
+                      opacity: 1;
+                    }
+                  }
+                }
+              }
+            }
+            &.diagnosis {
+              mat-card {
+                &.attachment {
+                  padding: 0!important;
+                  box-sizing: border-box;
+                  overflow: hidden;
+                  .close {
+                    z-index: 200;
+                    position: absolute;
+                    right: 10px;
+                    top: 10px;
+                    cursor: pointer;
+                    outline: none;
+                    border: none;
+                    border-radius: 100%;
+                    width: 30px;
+                    height: 30px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                  }
+                }
+                img {
+                  width: 100%;
+                  height: 100%;
+                  box-sizing: border-box;
+                  object-position: center;
+                  object-fit: contain;
+                }
+                .thumb-overlay {
+                  cursor: pointer;
+                  width: 100%;
+                  height: 100%;
+                  position: absolute;
+                  display: flex;
+                  span {
+                    flex-grow: 1;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    opacity: 0;
+                    color: #FFFFFF;
+                    z-index: 100;
+                  }
+                  .thumb-overlay-background {
+                    flex-grow: 1;
+                    width: 100%;
+                    height: 100%;
+                    background-color: #000000;
+                    transition: 0.2s;
+                    opacity: 0;
+                    display: flex;
+                    position: absolute;
+                    z-index: 1;
+                  }
+                  &:hover {
+                    .thumb-overlay-background {
+                      opacity: 0.5;
+                    }
+                    span {
+                      opacity: 1;
+                    }
+                  }
+                  &:focus {
+                    .thumb-overlay-background {
+                      opacity: 0.5;
+                    }
+                    span {
+                      opacity: 1;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.page-view-container {
+}
+
+.schedule-dialog {
+  max-width: 500px!important;
+  width: 500px!important;
+}
+
+.select-timeslot-dialog {
+  max-width: 500px!important;
+  width: 500px!important;
+}
+
+
+.payment-dialog {
+  max-width: 500px!important;
+  width: 500px!important;
+}
+
+
+.mat-tab-content-0-1 {
+
+}

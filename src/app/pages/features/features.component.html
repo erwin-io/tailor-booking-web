@@ -1,0 +1,38 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="sidenav.toggle()" class="menu-button" *ngIf="!opened" fxHide fxShow.lt-md>
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Tailor booking system</span>
+  <span class="example-spacer"></span>
+  <button mat-button class="user-profile" [matMenuTriggerFor]="popOver" >
+    <img [src]="currentUser.userProfilePic" (error)="profilePicErrorHandler($event)"/>
+    <span class="fullname">{{currentUser.fullName}}</span>
+  </button>
+  <mat-menu #popOver="matMenu" class="user-profile-popover-panel">
+    <div mat-menu-item [disableRipple]="true" class="user-profile-popover-content" (click)="$event.stopPropagation()">
+      <div class="avatar">
+        <img [src]="currentUser.userProfilePic" (error)="profilePicErrorHandler($event)"/>
+      </div>
+      <div class="info">
+        <p><span class="name">{{currentUser.fullName}}</span></p>
+        <p><span class="username">@{{currentUser.username}}</span></p>
+        <p><i class="role">{{currentUser.role.name}}</i></p>
+      </div>
+    </div>
+    <div mat-menu-item [disableRipple]="true" class="user-profile-popover-content" (click)="$event.stopPropagation()">
+      <button mat-stroked-button routerLink="profile">Manage Profile</button>
+    </div>
+  </mat-menu>
+</mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="side" [opened]="opened" [mode]="!opened ? 'over': 'side'">
+    <mat-nav-list>
+      <app-menu-list-item [item]="defaultMenuItem" (click)="!opened ? sidenav.toggle() : false"></app-menu-list-item>
+      <app-menu-list-item *ngFor="let item of menu" [item]="item" (onChildItemClick)="!opened ? sidenav.toggle() : false" (click)="!opened && !item.isParent? sidenav.toggle() : false"></app-menu-list-item>
+      <app-menu-list-item [item]="signOutMenuItem" (click)="handleSignOut()"></app-menu-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
