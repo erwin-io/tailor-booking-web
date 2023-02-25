@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://church-info-sys-api.herokuapp.com/api/v1/'
+  apiBaseUrl: 'https://tailor-booking-api.herokuapp.com/api/v1/'
 };
