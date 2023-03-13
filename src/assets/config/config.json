@@ -19,7 +19,7 @@
     "sessionTimeout": "7200"
   },
   "lookup": {
-    "reservationStatus": ["Pending", "Approved", "Completed", "Cancelled"],
+    "reservationStatus": ["Pending", "Approved", "Processed", "Completed", "Declined", "Cancelled"],
     "reservationType": ["Category 1", "Category 2", "Category 3", "Category 4", "Category 5"],
     "roles": [
       {
