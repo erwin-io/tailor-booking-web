@@ -2,7 +2,7 @@
   <button mat-icon-button (click)="sidenav.toggle()" class="menu-button" *ngIf="!opened" fxHide fxShow.lt-md>
     <mat-icon>menu</mat-icon>
   </button>
-  <span>Tailor booking system</span>
+  <span>Arbons-Tailoring</span>
   <span class="example-spacer"></span>
   <button mat-button class="user-profile" [matMenuTriggerFor]="popOver" >
     <img [src]="currentUser.userProfilePic" (error)="profilePicErrorHandler($event)"/>
