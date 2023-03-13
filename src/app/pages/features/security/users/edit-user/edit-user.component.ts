@@ -17,7 +17,7 @@ import { Staff } from '../../../../../../app/core/model/staff.model';
 import { StorageService } from '../../../../../../app/core/storage/storage.service';
 import { NavItem } from 'src/app/core/model/nav-item';
 import { menu } from 'src/app/core/model/menu';
-import { Client } from 'src/app/core/model/client.model';
+import { Customer } from 'src/app/core/model/customer.model';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -29,7 +29,7 @@ import { MatTableDataSource } from '@angular/material/table';
 export class EditUserComponent implements OnInit, AfterViewChecked  {
 
   currentUserId:string;
-  userData: Staff|Client;
+  userData: Staff|Customer;
   staffUserRoleIds:string[] = [];
   userForm: FormGroup;
   mediaWatcher: Subscription;
@@ -250,7 +250,7 @@ export class EditUserComponent implements OnInit, AfterViewChecked  {
               dialogRef.close();
             });
         } else {
-          await this.userService.udpdateClient(userData)
+          await this.userService.udpdateCustomer(userData)
             .subscribe(async res => {
               if (res.success) {
                 this.snackBar.snackbarSuccess('Saved!');

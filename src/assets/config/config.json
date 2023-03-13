@@ -11,8 +11,8 @@
   },
   "tableColumns": {
     "reservation": {
-      "admin": ["reservationId", "reservationDate", "client", "consultaionType", "reservationStatus", "controls"],
-      "frontDesk": ["reservationId", "reservationDate", "client", "consultaionType", "reservationStatus", "controls"]
+      "admin": ["reservationId", "reservationDate", "customer", "consultaionType", "reservationStatus", "controls"],
+      "frontDesk": ["reservationId", "reservationDate", "customer", "consultaionType", "reservationStatus", "controls"]
     }
   },
   "sessionConfig": {
@@ -20,7 +20,7 @@
   },
   "lookup": {
     "reservationStatus": ["Pending", "Approved", "Completed", "Cancelled"],
-    "reservationType": ["Sequenced and beaded apparel", "Wedding dresses", "Tailored suits", "Gown and/or suit re-cut/reconstructions", "Vintage restorations"],
+    "reservationType": ["Category 1", "Category 2", "Category 3", "Category 4", "Category 5"],
     "roles": [
       {
         "roleId": "1",
@@ -36,7 +36,7 @@
       "login": "auth/login/staff",
       "logout": "auth/logout",
       "register": {
-        "client": "auth/register/client",
+        "customer": "auth/register/customer",
         "staff": "auth/register/staff"
       },
       "findByUsername": "auth/findByUsername/",
@@ -45,11 +45,11 @@
     "user": {
       "get": "users?userTypeId=",
       "getStaffByAdvanceSearch": "users/getStaffByAdvanceSearch",
-      "getClientByAdvanceSearch": "users/getClientByAdvanceSearch",
+      "getCustomerByAdvanceSearch": "users/getCustomerByAdvanceSearch",
       "getById": "users/",
       "createStaff": "users/staff",
-      "createClient": "users/client",
-      "udpdateClient": "users/client",
+      "createCustomer": "users/customer",
+      "udpdateCustomer": "users/customer",
       "udpdateStaff": "users/staff",
       "toggleEnable": "users/toggleEnable",
       "udpdatePassword": "users/udpdatePassword",
@@ -62,13 +62,15 @@
       "getReservationForADay": "reservation/getReservationForADay/",
       "createReservation": "reservation/createReservation",
       "rescheduleReservation": "reservation/rescheduleReservation",
-      "updateReservationStatus": "reservation/updateReservationStatus"
+      "updateReservationStatus": "reservation/updateReservationStatus",
+      "processOrder": "reservation/processOrder"
     },
     "dashboard": {
     },
     "message": {
       "create": "message/"
     },
-    "reminder": "reminder/"
+    "reminder": "reminder/",
+    "orderItemType": "order-item-type/"
   }
 }

@@ -15,9 +15,8 @@ const routes: Routes = [
       children: [
         { path: 'dashboard', canActivate: [AuthGuard], loadChildren: () => import('./pages/features/home/home.module').then(m => m.HomeModule) },
         { path: 'reservations', canActivate: [AuthGuard], loadChildren: () => import('./pages/features/reservation/reservation.module').then(m => m.ReservationModule) },
-        { path: 'certificates', canActivate: [AuthGuard], loadChildren: () => import('./pages/features/certificates/certificates.module').then(m => m.CertificatesModule) },
+        { path: 'configuration', canActivate: [AuthGuard], loadChildren: () => import('./pages/features/configuration/configuration.module').then(m => m.ConfigurationModule) },
         { path: 'security', canActivate: [AuthGuard], loadChildren: () => import('./pages/features/security/security.module').then(m => m.SecurityModule) },
-        { path: 'reminders', canActivate: [AuthGuard], loadChildren: () => import('./pages/features/reminder/reminder.module').then(m => m.ReminderModule) },
       ]
     },
     { path: 'profile',

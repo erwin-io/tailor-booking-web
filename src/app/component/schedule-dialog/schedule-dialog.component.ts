@@ -25,13 +25,13 @@ import { Snackbar } from 'src/app/core/ui/snackbar';
 export class ScheduleDialogComponent implements OnInit {
   data: any;
   time;
-  appointmentDate: FormControl = new FormControl();
+  date: FormControl = new FormControl();
   // time:FormControl = new FormControl([null, Validators.required]);
   defaultValue: Date;
   isProcessing = false;
-  appointmentTime;
   conFirm = new EventEmitter();
   isLoading = false;
+  canSelectTime = false;
   error;
   constructor(
     private formBuilder: FormBuilder,
@@ -40,27 +40,26 @@ export class ScheduleDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<ScheduleDialogComponent>
   ) {
     dialogRef.disableClose = true;
-    this.appointmentDate.addValidators([Validators.required]);
+    this.date.addValidators([Validators.required]);
   }
   ngOnInit(): void {
-    this.appointmentDate.setValue(this.data.appointmentDate);
+    this.date.setValue(this.data.date);
     this.time = this.data.time;
   }
 
   get formValid() {
     return (
-      this.appointmentDate.valid &&
-      this.time &&
-      (this.data.appointmentDate != this.appointmentDate.value ||
-        this.time != this.data.time)
+      this.date.valid &&
+      this.canSelectTime ? (this.time &&
+      (this.data.date != this.date.value ||
+        this.time != this.data.time)) : true
     );
   }
 
   onSubmit(): void {
     if (this.formValid) {
       const dialogData = new AlertDialogModel();
-      dialogData.title = 'Save';
-      dialogData.message = 'Are you sure you want to re schedule appointment?';
+      dialogData.title = 'Confirm date';
       dialogData.confirmButton = {
         visible: true,
         text: 'yes',
@@ -81,47 +80,15 @@ export class ScheduleDialogComponent implements OnInit {
           this.isProcessing = true;
           dialogRef.componentInstance.isProcessing = this.isProcessing;
           const param = {
-            appointmentId: this.data.appointmentId,
-            appointmentDate: moment(this.appointmentDate.value).format(
+            date: moment(this.date.value).format(
               'YYYY-MM-DD'
             ),
-            time: moment(this.time).format('hh:mm'),
+            time: this.canSelectTime ? moment(this.time).format('hh:mm') : null,
           };
-          try {
-            // await this.appointmentService
-            //   .rescheduleAppointment(param)
-            //   .subscribe(
-            //     async (res) => {
-            //       if (res.success) {
-            //         this.conFirm.emit(true);
-            //         this.snackBar.snackbarSuccess("Appointment rescheduled!");
-            //         dialogRef.close();
-            //         this.isProcessing = false;
-            //         dialogRef.componentInstance.isProcessing = this.isProcessing;
-            //       } else {
-            //         this.isLoading = false;
-            //         this.error = Array.isArray(res.message)
-            //           ? res.message[0]
-            //           : res.message;
-            //         this.snackBar.snackbarError(this.error);
-            //         dialogRef.componentInstance.isProcessing = this.isProcessing;
-            //       }
-            //     },
-            //     async (err) => {
-            //       this.isProcessing = false;
-            //       this.error = Array.isArray(err.message)
-            //         ? err.message[0]
-            //         : err.message;
-            //       this.snackBar.snackbarError(this.error);
-            //       dialogRef.componentInstance.isProcessing = this.isProcessing;
-            //     }
-            //   );
-          } catch (e) {
-            this.isProcessing = false;
-            this.error = Array.isArray(e.message) ? e.message[0] : e.message;
-            this.snackBar.snackbarError(this.error);
-            dialogRef.componentInstance.isProcessing = this.isProcessing;
-          }
+          this.isProcessing = false;
+          dialogRef.componentInstance.isProcessing = this.isProcessing;
+          dialogRef.close();
+          this.conFirm.emit(param);
         }
       });
     }

@@ -63,7 +63,7 @@
                     }}</mat-error>
                 </mat-form-field>
               </div>
-              <div fxFlex="100" fxLayout="column" fxLayout.gt-sm="row" *ngIf="!isLoading; else elseLoadingClientDetails">
+              <div fxFlex="100" fxLayout="column" fxLayout.gt-sm="row" *ngIf="!isLoading; else elseLoadingCustomerDetails">
                 <mat-form-field appearance="outline" fxFlex="33.33%" class="cell" [ngClass.gt-sm]="{'isLargeScreen': true}" *ngIf="userData.user.userType.userTypeId === '2'" (click)="picker.open()">
                   <mat-label>Birthdate</mat-label>
                   <input
@@ -205,7 +205,7 @@
   </div>
 </ng-template>
 
-<ng-template #elseLoadingClientDetails>
+<ng-template #elseLoadingCustomerDetails>
   <div fxFlex="100" fxLayout="column" fxLayout.gt-sm="row">
     <div fxFlex="33.33%" class="cell" [ngClass.gt-sm]="{'isLargeScreen': true}" >
       <ngx-skeleton-loader fxFlex [theme]="{ height: '50px', width: '97%'}"></ngx-skeleton-loader>

@@ -17,7 +17,7 @@ export const routes: Routes = [
     component: AddUserComponent
   },
   {
-    path: 'users/add/clients',
+    path: 'users/add/customers',
     component: AddUserComponent
   },
   {

@@ -1,16 +1,19 @@
-import { Client } from './client.model';
+import { Customer } from './customer.model';
+import { EntityStatus } from './entity-status.model';
+import { Staff } from './staff.model';
 
 export class Reservation {
   reservationId: string;
-  reservationDate: Date;
-  time: string;
-  remarks: string;
+  reqCompletionDate: string;
+  estCompletionDate: string;
+  description: string;
   isCancelledByAdmin: boolean;
   adminRemarks: string;
-  client: Client;
-  reservationType: ReservationType;
-  massIntentionTypeId: string;
+  reservationLevel: ReservationLevel;
+  customer: Customer;
+  orderItems: OrderItem[] = [];
   reservationStatus: ReservationStatus;
+  staff: Staff;
 }
 
 export class ReservationStatus {
@@ -18,7 +21,21 @@ export class ReservationStatus {
   name: string;
 }
 
-export class ReservationType {
-  reservationTypeId: string;
+export class ReservationLevel {
+  reservationLevelId: string;
+  name: string;
+}
+
+export class OrderItem {
+  orderItemId: string;
+  quantity: number;
+  remarks: string;
+  orderItemType: OrderItemType;
+  reservation: Reservation;
+  entityStatus: EntityStatus;
+}
+
+export class OrderItemType {
+  orderItemTypeId: string;
   name: string;
 }

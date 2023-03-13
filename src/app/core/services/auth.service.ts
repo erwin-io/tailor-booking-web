@@ -50,12 +50,12 @@ export class AuthService implements IServices {
       return this.registerStaff(data);
     }
     else{
-      return this.registerClient(data);
+      return this.registerCustomer(data);
     }
   }
 
-  registerClient(data: any): Observable<any> {
-    return this.http.post<any>(environment.apiBaseUrl + this.appconfig.config.apiEndPoints.auth.register.client, data)
+  registerCustomer(data: any): Observable<any> {
+    return this.http.post<any>(environment.apiBaseUrl + this.appconfig.config.apiEndPoints.auth.register.customer, data)
     .pipe(
       tap(_ => this.log('register')),
       catchError(this.handleError('register', []))

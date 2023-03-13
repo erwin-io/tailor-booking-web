@@ -7,8 +7,8 @@
       <input
         matInput
         placeholder="Appointment date"
-        [formControl]="appointmentDate"
-        autocomplete="new-appointmentDate"
+        [formControl]="date"
+        autocomplete="new-date"
         [matDatepicker]="picker"
         (click)="picker.open()"
       />
@@ -18,16 +18,16 @@
       ></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <mat-error
-        *ngIf="appointmentDate.errors !== (null || undefined)"
+        *ngIf="date.errors !== (null || undefined)"
         >{{
-          appointmentDate.errors &&
-          appointmentDate.errors.required
+          date.errors &&
+          date.errors.required
             ? "Please enter Appointment date"
             : ""
         }}</mat-error
       >
     </mat-form-field>
-    <mat-form-field appearance="outline" fxFlex="100"
+    <mat-form-field appearance="outline" fxFlex="100" *ngIf="canSelectTime"
     (click)="t4.showDialog()">
       <mat-label>Time</mat-label>
       <input
@@ -39,7 +39,7 @@
         [(ngModel)]="time"
         placeholder="Please select time..."
         name="time-4"
-        autocomplete="new-appointmentDate"
+        autocomplete="new-date"
         [disableDialogOpenOnClick]="true"
         readonly="true"
 

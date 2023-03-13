@@ -30,10 +30,8 @@ export class ReservationComponent implements OnInit {
   @ViewChild('paginator', {static: false}) paginator: MatPaginator;
   pageSize = 10;
   allowedAction = {
-    payment:false,
     completeAndApproval:false,
-    cancelation:false,
-    reschedule:false,
+    decline: false,
   }
 
   serviceLookup = [];
@@ -43,9 +41,9 @@ export class ReservationComponent implements OnInit {
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
   keywordCtrl = new FormControl('');
-  clientNameCtrl = new FormControl('');
-  reservationDateFromCtrl = new FormControl(new Date());
-  reservationDateToCtrl = new FormControl(new Date());
+  customerNameCtrl = new FormControl('');
+  reqCompletionDateFromCtrl = new FormControl(new Date());
+  reqCompletionDateToCtrl = new FormControl(new Date());
   filterSearchStatusCtrl = new FormControl('');
   filterSearchReservationTypeCtrl = new FormControl('');
 
@@ -71,7 +69,7 @@ export class ReservationComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.displayedColumns = ["reservationId", "reservationDate", "client", "reservationType", "reservationStatus", "controls"];
+    this.displayedColumns = ["reservationId", "customer", "reqCompletionDate", "assignedPerson", "estCompletionDate", "reservationStatus", "controls"];
     this.selectedStatus = this.allStatus;
     this.selectedReservationType = this.allReservationType;
     this.filteredStatus = this.filterSearchStatusCtrl.valueChanges.pipe(
@@ -137,15 +135,7 @@ export class ReservationComponent implements OnInit {
 
   initAllowedAction(){
     this.allowedAction.completeAndApproval = this.storageService.getLoginUser().role.roleId === RoleEnum.ADMIN.toString();
-    this.allowedAction.payment = 
-    (this.storageService.getLoginUser().role.roleId === RoleEnum.ADMIN.toString() ||
-    this.storageService.getLoginUser().role.roleId === RoleEnum.FRONTDESK.toString());
-    this.allowedAction.cancelation =
-    (this.storageService.getLoginUser().role.roleId === RoleEnum.ADMIN.toString() ||
-    this.storageService.getLoginUser().role.roleId === RoleEnum.FRONTDESK.toString());
-    this.allowedAction.reschedule =
-    (this.storageService.getLoginUser().role.roleId === RoleEnum.ADMIN.toString() ||
-    this.storageService.getLoginUser().role.roleId === RoleEnum.FRONTDESK.toString());
+    this.allowedAction.decline = this.storageService.getLoginUser().role.roleId === RoleEnum.ADMIN.toString();
   }
 
   async getReservations(){
@@ -154,11 +144,10 @@ export class ReservationComponent implements OnInit {
       await this.reservationService.getByAdvanceSearch({
         isAdvance: this.isAdvanceSearch,
         keyword: this.keywordCtrl.value,
-        clientName: this.clientNameCtrl.value,
+        customerName: this.customerNameCtrl.value,
         reservationStatus: this.selectedStatus.toString(),
-        reservationType: this.selectedReservationType.toString(),
-        reservationDateFrom: moment(this.reservationDateFromCtrl.value).format('YYYY-MM-DD'),
-        reservationDateTo: moment(this.reservationDateToCtrl.value).format('YYYY-MM-DD'),
+        reqCompletionDateFrom: moment(this.reqCompletionDateFromCtrl.value).format('YYYY-MM-DD'),
+        reqCompletionDateTo: moment(this.reqCompletionDateToCtrl.value).format('YYYY-MM-DD'),
       })
       .subscribe(async res => {
         console.log(res);
@@ -166,9 +155,10 @@ export class ReservationComponent implements OnInit {
           this.dataSource.data = res.data.length > 0 ? res.data.map((d)=>{
             return {
               reservationId: d.reservationId,
-              reservationDate: d.reservationDate,
-              client: d.client.fullName,
-              reservationType: d.reservationType.name,
+              reqCompletionDate: d.reqCompletionDate,
+              estCompletionDate: d.estCompletionDate || d.estCompletionDate != "" ? d.estCompletionDate : "NA",
+              customer: d.customer.fullName,
+              assignedPerson: d.staff && d.staff.fullName !== "" ? d.staff.fullName : "",
               reservationStatus: d.reservationStatus.name
             }
           }) : [];

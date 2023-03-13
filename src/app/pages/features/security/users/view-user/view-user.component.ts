@@ -12,7 +12,7 @@ import { Staff } from '../../../../../../app/core/model/staff.model';
 import { StorageService } from '../../../../../../app/core/storage/storage.service';
 import { NavItem } from 'src/app/core/model/nav-item';
 import { menu } from 'src/app/core/model/menu';
-import { Client } from 'src/app/core/model/client.model';
+import { Customer } from 'src/app/core/model/customer.model';
 import { UpdateUserPasswordComponent } from 'src/app/component/update-user-password/update-user-password.component';
 
 @Component({
@@ -22,8 +22,8 @@ import { UpdateUserPasswordComponent } from 'src/app/component/update-user-passw
 })
 export class ViewUserComponent implements OnInit {
   currentUserId:string;
-  userData: Staff | Client;
-  clientUser:Client;
+  userData: Staff | Customer;
+  customerUser:Customer;
   mediaWatcher: Subscription;
   isLoading = false;
   isProcessing = false;
@@ -32,7 +32,7 @@ export class ViewUserComponent implements OnInit {
   roles:Role[] = [];
   error;
   //access
-  //client;
+  //customer;
   constructor(
     private userService: UserService,
     private roleService: RoleService,

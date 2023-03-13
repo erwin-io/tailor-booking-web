@@ -9,16 +9,16 @@
         <button mat-stroked-button *ngIf="userTypeId === 1" [disabled]="isProcessing">
           Staff
         </button>
-        <button mat-button matTooltip="Show Clients" *ngIf="userTypeId !== 2" [routerLink]="'/security/users/clients/'" [disabled]="isProcessing">
-          Clients
+        <button mat-button matTooltip="Show Customers" *ngIf="userTypeId !== 2" [routerLink]="'/security/users/customers/'" [disabled]="isProcessing">
+          Customers
         </button>
         <button mat-stroked-button *ngIf="userTypeId === 2" [disabled]="isProcessing">
-          Clients
+          Customers
         </button>
         <div fxFlex></div>
-        <button mat-stroked-button matTooltip="Add" [routerLink]="'/security/users/add/' + (userTypeId === 1 ? 'staff' : 'clients')" [disabled]="isProcessing">
+        <button mat-stroked-button matTooltip="Add" [routerLink]="'/security/users/add/' + (userTypeId === 1 ? 'staff' : 'customers')" [disabled]="isProcessing">
           <mat-icon>person_add</mat-icon>
-          New {{userTypeId === 1 ? 'Staff' : 'Client'}}
+          New {{userTypeId === 1 ? 'Staff' : 'Customer'}}
         </button>
       </div>
     </mat-card-header>

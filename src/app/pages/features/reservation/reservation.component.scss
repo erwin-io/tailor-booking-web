@@ -64,19 +64,24 @@ table{
   padding-left: 0!important;
  }
 
- .mat-column-reservationDate {
-  flex: 0 0 20% !important;
-  width: 20% !important;
+ .mat-column-customer {
+  flex: 0 0 30% !important;
+  width: 30% !important;
  }
 
- .mat-column-client {
-  flex: 0 0 45% !important;
-  width: 45% !important;
+ .mat-column-reqCompletionDate {
+  flex: 0 0 15% !important;
+  width: 15% !important;
  }
 
- .mat-column-reservationType {
-  flex: 0 0 20% !important;
-  width: 20% !important;
+ .mat-column-assignedPerson {
+  flex: 0 0 30% !important;
+  width: 30% !important;
+ }
+
+ .mat-column-estCompletionDate {
+  flex: 0 0 15% !important;
+  width: 15% !important;
  }
 
  .mat-column-reservationStatus {
@@ -91,13 +96,25 @@ table{
  }
 
  @media only screen and (max-width: 768px) {
-  .mat-column-reservationId {
+  .mat-column-assignedPerson {
+    display: none!important;
+  }
+  .mat-column-estCompletionDate {
+    display: none!important;
+  }
+  .mat-column-reservationStatus {
     display: none!important;
   }
  }
 
  @media only screen and (max-width: 414px) {
   .mat-column-reservationId {
+    display: none!important;
+  }
+  .mat-column-assignedPerson {
+    display: none!important;
+  }
+  .mat-column-estCompletionDate {
     display: none!important;
   }
   .mat-column-reservationStatus {

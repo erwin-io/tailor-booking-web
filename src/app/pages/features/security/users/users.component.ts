@@ -71,7 +71,7 @@ export class UsersComponent implements OnInit {
       if (this.router.url.indexOf('staff') > -1) {
         this.userTypeId = 1;
       }
-      else if(this.router.url.indexOf('clients') > -1){
+      else if(this.router.url.indexOf('customers') > -1){
         this.userTypeId = 2;
       }
       else{
@@ -167,7 +167,7 @@ export class UsersComponent implements OnInit {
       }else{
         this.displayedColumns = ['userId', 'username', 'fullName', 'email', 'mobileNumber', 'controls'];
         this.isLoading = true;
-        await this.userService.getClientByAdvanceSearch({
+        await this.userService.getCustomerByAdvanceSearch({
           isAdvance: this.isAdvanceSearch,
           keyword: this.keywordCtrl.value,
           userId: this.userIdCtrl.value,

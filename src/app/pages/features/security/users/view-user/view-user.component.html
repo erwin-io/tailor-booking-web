@@ -108,36 +108,9 @@
           <ngx-skeleton-loader fxFlex [theme]="{ height: '20px', width: '50%'}"></ngx-skeleton-loader>
         </ng-template>
       </div>
-      <div *ngIf="!isLoading && userData.user.userType.userTypeId === '2'" fxFlex="100" fxLayout="column" fxLayoutAlign="start">
-        <div fxFlex="100" fxLayoutAlign="start">
-          <h4 class="group-info-text"><b>Pet</b></h4>
-        </div>
-        <div fxFlex="100" *ngIf="!isLoading; else elseLoadingPageAccess">
-          <!-- <div *ngIf="pets.length > 0; else noAccessTemp" >
-            <div *ngFor="let row of userData.pets" fxLayout="row" class="group-info">
-              <mat-icon>pets</mat-icon>
-              <h3 class="group-info-text">{{row.name}}</h3>
-              <span>{{row.name}}</span>
-            </div>
-          </div> -->
-          <mat-list *ngIf="pets.length > 0; else noAccessTemp" >
-            <mat-list-item *ngFor="let row of pets">
-              <mat-icon mat-list-icon>pets</mat-icon>
-              <div mat-line><strong>{{row.name}}</strong></div>
-              <div mat-line> {{row.petCategory.name}} </div>
-            </mat-list-item>
-          </mat-list>
-          <ng-template #noAccessTemp>
-            No pet to show
-          </ng-template>
-        </div>
-        <ng-template #elseLoadingPageAccess>
-          <ngx-skeleton-loader fxFlex [theme]="{ height: '20px', width: '50%'}"></ngx-skeleton-loader>
-        </ng-template>
-      </div>
     </mat-card-content>
     <mat-card-actions>
-      <button matTooltip="Back to list" mat-stroked-button [routerLink]="!isLoading ? userData.user.userType.userTypeId === '1' ? '/security/users' : '/security/users/clients' : '/security/users'" color="primary">Back</button>
+      <button matTooltip="Back to list" mat-stroked-button [routerLink]="!isLoading ? userData.user.userType.userTypeId === '1' ? '/security/users' : '/security/users/customers' : '/security/users'" color="primary">Back</button>
     </mat-card-actions>
   </mat-card>
 </div>

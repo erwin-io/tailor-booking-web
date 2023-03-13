@@ -50,7 +50,7 @@ export class AddUserComponent implements OnInit {
       if (this.router.url.indexOf('staff') > -1) {
         this.userTypeId = 1;
       }
-      else if(this.router.url.indexOf('clients') > -1){
+      else if(this.router.url.indexOf('customers') > -1){
         this.userTypeId = 2;
       }
       else{
@@ -208,7 +208,7 @@ export class AddUserComponent implements OnInit {
               dialogRef.close();
             });
         }else {
-          this.userService.createClient(params)
+          this.userService.createCustomer(params)
             .subscribe(async res => {
               if (res.success) {
                 this.snackBar.snackbarSuccess('Saved!');

@@ -73,10 +73,6 @@ table{
   flex: 0 0 40% !important;
   width: 40% !important;
  }
- .mat-column-petCategory {
-  flex: 0 0 20% !important;
-  width: 20% !important;
- }
 
  .mat-column-birthDate {
   flex: 0 0 10% !important;
@@ -109,7 +105,7 @@ table{
   }
 }
 
-.add-pet-dialog {
+.add-order-item-type-dialog {
   max-width: 500px!important;
   width: 500px!important;
 }

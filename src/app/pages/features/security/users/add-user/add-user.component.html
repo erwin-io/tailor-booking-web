@@ -1,7 +1,7 @@
 <div class="page-view-container">
   <mat-card>
     <mat-card-header>
-      <mat-card-subtitle>Add {{userTypeId === 1 ? 'Staff': 'Client'}} User</mat-card-subtitle>
+      <mat-card-subtitle>Add {{userTypeId === 1 ? 'Staff': 'Customer'}} User</mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content fxLayout="column" >
@@ -228,7 +228,7 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button matTooltip="Back to list" mat-stroked-button [routerLink]="userTypeId === 1 ? '/security/users' : '/security/users/clients'" [disabled]="isProcessing" color="primary">Back</button>
+      <button matTooltip="Back to list" mat-stroked-button [routerLink]="userTypeId === 1 ? '/security/users' : '/security/users/customers'" [disabled]="isProcessing" color="primary">Back</button>
       <button matTooltip="Save" mat-raised-button color="primary" form="userForm" type="submit" [disabled]="isProcessing || !formIsValid">Save</button>
     </mat-card-actions>
   </mat-card>

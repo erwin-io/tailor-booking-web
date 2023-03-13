@@ -56,7 +56,7 @@ export class ReservationService implements IServices {
     return this.http
       .post<any>(
         environment.apiBaseUrl +
-          this.appconfig.config.apiEndPoints.reservation.createClientReservation,
+          this.appconfig.config.apiEndPoints.reservation.createCustomerReservation,
         data
       )
       .pipe(
@@ -83,6 +83,19 @@ export class ReservationService implements IServices {
       .put<any>(
         environment.apiBaseUrl +
           this.appconfig.config.apiEndPoints.reservation.updateReservationStatus,
+        data
+      )
+      .pipe(
+        tap((_) => this.log('reservation')),
+        catchError(this.handleError('reservation', []))
+      );
+  }
+
+  processOrder(data: any): Observable<ApiResponse<Reservation>> {
+    return this.http
+      .put<any>(
+        environment.apiBaseUrl +
+          this.appconfig.config.apiEndPoints.reservation.processOrder,
         data
       )
       .pipe(

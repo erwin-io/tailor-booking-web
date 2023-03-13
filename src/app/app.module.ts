@@ -22,7 +22,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTimepickerModule } from './core/directive/mat-timepicker/src/lib/mat-timepicker.module';
 import { SelectPeopleComponent } from './component/select-people/select-people.component';
 import { UpdateUserPasswordComponent } from './component/update-user-password/update-user-password.component';
-import { ViewClientInfoComponent } from './component/view-client-info/view-client-info.component';
+import { ViewCustomerInfoComponent } from './component/view-customer-info/view-customer-info.component';
 import { MessageComponent } from './component/message/message.component';
 import { CallService } from './core/services/call.service';
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -31,7 +31,6 @@ import { CalendarPickerDialogComponent } from './component/calendar-picker-dialo
 import { NumberLeadZeroPipePipe } from './core/pipe/number-lead-zero.pipe.pipe';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { environment } from 'src/environments/environment';
-import { SelectTimeslotComponent } from './component/select-timeslot/select-timeslot.component';
 
 @NgModule({
   declarations: [
@@ -45,12 +44,11 @@ import { SelectTimeslotComponent } from './component/select-timeslot/select-time
     ScheduleDialogComponent,
     SelectPeopleComponent,
     UpdateUserPasswordComponent,
-    ViewClientInfoComponent,
+    ViewCustomerInfoComponent,
     MessageComponent,
     YearPickerDialogComponent,
     CalendarPickerDialogComponent,
     NumberLeadZeroPipePipe,
-    SelectTimeslotComponent,
   ],
   imports: [
     BrowserModule,

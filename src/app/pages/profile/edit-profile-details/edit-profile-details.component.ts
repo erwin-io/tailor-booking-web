@@ -31,7 +31,7 @@ export class EditProfileDetailsComponent implements OnInit {
   error;
   userProfilePic;
   //access
-  //client;
+  //customer;
 
   constructor(
     private formBuilder: FormBuilder,

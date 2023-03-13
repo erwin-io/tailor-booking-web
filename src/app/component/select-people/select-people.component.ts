@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Client } from 'src/app/core/model/client.model';
+import { Customer } from 'src/app/core/model/customer.model';
 import { Staff } from 'src/app/core/model/staff.model';
 import { UserService } from 'src/app/core/services/user.service';
 import { Snackbar } from 'src/app/core/ui/snackbar';
@@ -14,7 +14,6 @@ import { Snackbar } from 'src/app/core/ui/snackbar';
 })
 export class SelectPeopleComponent implements OnInit {
   typeId: number;
-  vetFilter?: { serviceTypeFilter: string[] };
   searchKeyword: FormControl = new FormControl();
 
   conFirm = new EventEmitter();
@@ -33,30 +32,30 @@ export class SelectPeopleComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.typeId === 1) {
-      this.showVets();
+      this.showStaff();
     } else if(this.typeId === 2){
-      this.showClients();
+      this.showCustomers();
     }else {
       this.dialogRef.close();
     }
   }
 
-  async showVets(){
+  async showStaff(){
     try{
       this.isLoading = true;
       await this.userService.getStaffByAdvanceSearch({
-        isAdvance: true,
-        keyword: '',
+        isAdvance: false,
+        keyword: 'Staff',
         userId: '',
         email: '',
         mobileNumber: '',
         name: '',
-        roles: 'Veterinarian'
+        roles: ''
       })
       .subscribe(async res => {
         if(res.success){
-          this.list = res.data.length > 0 ? res.data.filter(x=>x.user.role.roleId === "3").map((v:Staff)=> {
-            return { id: v.staffid, fullName: v.fullName}
+          this.list = res.data.length > 0 ? res.data.filter(x=>x.user.role.roleId === "2").map((v:Staff)=> {
+            return { id: v.staffId, fullName: v.fullName}
           }): [];
           this.isLoading = false;
         }
@@ -77,10 +76,10 @@ export class SelectPeopleComponent implements OnInit {
     }
   }
 
-  async showClients(){
+  async showCustomers(){
     try{
       this.isLoading = true;
-      await this.userService.getClientByAdvanceSearch({
+      await this.userService.getCustomerByAdvanceSearch({
         isAdvance: false,
         keyword: '',
         userId: '',
@@ -90,8 +89,8 @@ export class SelectPeopleComponent implements OnInit {
       })
       .subscribe(async res => {
         if(res.success){
-          this.list = res.data.map((v:Client)=> {
-            return { id: v.clientId, fullName: v.fullName}
+          this.list = res.data.map((v:Customer)=> {
+            return { id: v.customerId, fullName: v.fullName}
           });
           this.isLoading = false;
         }
@@ -112,7 +111,7 @@ export class SelectPeopleComponent implements OnInit {
     }
   }
 
-  onSelect(selected: { fullName: string }) {
+  onSelect(selected) {
     this.conFirm.emit(selected);
   }
 

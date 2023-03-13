@@ -5,5 +5,5 @@ export class Messages {
   dateTime?: Date;
   fromUser?: any;
   toUser?: any;
-  isClient: boolean;
+  isCustomer: boolean;
 }

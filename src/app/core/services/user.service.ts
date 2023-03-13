@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Staff } from '../model/staff.model';
 import { ApiResponse } from '../model/api-response.model';
-import { Client } from '../model/client.model';
+import { Customer } from '../model/customer.model';
 import { environment } from '../../../environments/environment';
 import { IServices } from './interface/iservices';
 import { AppConfigService } from './app-config.service';
@@ -33,15 +33,15 @@ export class UserService implements IServices {
     );
   }
 
-  getClientByAdvanceSearch(params:{
+  getCustomerByAdvanceSearch(params:{
     isAdvance: boolean,
     keyword: string,
     userId: string,
     email: string,
     mobileNumber: number,
     name: string,
-  }): Observable<ApiResponse<Client[]>> {
-    return this.http.get<any>(environment.apiBaseUrl + this.appconfig.config.apiEndPoints.user.getClientByAdvanceSearch,
+  }): Observable<ApiResponse<Customer[]>> {
+    return this.http.get<any>(environment.apiBaseUrl + this.appconfig.config.apiEndPoints.user.getCustomerByAdvanceSearch,
       {params})
     .pipe(
       tap(_ => this.log('user')),
@@ -57,7 +57,7 @@ export class UserService implements IServices {
     );
   }
 
-  getClients(): Observable<ApiResponse<Client[]>> {
+  getCustomers(): Observable<ApiResponse<Customer[]>> {
     return this.http.get<any>(environment.apiBaseUrl + this.appconfig.config.apiEndPoints.user.get + 2)
     .pipe(
       tap(_ => this.log('user')),
@@ -73,8 +73,8 @@ export class UserService implements IServices {
     );
   }
 
-  createClient(data: any): Observable<ApiResponse<Staff>> {
-    return this.http.post<any>(environment.apiBaseUrl + this.appconfig.config.apiEndPoints.user.createClient, data)
+  createCustomer(data: any): Observable<ApiResponse<Staff>> {
+    return this.http.post<any>(environment.apiBaseUrl + this.appconfig.config.apiEndPoints.user.createCustomer, data)
     .pipe(
       tap(_ => this.log('user')),
       catchError(this.handleError('user', []))
@@ -89,8 +89,8 @@ export class UserService implements IServices {
     );
   }
 
-  udpdateClient(data: any): Observable<ApiResponse<Client>> {
-    return this.http.put<any>(environment.apiBaseUrl + this.appconfig.config.apiEndPoints.user.udpdateClient, data)
+  udpdateCustomer(data: any): Observable<ApiResponse<Customer>> {
+    return this.http.put<any>(environment.apiBaseUrl + this.appconfig.config.apiEndPoints.user.udpdateCustomer, data)
     .pipe(
       tap(_ => this.log('user')),
       catchError(this.handleError('user', []))
