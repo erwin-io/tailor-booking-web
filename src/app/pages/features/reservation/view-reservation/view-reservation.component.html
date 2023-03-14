@@ -194,7 +194,7 @@
               </mat-card-content>
             </mat-card>
           </div>
-          <div fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="20px"  *ngIf="reservation.reservationStatus.reservationStatusId !== '1'">
+          <div fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="20px"  *ngIf="!isLoading && reservation.reservationStatus.reservationStatusId !== '1'">
             <mat-card fxFlex="100">
               <mat-card-header>
                 <mat-card-subtitle><strong>Assigned Person</strong></mat-card-subtitle>

@@ -33,6 +33,8 @@ export class ScheduleDialogComponent implements OnInit {
   isLoading = false;
   canSelectTime = false;
   error;
+  title;
+  dateFieldName
   constructor(
     private formBuilder: FormBuilder,
     private dialog: MatDialog,

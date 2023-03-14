@@ -1,9 +1,9 @@
-<h4 mat-dialog-title>Reschedule</h4>
+<h4 mat-dialog-title>{{title}}</h4>
 
 <div mat-dialog-content>
   <div fxFlex="100" fxLayout="column" fxLayout="column">
     <mat-form-field appearance="outline" fxFlex="100">
-      <mat-label>Appointment date</mat-label>
+      <mat-label>{{dateFieldName}}</mat-label>
       <input
         matInput
         placeholder="Appointment date"
@@ -22,7 +22,7 @@
         >{{
           date.errors &&
           date.errors.required
-            ? "Please enter Appointment date"
+            ? "Please enter {{dateFieldName}}"
             : ""
         }}</mat-error
       >

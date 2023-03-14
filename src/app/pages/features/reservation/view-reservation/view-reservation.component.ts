@@ -172,6 +172,8 @@ export class ViewReservationComponent implements OnInit {
       closeOnNavigation: true,
       panelClass: 'select-date-dialog',
     });
+    dialogRef.componentInstance.title = "Select date";
+    dialogRef.componentInstance.dateFieldName = "Estimated completion date";
     dialogRef.componentInstance.data = { date: this.reservation.estCompletionDate && this.reservation.estCompletionDate != "" ? this.reservation.estCompletionDate : moment().format("YYYY-MM-DD") };
     dialogRef.componentInstance.canSelectTime = false;
     dialogRef.componentInstance.conFirm.subscribe(async (data: { date: string }) => {
@@ -185,6 +187,10 @@ export class ViewReservationComponent implements OnInit {
   process() {
     if(!this.assignedStaff || !this.assignedStaff.id) {
       this.snackBar.snackbarError("Please select assigned person!");
+      return;
+    }
+    if(!this.reservation.estCompletionDate || !this.reservation.estCompletionDate) {
+      this.snackBar.snackbarError("Please select estimated completion date!");
       return;
     }
     const params = {
@@ -255,7 +261,7 @@ export class ViewReservationComponent implements OnInit {
   }
 
   changeStatus(reservationStatusId: number) {
-    const status = [2,3,4];
+    const status = [2,3,4,5];
     if(!status.includes(reservationStatusId)){
       return;
     }
@@ -277,9 +283,9 @@ export class ViewReservationComponent implements OnInit {
       dialogData.title = 'Confirm Complete';
       dialogData.message = 'Complete reservation?';
     }
-    else if(reservationStatusId === 4) {
-      dialogData.title = 'Confirm Complete';
-      dialogData.message = 'Complete reservation?';
+    else if(reservationStatusId === 5) {
+      dialogData.title = 'Confirm Decline';
+      dialogData.message = 'Decline reservation?';
     }
     dialogData.confirmButton = {
       visible: true,
