@@ -105,8 +105,10 @@ export class EditUserComponent implements OnInit, AfterViewChecked  {
           this.isProcessing = false;
           if(res.data.user.userType.userTypeId === '1'){
             this.userForm.controls['name'].addValidators([Validators.required]);
-            this.userForm.controls['roleId'] = new FormControl(res.data.user.role.roleId, [Validators.required]);
+            this.userForm.controls['roleId'].setValue(res.data.user.role.roleId);
+            this.userForm.controls['roleId'].setValidators([Validators.required]);
             this.userForm.controls['birthDate'] = new FormControl('');
+            this.userForm.controls['address'] = new FormControl('');
             this.initRoles();
           }
           else if(res.data.user.userType.userTypeId === '2'){
@@ -195,6 +197,9 @@ export class EditUserComponent implements OnInit, AfterViewChecked  {
       }
     });
     return access;
+  }
+  public compareRole(r1: Role, r2: Role) : boolean {
+    return r1 && r2 ? r1.roleId === r2.roleId : false;
   }
 
   async onSubmit(){

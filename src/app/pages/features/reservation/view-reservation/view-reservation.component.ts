@@ -1,6 +1,9 @@
-import { Component, ViewEncapsulation, OnInit } from "@angular/core";
+import { Component, ViewEncapsulation, OnInit, ViewChild } from "@angular/core";
 import { FormControl, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import * as moment from "moment";
 import { Subscription } from "rxjs";
@@ -10,7 +13,7 @@ import { ViewCustomerInfoComponent } from "src/app/component/view-customer-info/
 import { ReservationStatusEnum } from "src/app/core/enums/reservation-status.enum";
 import { RoleEnum } from "src/app/core/enums/role.enum copy";
 import { Messages } from "src/app/core/model/messages.model";
-import { Reservation } from "src/app/core/model/reservation.model";
+import { OrderItem, Reservation } from "src/app/core/model/reservation.model";
 import { Staff } from "src/app/core/model/staff.model";
 import { AppConfigService } from "src/app/core/services/app-config.service";
 import { ReservationService } from "src/app/core/services/reservation.service";
@@ -56,8 +59,10 @@ export class ViewReservationComponent implements OnInit {
   isSendingMessage = false;
   connect = false;
   tabIndex = 1;
-  diagnosisAndTreatment: FormControl = new FormControl(null, [Validators.required]);
 
+  dataSourceItems = new MatTableDataSource<any>();
+  displayedItemsColumns = [];
+  @ViewChild('paginatorItems', {static: false}) paginatorItems: MatPaginator;
   constructor(
     private route: ActivatedRoute,
     private storageService: StorageService,
@@ -78,6 +83,9 @@ export class ViewReservationComponent implements OnInit {
     this.currentUserId = this.storageService.getLoginUser().userId;
     const reservationId = this.route.snapshot.paramMap.get('reservationId');
     this.initReservation(reservationId);
+  }
+
+  ngAfterViewInit() {
   }
 
   initAllowedAction() {
@@ -119,6 +127,7 @@ export class ViewReservationComponent implements OnInit {
             if(res.data.staff && res.data.staff.staffId) {
               this.assignedStaff = { id: res.data.staff.staffId, fullName: res.data.staff.fullName };
             }
+            this.initItems(res.data.orderItems);
             this.initReservationAction();
             this.isLoading = false;
           } else {
@@ -151,6 +160,18 @@ export class ViewReservationComponent implements OnInit {
         this.router.navigate(['/reservations/']);
       }
     }
+  }
+
+  initItems(items: OrderItem[]) {
+    this.displayedItemsColumns = ['orderItemType', 'quantity', 'remarks'];
+    this.dataSourceItems.data = items.map(x=> {
+      return {
+        orderItemType: x.orderItemType.name,
+        quantity: x.quantity,
+        remarks: x.remarks
+      }
+    });
+    this.dataSourceItems.paginator = this.paginatorItems;
   }
 
   assign() {

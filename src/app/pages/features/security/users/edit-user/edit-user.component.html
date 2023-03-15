@@ -120,22 +120,24 @@
                     }}</mat-error>
                 </mat-form-field>
               </div>
-              <div fxFlex="100" fxLayout="column">
-                <h3>Addres</h3>
-              </div>
-              <div fxFlex="100" fxLayout="column" fxLayout.gt-sm="row" *ngIf="!isLoading; else elseLoadingAddress">
-                <mat-form-field appearance="outline" fxFlex="100" class="cell" [ngClass.gt-sm]="{'isLargeScreen': true}" *ngIf="">
-                  <mat-label>Address</mat-label>
-                  <textarea
-                    matInput
-                    placeholder="Address"
-                    formControlName="address"
-                    [(ngModel)]="userData.address">
-                  </textarea>
-                  <mat-error *ngIf="getError('address') !== (null || undefined)">{{
-                    (getError('address') && getError('address').required ? 'Please enter your address' : '')
-                  }}</mat-error>
-                </mat-form-field>
+              <div fxFlex="100" *ngIf="!isLoading; else elseLoadingAddress">
+                <div fxFlex="100" fxLayout="column" *ngIf="userData.user.userType.userTypeId === '2'">
+                  <h3>Addres</h3>
+                </div>
+                <div fxFlex="100" fxLayout="column" fxLayout.gt-sm="row" *ngIf="userData.user.userType.userTypeId === '2'">
+                  <mat-form-field appearance="outline" fxFlex="100" class="cell" [ngClass.gt-sm]="{'isLargeScreen': true}">
+                    <mat-label>Address</mat-label>
+                    <textarea
+                      matInput
+                      placeholder="Address"
+                      formControlName="address"
+                      [(ngModel)]="userData.address">
+                    </textarea>
+                    <mat-error *ngIf="getError('address') !== (null || undefined)">{{
+                      (getError('address') && getError('address').required ? 'Please enter your address' : '')
+                    }}</mat-error>
+                  </mat-form-field>
+                </div>
               </div>
               <div fxLayout="column" fxFlex="100" *ngIf="!isLoading && userData.user.userType.userTypeId === '1'" >
                 <div fxFlex="100" fxLayout="column">
@@ -147,6 +149,7 @@
                     <mat-label>Select Role</mat-label>
                     <mat-select
                       formControlName="roleId"
+                      [compareWith]="compareRole"
                       [(ngModel)]="userData.user.role.roleId">
                       <mat-option [value]="role.roleId"
                       *ngFor="let role of roles">{{role.name}}</mat-option>
