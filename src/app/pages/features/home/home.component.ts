@@ -20,6 +20,7 @@ import { FormControl } from '@angular/forms';
 import { YearPickerDialogComponent } from 'src/app/component/year-picker-dialog/year-picker-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CalendarPickerDialogComponent } from 'src/app/component/calendar-picker-dialog/calendar-picker-dialog.component';
+import { SlideInterface } from 'src/app/shared/image-slider/types/slide.interface';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -48,6 +49,11 @@ export class HomeComponent implements OnInit {
 
   summary: any[];
   vetSummary: any[];
+  slides: SlideInterface[] = [
+    { url: '../../../../assets/img/vector/app_banner-long.png', title: 'banner' },
+    { url: '../../../../assets/img/vector/home-banner-contact.jpg', title: 'contact' },
+    { url: '../../../../assets/img/vector/home-banner-black.jpg', title: 'black' }
+  ];
   constructor(
     private storageService: StorageService,
     private dialog: MatDialog,

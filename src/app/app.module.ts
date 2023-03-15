@@ -32,6 +32,7 @@ import { NumberLeadZeroPipePipe } from './core/pipe/number-lead-zero.pipe.pipe';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { environment } from 'src/environments/environment';
 
+
 @NgModule({
   declarations: [
     AppComponent,

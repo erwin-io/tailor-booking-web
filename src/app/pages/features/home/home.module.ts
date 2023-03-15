@@ -7,7 +7,7 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-
+import { ImageSliderModule } from 'src/app/shared/image-slider/image-slider.module';
 export const routes: Routes = [
   {
     path: '',
@@ -26,6 +26,7 @@ export const routes: Routes = [
     NgApexchartsModule,
     ReactiveFormsModule,
     NgxSkeletonLoaderModule,
+    ImageSliderModule,
     RouterModule.forChild(routes)
   ]
 })
