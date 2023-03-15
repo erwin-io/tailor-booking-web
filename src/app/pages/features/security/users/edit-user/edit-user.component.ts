@@ -96,6 +96,7 @@ export class EditUserComponent implements OnInit, AfterViewChecked  {
     this.isLoading = true;
     this.isProcessing = true;
     this.isLoadingRoles = true;
+    await this.initRoles();
     try{
       await this.userService.getById(userId)
       .subscribe(async res => {
@@ -105,11 +106,11 @@ export class EditUserComponent implements OnInit, AfterViewChecked  {
           this.isProcessing = false;
           if(res.data.user.userType.userTypeId === '1'){
             this.userForm.controls['name'].addValidators([Validators.required]);
-            this.userForm.controls['roleId'].setValue(res.data.user.role.roleId);
+            const role = this.roles.filter(x=>x.roleId === res.data.user.role.roleId)[0];
+            this.userData.user.role = role;
             this.userForm.controls['roleId'].setValidators([Validators.required]);
             this.userForm.controls['birthDate'] = new FormControl('');
             this.userForm.controls['address'] = new FormControl('');
-            this.initRoles();
           }
           else if(res.data.user.userType.userTypeId === '2'){
             this.userForm.controls['firstName'].addValidators([Validators.required]);
@@ -118,6 +119,9 @@ export class EditUserComponent implements OnInit, AfterViewChecked  {
             this.userForm.controls['birthDate'] = new FormControl(new Date(res.data.birthDate), [Validators.required]);
             this.userForm.controls['roleId'] = new FormControl('');
           }
+          this.isLoading = false;
+          this.isProcessing = false;
+          this.isLoadingRoles = false;
         } else {
           this.isLoading = false;
           this.isProcessing = false;
@@ -151,25 +155,13 @@ export class EditUserComponent implements OnInit, AfterViewChecked  {
     }
   }
 
-  initRoles(){
+  async initRoles(){
     try{
-      this.isLoadingRoles = true;
-      this.roleService.get()
-      .subscribe(async res => {
-        if (res.success) {
-          this.roles = res.data;
-          this.isLoadingRoles = false;
-        } else {
-          this.isLoadingRoles = false;
-          this.error = Array.isArray(res.message) ? res.message[0] : res.message;
-          this.snackBar.snackbarError(this.error);
-        }
-      }, async (err) => {
-        this.isLoadingRoles = false;
-        this.error = Array.isArray(err.message) ? err.message[0] : err.message;
-        this.snackBar.snackbarError(this.error);
-      });
+      const res = await this.roleService.get().toPromise();
+      this.roles = res.data;
     }catch(e){
+      this.isLoading = false;
+      this.isProcessing = false;
       this.isLoadingRoles = false;
       this.error = Array.isArray(e.message) ? e.message[0] : e.message;
       this.snackBar.snackbarError(this.error);
@@ -197,9 +189,6 @@ export class EditUserComponent implements OnInit, AfterViewChecked  {
       }
     });
     return access;
-  }
-  public compareRole(r1: Role, r2: Role) : boolean {
-    return r1 && r2 ? r1.roleId === r2.roleId : false;
   }
 
   async onSubmit(){

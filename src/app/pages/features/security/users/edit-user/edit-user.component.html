@@ -149,7 +149,6 @@
                     <mat-label>Select Role</mat-label>
                     <mat-select
                       formControlName="roleId"
-                      [compareWith]="compareRole"
                       [(ngModel)]="userData.user.role.roleId">
                       <mat-option [value]="role.roleId"
                       *ngFor="let role of roles">{{role.name}}</mat-option>
