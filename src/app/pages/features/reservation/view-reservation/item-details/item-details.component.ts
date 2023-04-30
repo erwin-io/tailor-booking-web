@@ -10,7 +10,6 @@ import { OrderItem } from 'src/app/core/model/reservation.model';
 export class ItemDetailsComponent implements OnInit {
   isLoading = false;
   details: OrderItem;
-  attachments;
   fullScreenImage;
   toggleFullScreen = false;
   @ViewChild('fullscreen', {static: false}) fullscreen: ElementRef<HTMLElement>;;
@@ -18,7 +17,6 @@ export class ItemDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    console.log(this.details);
     this.isLoading = false;
   }
 

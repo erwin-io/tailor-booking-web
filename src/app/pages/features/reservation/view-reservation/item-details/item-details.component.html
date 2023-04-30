@@ -21,7 +21,7 @@
         <h3 class="group-info-text">&nbsp;{{details.remarks}}</h3>
       </div>
     </div>
-    <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
+    <div *ngIf="details.orderItemAttachments && details.orderItemAttachments.length > 0" fxFlex="100" fxLayout="column" fxLayoutAlign="start">
         <img *ngFor="let attachment of details.orderItemAttachments" [src]="attachment.file.url" (click)="fullScreen(attachment.file.url)">
     </div>
   </div>

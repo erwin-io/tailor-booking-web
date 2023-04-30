@@ -125,7 +125,7 @@ export class ViewReservationComponent implements OnInit {
             if(res.data.staff && res.data.staff.staffId) {
               this.assignedStaff = { id: res.data.staff.staffId, fullName: res.data.staff.fullName };
             }
-            this.initItems(res.data.orderItems);
+            this.initItems(res.data?.orderItems);
             this.initReservationAction();
             this.isLoading = false;
           } else {
@@ -161,16 +161,18 @@ export class ViewReservationComponent implements OnInit {
   }
 
   initItems(items: OrderItem[]) {
-    this.displayedItemsColumns = ['orderItemType', 'quantity', 'remarks', 'controls'];
-    this.dataSourceItems.data = items.map(x=> {
-      return {
-        orderItemType: x.orderItemType.name,
-        quantity: x.quantity,
-        remarks: x.remarks,
-        orderItemAttachments: x.orderItemAttachments
-      }
-    });
-    this.dataSourceItems.paginator = this.paginatorItems;
+    if(items && items.length > 0) {
+      this.displayedItemsColumns = ['orderItemType', 'quantity', 'remarks', 'controls'];
+      this.dataSourceItems.data = items.map(x=> {
+        return {
+          orderItemType: x.orderItemType.name,
+          quantity: x.quantity,
+          remarks: x.remarks,
+          orderItemAttachments: x.orderItemAttachments
+        }
+      });
+      this.dataSourceItems.paginator = this.paginatorItems;
+    }
   }
 
   assign() {
