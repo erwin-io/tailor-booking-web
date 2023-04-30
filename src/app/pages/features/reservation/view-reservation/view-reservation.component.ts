@@ -22,6 +22,7 @@ import { Snackbar } from "src/app/core/ui/snackbar";
 import { AlertDialogModel } from "src/app/shared/alert-dialog/alert-dialog-model";
 import { AlertDialogComponent } from "src/app/shared/alert-dialog/alert-dialog.component";
 import { ItemDetailsComponent } from "./item-details/item-details.component";
+import { EntityStatusEnum } from "src/app/core/enums/entity-status.enum";
 
 @Component({
   selector: 'app-view-reservation',
@@ -125,7 +126,8 @@ export class ViewReservationComponent implements OnInit {
             if(res.data.staff && res.data.staff.staffId) {
               this.assignedStaff = { id: res.data.staff.staffId, fullName: res.data.staff.fullName };
             }
-            this.initItems(res.data?.orderItems);
+            const items = res.data?.orderItems.filter(x=>x.entityStatus.entityStatusId === EntityStatusEnum.ACTIVE.toString());
+            this.initItems(items);
             this.initReservationAction();
             this.isLoading = false;
           } else {
