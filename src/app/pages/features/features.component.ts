@@ -47,7 +47,6 @@ export class FeaturesComponent implements OnDestroy {
       });
     });
     this.authService.redirectUrl = this.router.url;
-    console.log(this.router.url);
   }
 
   initMenu() {

@@ -30,7 +30,6 @@ import { YearPickerDialogComponent } from './component/year-picker-dialog/year-p
 import { CalendarPickerDialogComponent } from './component/calendar-picker-dialog/calendar-picker-dialog.component';
 import { NumberLeadZeroPipePipe } from './core/pipe/number-lead-zero.pipe.pipe';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { environment } from 'src/environments/environment';
 
 
 @NgModule({
@@ -63,7 +62,7 @@ import { environment } from 'src/environments/environment';
     FormsModule,
     ReactiveFormsModule,
     MatTimepickerModule,
-    NgApexchartsModule,
+    NgApexchartsModule
   ],
   providers: [
     CallService,
@@ -74,7 +73,7 @@ import { environment } from 'src/environments/environment';
       multi : true,
       deps : [AppConfigService],
       useFactory : (config : AppConfigService) =>  () => config.loadAppConfig()
-    }
+    },
   ],
   bootstrap: [AppComponent],
 })

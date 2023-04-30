@@ -21,6 +21,7 @@ import { StorageService } from "src/app/core/storage/storage.service";
 import { Snackbar } from "src/app/core/ui/snackbar";
 import { AlertDialogModel } from "src/app/shared/alert-dialog/alert-dialog-model";
 import { AlertDialogComponent } from "src/app/shared/alert-dialog/alert-dialog.component";
+import { ItemDetailsComponent } from "./item-details/item-details.component";
 
 @Component({
   selector: 'app-view-reservation',
@@ -101,8 +102,6 @@ export class ViewReservationComponent implements OnInit {
     this.allowedAction.decline =
       this.storageService.getLoginUser().role.roleId ===
         this.roleEnum.ADMIN.toString();
-
-      console.log(this.allowedAction);
   }
 
   initReservationAction() {
@@ -122,7 +121,6 @@ export class ViewReservationComponent implements OnInit {
       this.reservationService.getById(reservationId).subscribe(
         (res) => {
           if (res.success) {
-            console.log(res.data);
             this.reservation = res.data;
             if(res.data.staff && res.data.staff.staffId) {
               this.assignedStaff = { id: res.data.staff.staffId, fullName: res.data.staff.fullName };
@@ -163,12 +161,13 @@ export class ViewReservationComponent implements OnInit {
   }
 
   initItems(items: OrderItem[]) {
-    this.displayedItemsColumns = ['orderItemType', 'quantity', 'remarks'];
+    this.displayedItemsColumns = ['orderItemType', 'quantity', 'remarks', 'controls'];
     this.dataSourceItems.data = items.map(x=> {
       return {
         orderItemType: x.orderItemType.name,
         quantity: x.quantity,
-        remarks: x.remarks
+        remarks: x.remarks,
+        orderItemAttachments: x.orderItemAttachments
       }
     });
     this.dataSourceItems.paginator = this.paginatorItems;
@@ -375,6 +374,15 @@ export class ViewReservationComponent implements OnInit {
         }
       }
     });
+  }
+
+  async viewItemDetails(details: OrderItem) {
+    const dialogRef = this.dialog.open(ItemDetailsComponent, {
+      closeOnNavigation: false,
+      maxWidth: '500px',
+      width: '500px',
+    });
+    dialogRef.componentInstance.details = details;
   }
 
   async viewCustomerInfo(userId) {

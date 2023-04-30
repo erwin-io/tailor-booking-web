@@ -1,0 +1,41 @@
+<mat-progress-bar mode="query" *ngIf="isLoading"></mat-progress-bar>
+<h4 mat-dialog-title>Item details</h4>
+
+<div mat-dialog-content>
+  <div fxFlex="100" fxLayout="column" fxLayout="column">
+    <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
+      <div fxFlex="100" fxLayout="row" class="group-info">
+        <mat-icon>category</mat-icon>
+        <h3 class="group-info-text">&nbsp;{{details.orderItemType}}</h3>
+      </div>
+    </div>
+    <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
+      <div fxFlex="100" fxLayout="row" class="group-info">
+        <mat-icon>list_alt</mat-icon>
+        <h3 class="group-info-text">&nbsp;{{details.quantity}}</h3>
+      </div>
+    </div>
+    <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
+      <div fxFlex="100" fxLayout="row" class="group-info">
+        <mat-icon>assignment</mat-icon>
+        <h3 class="group-info-text">&nbsp;{{details.remarks}}</h3>
+      </div>
+    </div>
+    <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
+        <img *ngFor="let attachment of details.orderItemAttachments" [src]="attachment.file.url" (click)="fullScreen(attachment.file.url)">
+    </div>
+  </div>
+</div>
+<div class="full-screen" *ngIf="toggleFullScreen">
+    <img [src]="fullScreenImage" (dblclick)="openImageNewTab()">
+    <button class="full-screen-close" mat-icon-button aria-label="Example icon button with a vertical three dot icon" (click)="toggleFullScreen = false">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<div mat-dialog-actions>
+  <div>
+    <button mat-flat-button cdkFocusInitial (click)="onDismiss()">
+      Close
+    </button>
+  </div>
+</div>

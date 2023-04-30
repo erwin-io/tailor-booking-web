@@ -150,7 +150,6 @@ export class ReservationComponent implements OnInit {
         reqCompletionDateTo: moment(this.reqCompletionDateToCtrl.value).format('YYYY-MM-DD'),
       })
       .subscribe(async res => {
-        console.log(res);
         if(res.success){
           this.dataSource.data = res.data.length > 0 ? res.data.map((d)=>{
             return {

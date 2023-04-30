@@ -10,7 +10,6 @@ import { AppConfigService } from '../services/app-config.service';
 })
 export class AuthGuard implements CanActivate {
   sessionTimeout;
-
   constructor(private authService: AuthService, private router: Router, private storageService: StorageService,
     private appconfig: AppConfigService) {
     this.sessionTimeout = Number(this.appconfig.config.sessionConfig.sessionTimeout);
@@ -19,8 +18,9 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
+      console.log(next);
     const url: string = state.url;
-
+    // this.checkURLRedirect(url, next.queryParams ? Object.entries(next.queryParams) : []);
     if (this.storageService.getSessionExpiredDate()) {
       const today: any = new Date();
       const sessionExpiredDate: any = new Date(
@@ -73,6 +73,31 @@ export class AuthGuard implements CanActivate {
       })
     );
     return true;
+  }
+
+  checkURLRedirect(url, routeParams) {
+    if(routeParams.filter(x=>x[0].toLowerCase().includes("redirected") || x[1].toLowerCase().includes("true"))) {
+      return;
+    }
+    const path = url.split("?")[0];
+    const urlMigration:{path: string; redirectTo: string, params, urlPathFormat: string}[] = this.appconfig.config.urlMigration;
+    let newPath = "";
+    const getRouteAndRedirection = urlMigration.filter(x=>x.path.includes(path))[0];
+    if(getRouteAndRedirection) {
+      newPath = getRouteAndRedirection.urlPathFormat;
+      for(let param of routeParams) {
+        const paramKey = param[0];
+        const paramValue = param[1];
+        if(newPath.includes(paramKey)) {
+          newPath = newPath.replace(`:${paramKey}`, paramValue);
+        }
+      }
+      
+    } else {
+      newPath = path;
+    }
+    console.log(newPath + "");
+    this.router.navigate([newPath], { replaceUrl: true, queryParams: { redirected: 'true' }});
   }
 
   handleLogout() {

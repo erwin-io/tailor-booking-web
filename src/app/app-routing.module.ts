@@ -5,7 +5,6 @@ import { AuthGuard } from './core/guard/auth.guard';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { FeaturesComponent } from './pages/features/features.component';
 
-
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
     { path: 'profile', pathMatch: 'full', redirectTo: 'profile/edit-profile' },
@@ -30,8 +29,11 @@ const routes: Routes = [
     },
     { path: 'auth',
       loadChildren: () => import('./pages/auth/auth.module').then( m => m.AuthModule)
-    }
+    },
+    { path: '**', redirectTo: 'dashboard'}
 ];
+
+
 
 @NgModule({
     imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],

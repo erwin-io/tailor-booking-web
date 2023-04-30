@@ -33,6 +33,7 @@ export class OrderItem {
   orderItemType: OrderItemType;
   reservation: Reservation;
   entityStatus: EntityStatus;
+  orderItemAttachments: any[];
 }
 
 export class OrderItemType {

@@ -9,6 +9,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { MatTimepickerModule } from 'src/app/core/directive/mat-timepicker/src/lib/mat-timepicker.module';
 import { CallService } from 'src/app/core/services/call.service';
 import { ViewReservationComponent } from './view-reservation/view-reservation.component';
+import { ItemDetailsComponent } from './view-reservation/item-details/item-details.component';
+import { ClickOutsideDirective } from 'src/app/core/directive/click-outside.directive';
 
 export const routes: Routes = [
   {
@@ -24,7 +26,8 @@ export const routes: Routes = [
 
 
 @NgModule({
-  declarations: [ReservationComponent, ViewReservationComponent],
+  declarations: [ReservationComponent, ViewReservationComponent, ItemDetailsComponent, 
+    ClickOutsideDirective],
   imports: [
     CommonModule,
     FlexLayoutModule,
@@ -34,7 +37,6 @@ export const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes),
     MatTimepickerModule,
-  ],providers:[
-    CallService]
+  ]
 })
 export class ReservationModule { }
