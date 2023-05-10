@@ -115,6 +115,8 @@ export class AddPaymentComponent  implements OnInit {
                     if (res.success) {
                       this.conFirm.emit(true);
                       this.snackBar.snackbarSuccess("Reservation paid!");
+                      dialogRef.close();
+                      this.isProcessing = false;
                       dialogRef.componentInstance.isProcessing = this.isProcessing;
                       this.isLoading = false;
                     } else {
