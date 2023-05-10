@@ -477,9 +477,9 @@ export class ViewReservationComponent implements OnInit {
       dialogRef.close();
     
       const dialogRefPrint = this.dialog.open(PrintDialogComponent, {
-        maxWidth: '1000px',
+        maxHeight: '720px',
         closeOnNavigation: true,
-        panelClass: 'payment-dialog',
+        panelClass: 'print-dialog',
       });
       dialogRefPrint.componentInstance.reservationId = this.reservation.reservationId;
       dialogRefPrint.componentInstance.conFirm.subscribe((data: any) => {
