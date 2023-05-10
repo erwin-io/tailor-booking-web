@@ -463,35 +463,32 @@ export class ViewReservationComponent implements OnInit {
   }
 
   async pay() {
-    const dialogRef = this.dialog.open(PrintDialogComponent, {
+    const dialogRef = this.dialog.open(AddPaymentComponent, {
       maxWidth: '1000px',
       closeOnNavigation: true,
       panelClass: 'payment-dialog',
     });
-    dialogRef.componentInstance.reservationId = this.reservation.reservationId;
+    dialogRef.componentInstance.data = {
+      newReservation: false,
+      reservationId: this.reservation.reservationId,
+      paymentDate: new Date(),
+    };
     dialogRef.componentInstance.conFirm.subscribe((data: any) => {
       dialogRef.close();
+    
+      const dialogRefPrint = this.dialog.open(PrintDialogComponent, {
+        maxWidth: '1000px',
+        closeOnNavigation: true,
+        panelClass: 'payment-dialog',
+      });
+      dialogRefPrint.componentInstance.reservationId = this.reservation.reservationId;
+      dialogRefPrint.componentInstance.conFirm.subscribe((data: any) => {
+        dialogRefPrint.close();
+      });
       this.currentUserId = this.storageService.getLoginUser().userId;
       const reservationId = this.route.snapshot.paramMap.get('reservationId');
       this.initReservation(reservationId);
     });
-
-    // const dialogRef = this.dialog.open(AddPaymentComponent, {
-    //   maxWidth: '1000px',
-    //   closeOnNavigation: true,
-    //   panelClass: 'payment-dialog',
-    // });
-    // dialogRef.componentInstance.data = {
-    //   newReservation: false,
-    //   reservationId: this.reservation.reservationId,
-    //   paymentDate: new Date(),
-    // };
-    // dialogRef.componentInstance.conFirm.subscribe((data: any) => {
-    //   dialogRef.close();
-    //   this.currentUserId = this.storageService.getLoginUser().userId;
-    //   const reservationId = this.route.snapshot.paramMap.get('reservationId');
-    //   this.initReservation(reservationId);
-    // });
   }
 
   async uppdateReference() {

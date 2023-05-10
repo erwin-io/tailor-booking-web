@@ -8,6 +8,7 @@ import { ReportsService } from 'src/app/core/services/reports.service';
 import { Snackbar } from 'src/app/core/ui/snackbar';
 import { AlertDialogModel } from 'src/app/shared/alert-dialog/alert-dialog-model';
 import { AlertDialogComponent } from 'src/app/shared/alert-dialog/alert-dialog.component';
+import { PrintDialogComponent } from '../print-dialog/print-dialog.component';
 
 @Component({
   selector: 'app-add-payment',
@@ -114,27 +115,8 @@ export class AddPaymentComponent  implements OnInit {
                     if (res.success) {
                       this.conFirm.emit(true);
                       this.snackBar.snackbarSuccess("Reservation paid!");
-                      
-                      this.reportsService.getPaymentsInvoice({paymentId: res.data.paymentId}).subscribe(
-                        async (res: any) => {
-                          let file = new Blob([res], { type: 'application/pdf' });
-                          const fileURL = URL.createObjectURL(file);
-                          window.open(fileURL, '_blank');
-                          dialogRef.componentInstance.isProcessing = this.isProcessing;
-                          dialogRef.close();
-                          this.isProcessing = false;
-                        },
-                        async (err) => {
-                          this.isProcessing = false;
-                          dialogRef.componentInstance.isProcessing = this.isProcessing;
-                          this.error = Array.isArray(err.message)
-                            ? err.message[0]
-                            : err.message;
-                          this.snackBar.snackbarError(this.error);
-                          dialogRef.close();
-                          this.isProcessing = false;
-                        }
-                      );
+                      dialogRef.componentInstance.isProcessing = this.isProcessing;
+                      this.isLoading = false;
                     } else {
                       this.isProcessing = false;
                       this.error = Array.isArray(res.message)
