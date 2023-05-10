@@ -5,6 +5,7 @@
   <div fxFlex="100" fxLayout="column" fxLayout="column">
     <form [formGroup]="orderItemTypeForm" (ngSubmit)="onSubmit()" fxLayout="column" id="orderItemTypeForm" fxLayoutAlign="center" >
       <fieldset fxFlex="100" fxLayout="column" [disabled]="isProcessing || isLoading">
+        <mat-label>Name</mat-label>
         <mat-form-field appearance="outline">
           <mat-label>Name</mat-label>
           <input

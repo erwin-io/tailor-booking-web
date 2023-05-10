@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './core/guard/auth.guard';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { FeaturesComponent } from './pages/features/features.component';
+import { ReceiptComponent } from './pages/receipt/receipt.component';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -30,6 +31,7 @@ const routes: Routes = [
     { path: 'auth',
       loadChildren: () => import('./pages/auth/auth.module').then( m => m.AuthModule)
     },
+    { path: 'receipt/:reservationId', component: ReceiptComponent },
     { path: '**', redirectTo: 'dashboard'}
 ];
 

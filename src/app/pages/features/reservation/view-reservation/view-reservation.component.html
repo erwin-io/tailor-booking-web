@@ -16,7 +16,7 @@
                   </button>
                 </li>
                 <li *ngIf="allowedAction.process">
-                  <button [disabled]="!reservationAction.process" mat-stroked-button color="primary" (click)="process()">
+                  <button [disabled]="!reservationAction.process || (serviceFee.errors && serviceFee.errors.required)" mat-stroked-button color="primary" (click)="process()">
                     <div class="button-wrapper">
                       <mat-icon>check</mat-icon>
                       <span>Process</span>
@@ -42,6 +42,49 @@
               </ul>
               <mat-divider></mat-divider>
             </div>
+            <div *ngIf="allowedAction.payment" >
+              <div *ngIf="!isLoading; else elseLoadingPayment" fxFlex="100">
+                <h4 class="action-header-text">Payments</h4>
+                <p class="action-header-text">Status: <strong [ngStyle]="{ 'color' : isPaid ? '#00BFA5;': '#f44336;' }">{{isPaid ? 'Paid' : 'Unpaid'}}</strong></p>
+                <p *ngIf="isPaid" class="action-header-text">Payment type: <strong>{{ payment.paymentType.name }}</strong></p>
+                <p class="action-header-text">Amount to pay: <strong>₱{{isPaid ? 0 : totalAmountToPay }}</strong></p>
+                <p class="action-header-text">Total payment: <strong>₱{{isPaid ? totalAmountToPay : 0}}</strong></p>
+                <p class="action-header-text" *ngIf="isPaid">Reference Number: <strong>{{payment.referenceNo}}</strong></p>
+                <ul fxLayout="column" class="action-menu">
+                  <li>
+                    <button mat-flat-button [disabled]="reservationStatusId !== 4" color="primary" *ngIf="!isPaid && !payment" (click)="pay()">
+                      <div class="button-wrapper">
+                        <mat-icon>check</mat-icon>
+                        <span>Pay</span>
+                      </div>
+                    </button>
+                  </li>
+                  <li>
+                    <button mat-stroked-button color="primary" *ngIf="isPaid && payment" (click)="uppdateReference()">
+                      <div class="button-wrapper">
+                        <mat-icon>edit</mat-icon>
+                        <span>Update reference no</span>
+                      </div>
+                    </button>
+                  </li>
+                  <li>
+                    <button mat-stroked-button color="warn" *ngIf="isPaid && payment" (click)="voidPayment()">
+                      <div class="button-wrapper">
+                        <mat-icon>close</mat-icon>
+                        <span>Void</span>
+                      </div>
+                    </button>
+                  </li>
+                </ul>
+                <mat-divider></mat-divider>
+              </div>
+            </div>
+            <ng-template #elseLoadingPayment>
+              <ngx-skeleton-loader
+                fxFlex
+                [theme]="{ height: '20px', width: '20%' }"
+              ></ngx-skeleton-loader>
+            </ng-template>
             <ul fxFlex="100" fxLayout="column" class="action-menu">
               <li style="margin: 0">
                 <button mat-stroked-button routerLink="/reservations">
@@ -244,6 +287,82 @@
                   <ng-template #elseLoadingLoadingCustomerInfo>
                     <mat-list-item>
                       <mat-icon mat-list-icon>date_range</mat-icon>
+                      <div mat-line>
+                        <ngx-skeleton-loader
+                          fxFlex
+                          [theme]="{ height: '20px', width: '20%' }"
+                        ></ngx-skeleton-loader>
+                      </div>
+                    </mat-list-item>
+                  </ng-template>
+                  <!-- end -->
+                  <!-- Service fee -->
+                  <div fxFlex="100" fxLayout="column" fxLayout.gt-sm="row" *ngIf="!isLoading; else elseLoadingLoadingServiceFee">
+                    <div fxFlex="100" fxLayout="column" style="margin: 20px 20px 0 20px;" *ngIf="['2'].includes(reservationStatusId.toString())">
+                      <mat-label fxFlex="100" fxLayout="row">Service Fee</mat-label>
+                      <mat-form-field appearance="outline" fxFlex="100" fxLayout="column">
+                        <mat-label>Service Fee</mat-label>
+                        <input
+                          matInput
+                          type="number"
+                          placeholder="Service Fee"
+                          [formControl]="serviceFee" (change)="serviceFeeChange(serviceFee?.value)">
+                          <mat-error *ngIf="serviceFee.errors && serviceFee.errors.required">{{'Please enter service fee amount'}}</mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div fxFlex="100" fxLayout="column" fxLayout.gt-sm="row" *ngIf="['3','4'].includes(reservationStatusId.toString())">
+                      <mat-list >
+                        <mat-list-item>
+                          <mat-icon mat-list-icon>payment</mat-icon>
+                          <div mat-line>
+                            <strong>₱ {{serviceFeeValue}}</strong>
+                          </div>
+                          <div mat-line>Service fee</div>
+                        </mat-list-item>
+                      </mat-list>
+                    </div>
+                  </div>
+                  <ng-template #elseLoadingLoadingServiceFee>
+                    <mat-list-item>
+                      <mat-icon mat-list-icon>payment</mat-icon>
+                      <div mat-line>
+                        <ngx-skeleton-loader
+                          fxFlex
+                          [theme]="{ height: '20px', width: '20%' }"
+                        ></ngx-skeleton-loader>
+                      </div>
+                    </mat-list-item>
+                  </ng-template>
+                  <!-- end -->
+                  <!-- Other fee -->
+                  <div fxFlex="100" fxLayout="column" fxLayout.gt-sm="row" *ngIf="!isLoading; else elseLoadingLoadingOtherFee">
+                    <div fxFlex="100" fxLayout="column" style="margin: 0 20px 0 20px;" *ngIf="['3'].includes(reservationStatusId.toString())">
+                      <mat-label fxFlex="100" fxLayout="row">Other Fee</mat-label>
+                      <mat-form-field appearance="outline" fxFlex="100" fxLayout="column">
+                        <mat-label>Other Fee</mat-label>
+                        <input
+                          matInput
+                          type="number"
+                          placeholder="Service Fee"
+                          [formControl]="otherFee" (change)="otherFeeChange(otherFee?.value)">
+                          <mat-error *ngIf="otherFee.errors && otherFee.errors.required">{{'Please enter other fee amount'}}</mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div fxFlex="100" fxLayout="column" fxLayout.gt-sm="row" *ngIf="['4','5','6'].includes(reservationStatusId.toString())">
+                      <mat-list >
+                        <mat-list-item>
+                          <mat-icon mat-list-icon>payment</mat-icon>
+                          <div mat-line>
+                            <strong>₱ {{otherFeeValue}}</strong>
+                          </div>
+                          <div mat-line>Other fee</div>
+                        </mat-list-item>
+                      </mat-list>
+                    </div>
+                  </div>
+                  <ng-template #elseLoadingLoadingOtherFee>
+                    <mat-list-item>
+                      <mat-icon mat-list-icon>payment</mat-icon>
                       <div mat-line>
                         <ngx-skeleton-loader
                           fxFlex

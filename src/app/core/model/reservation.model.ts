@@ -14,6 +14,9 @@ export class Reservation {
   orderItems: OrderItem[] = [];
   reservationStatus: ReservationStatus;
   staff: Staff;
+  serviceFee: number;
+  payments: Payment[];
+  otherFee: number = 0;
 }
 
 export class ReservationStatus {
@@ -38,5 +41,18 @@ export class OrderItem {
 
 export class OrderItemType {
   orderItemTypeId: string;
+  name: string;
+}
+
+export class Payment {
+  paymentId: string;
+  paymentDate: string;
+  referenceNo: string;
+  isVoid: boolean;
+  paymentType: PaymentType;
+}
+
+export class PaymentType {
+  paymentTypeId: string;
   name: string;
 }

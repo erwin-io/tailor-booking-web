@@ -7,7 +7,7 @@
       "type": "pwa-chrome",
       "request": "launch",
       "preLaunchTask": "npm: start_dev",
-      "url": "http://localhost:8100/#",
+      "url": "http://localhost:4200/",
 
       // Note: The ./client directory
       "webRoot": "${workspaceFolder}",

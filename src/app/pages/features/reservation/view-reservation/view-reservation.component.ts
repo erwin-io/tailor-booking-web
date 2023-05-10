@@ -6,7 +6,7 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import * as moment from "moment";
-import { Subscription } from "rxjs";
+import { Subscription, startWith } from "rxjs";
 import { ScheduleDialogComponent } from "src/app/component/schedule-dialog/schedule-dialog.component";
 import { SelectPeopleComponent } from "src/app/component/select-people/select-people.component";
 import { ViewCustomerInfoComponent } from "src/app/component/view-customer-info/view-customer-info.component";
@@ -23,6 +23,11 @@ import { AlertDialogModel } from "src/app/shared/alert-dialog/alert-dialog-model
 import { AlertDialogComponent } from "src/app/shared/alert-dialog/alert-dialog.component";
 import { ItemDetailsComponent } from "./item-details/item-details.component";
 import { EntityStatusEnum } from "src/app/core/enums/entity-status.enum";
+import { AddPaymentComponent } from "src/app/component/add-payment/add-payment.component";
+import { UpdateReferenceNumberComponent } from "src/app/component/update-reference-number/update-reference-number.component";
+import { PaymentService } from "src/app/core/services/payment.service";
+import { ReceiptComponent } from "src/app/pages/receipt/receipt.component";
+import { PrintDialogComponent } from "src/app/component/print-dialog/print-dialog.component";
 
 @Component({
   selector: 'app-view-reservation',
@@ -31,7 +36,7 @@ import { EntityStatusEnum } from "src/app/core/enums/entity-status.enum";
   encapsulation: ViewEncapsulation.None,
 })
 export class ViewReservationComponent implements OnInit {
-  reservation: Reservation;
+  reservation: Reservation = null;
   currentUserId: string;
   mediaWatcher: Subscription;
   isLoading = false;
@@ -41,15 +46,19 @@ export class ViewReservationComponent implements OnInit {
   error;
   statusEnum = ReservationStatusEnum;
   roleEnum = RoleEnum;
+  serviceFee = new FormControl(0, [Validators.required]);
+  otherFee = new FormControl(0, [Validators.required]);
   assignedStaff: { id: string, fullName: string } = null;
 
   allowedAction = {
+    payment: false,
     approval: false,
     process: false,
     complete: false,
     decline: false,
   };
   reservationAction = {
+    payment: false,
     approval: false,
     process: false,
     complete: false,
@@ -69,16 +78,42 @@ export class ViewReservationComponent implements OnInit {
     private route: ActivatedRoute,
     private storageService: StorageService,
     private reservationService: ReservationService,
+    private paymentService: PaymentService,
     private snackBar: Snackbar,
     private dialog: MatDialog,
     private appconfig: AppConfigService,
     public router: Router,
   ) {
+
     this.initAllowedAction();
   }
 
   get getSelectedIndex() {
     return this.connect ? 1 : 0;
+  }
+
+  get serviceFeeValue() {
+    return this.reservation ? this.reservation.serviceFee : 0;
+  }
+
+  get otherFeeValue() {
+    return this.reservation ? this.reservation.otherFee : 0;
+  }
+
+  get isPaid() {
+    return this.reservation ? this.reservation.payments.some(x=>!x.isVoid) : false;
+  }
+
+  get payment() {
+    return this.reservation ? this.reservation.payments.filter(x=>!x.isVoid)[0] : null;
+  }
+
+  get totalAmountToPay() {
+    return this.reservation ? Number(this.reservation.serviceFee) + Number(this.reservation.otherFee) : 0;
+  }
+
+  get reservationStatusId() {
+    return this.reservation ? Number(this.reservation.reservationStatus?.reservationStatusId) : null;
   }
 
   ngOnInit(): void {
@@ -94,6 +129,9 @@ export class ViewReservationComponent implements OnInit {
     this.allowedAction.approval =
       this.storageService.getLoginUser().role.roleId ===
         this.roleEnum.ADMIN.toString();
+    this.allowedAction.payment =
+      this.storageService.getLoginUser().role.roleId ===
+        this.roleEnum.ADMIN.toString();
     this.allowedAction.process =
       this.storageService.getLoginUser().role.roleId ===
         this.roleEnum.ADMIN.toString();
@@ -103,6 +141,13 @@ export class ViewReservationComponent implements OnInit {
     this.allowedAction.decline =
       this.storageService.getLoginUser().role.roleId ===
         this.roleEnum.ADMIN.toString();
+    this.allowedAction.payment =
+    this.storageService.getLoginUser().role.roleId ===
+      this.roleEnum.ADMIN.toString() ||
+    this.storageService.getLoginUser().role.roleId ===
+      this.roleEnum.STAFF.toString() ||
+    this.storageService.getLoginUser().role.roleId ===
+      this.roleEnum.STAFF.toString();
   }
 
   initReservationAction() {
@@ -120,13 +165,16 @@ export class ViewReservationComponent implements OnInit {
     this.isLoading = true;
     try {
       this.reservationService.getById(reservationId).subscribe(
-        (res) => {
+        async (res) => {
           if (res.success) {
-            this.reservation = res.data;
             if(res.data.staff && res.data.staff.staffId) {
               this.assignedStaff = { id: res.data.staff.staffId, fullName: res.data.staff.fullName };
             }
             const items = res.data?.orderItems.filter(x=>x.entityStatus.entityStatusId === EntityStatusEnum.ACTIVE.toString());
+            
+            this.reservation = res.data;
+            this.serviceFee.setValue(res.data.serviceFee);
+            this.otherFee.setValue(res.data.otherFee);
             this.initItems(items);
             this.initReservationAction();
             this.isLoading = false;
@@ -217,11 +265,18 @@ export class ViewReservationComponent implements OnInit {
       this.snackBar.snackbarError("Please select estimated completion date!");
       return;
     }
+    if(Number(this.serviceFee.value) <= 0) {
+      this.snackBar.snackbarError("Please enter the service fee amount!");
+      this.serviceFee.setErrors({ required: true });
+      this.serviceFee.markAsTouched();
+      return;
+    }
     const params = {
       reservationId: this.reservation.reservationId,
       reservationStatusId: ReservationStatusEnum.PROCESSED.toString(),
       assignedStaffId: this.assignedStaff.id,
-      estCompletionDate: this.reservation.estCompletionDate
+      estCompletionDate: this.reservation.estCompletionDate,
+      serviceFee: this.serviceFee.value
     };
     const dialogData = new AlertDialogModel();
     dialogData.title = 'Confirm process';
@@ -289,11 +344,19 @@ export class ViewReservationComponent implements OnInit {
     if(!status.includes(reservationStatusId)){
       return;
     }
-    const params = {
+    let params: any = {
       reservationId: this.reservation.reservationId,
       reservationStatusId: reservationStatusId,
       isUpdatedByCustomer: false
     };
+    if(reservationStatusId.toString() === "4") {
+      params = {
+        reservationId: this.reservation.reservationId,
+        reservationStatusId: reservationStatusId,
+        isUpdatedByCustomer: false,
+        otherFee: this.otherFee.value.toString()
+      };
+    }
     const dialogData = new AlertDialogModel();
     if(reservationStatusId === 2) {
       dialogData.title = 'Confirm Approve';
@@ -377,6 +440,138 @@ export class ViewReservationComponent implements OnInit {
           this.snackBar.snackbarError(this.error);
         }
       }
+    });
+  }
+
+  async serviceFeeChange(value) {
+    if(value && Number(value) > 0) {
+      this.serviceFee.setErrors(null);
+      this.serviceFee.markAsPristine();
+    } else {
+      this.serviceFee.setErrors({ required: true});
+      this.serviceFee.markAsTouched();
+    }
+  }
+  async otherFeeChange(value) {
+    if(value && Number(value) > 0) {
+      this.otherFee.setErrors(null);
+      this.otherFee.markAsPristine();
+    } else {
+      this.otherFee.setErrors({ required: true});
+      this.otherFee.markAsTouched();
+    }
+  }
+
+  async pay() {
+    const dialogRef = this.dialog.open(PrintDialogComponent, {
+      maxWidth: '1000px',
+      closeOnNavigation: true,
+      panelClass: 'payment-dialog',
+    });
+    dialogRef.componentInstance.reservationId = this.reservation.reservationId;
+    dialogRef.componentInstance.conFirm.subscribe((data: any) => {
+      dialogRef.close();
+      this.currentUserId = this.storageService.getLoginUser().userId;
+      const reservationId = this.route.snapshot.paramMap.get('reservationId');
+      this.initReservation(reservationId);
+    });
+
+    // const dialogRef = this.dialog.open(AddPaymentComponent, {
+    //   maxWidth: '1000px',
+    //   closeOnNavigation: true,
+    //   panelClass: 'payment-dialog',
+    // });
+    // dialogRef.componentInstance.data = {
+    //   newReservation: false,
+    //   reservationId: this.reservation.reservationId,
+    //   paymentDate: new Date(),
+    // };
+    // dialogRef.componentInstance.conFirm.subscribe((data: any) => {
+    //   dialogRef.close();
+    //   this.currentUserId = this.storageService.getLoginUser().userId;
+    //   const reservationId = this.route.snapshot.paramMap.get('reservationId');
+    //   this.initReservation(reservationId);
+    // });
+  }
+
+  async uppdateReference() {
+    const dialogRef = this.dialog.open(UpdateReferenceNumberComponent, {
+      closeOnNavigation: false,
+      maxWidth: '500px',
+      width: '500px',
+    });
+    dialogRef.componentInstance.data = {
+      paymentId: this.payment.paymentId
+    };
+    dialogRef.componentInstance.conFirm.subscribe((data: any) => {
+      dialogRef.close();
+      this.currentUserId = this.storageService.getLoginUser().userId;
+      const reservationId = this.route.snapshot.paramMap.get('reservationId');
+      this.initReservation(reservationId);
+    });
+  }
+
+  async voidPayment() {
+    const dialogData = new AlertDialogModel();
+    dialogData.title = 'Confirm void';
+    dialogData.message = 'Void payment?';
+    dialogData.confirmButton = {
+      visible: true,
+      text: 'yes',
+      color: 'primary',
+    };
+    dialogData.dismissButton = {
+      visible: true,
+      text: 'cancel',
+    };
+    const dialogRef = this.dialog.open(AlertDialogComponent, {
+      maxWidth: '400px',
+      closeOnNavigation: true,
+    });
+
+    dialogRef.componentInstance.alertDialogConfig = dialogData;
+    dialogRef.componentInstance.conFirm.subscribe(async (data: any) => {
+      this.isProcessing = true;
+      dialogRef.componentInstance.isProcessing = this.isProcessing;
+      try {
+        await this.paymentService
+          .void({
+            paymentId: this.payment.paymentId,
+          })
+          .subscribe(
+            async (res) => {
+              if (res.success) {
+                this.isProcessing = false;
+                dialogRef.componentInstance.isProcessing = this.isProcessing;
+                this.snackBar.snackbarSuccess("Payment void!");
+                const reservationId = this.route.snapshot.paramMap.get('reservationId');
+                await this.initReservation(reservationId);
+                dialogRef.close();
+              } else {
+                this.isProcessing = false;
+                dialogRef.componentInstance.isProcessing = this.isProcessing;
+                this.error = Array.isArray(res.message)
+                  ? res.message[0]
+                  : res.message;
+                this.snackBar.snackbarError(this.error);
+              }
+            },
+            async (err) => {
+              this.isProcessing = false;
+              dialogRef.componentInstance.isProcessing = this.isProcessing;
+              this.error = Array.isArray(err.message)
+                ? err.message[0]
+                : err.message;
+              this.snackBar.snackbarError(this.error);
+            }
+          );
+      } catch (e) {
+        this.isProcessing = false;
+        dialogRef.componentInstance.isProcessing = this.isProcessing;
+        this.error = Array.isArray(e.message) ? e.message[0] : e.message;
+        this.snackBar.snackbarError(this.error);
+      }
+      // dialogRef.close();
     });
   }
 

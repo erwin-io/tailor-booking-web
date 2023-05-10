@@ -30,6 +30,10 @@ import { YearPickerDialogComponent } from './component/year-picker-dialog/year-p
 import { CalendarPickerDialogComponent } from './component/calendar-picker-dialog/calendar-picker-dialog.component';
 import { NumberLeadZeroPipePipe } from './core/pipe/number-lead-zero.pipe.pipe';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { AddPaymentComponent } from './component/add-payment/add-payment.component';
+import { UpdateReferenceNumberComponent } from './component/update-reference-number/update-reference-number.component';
+import { ReceiptComponent } from './pages/receipt/receipt.component';
+import { PrintDialogComponent } from './component/print-dialog/print-dialog.component';
 
 
 @NgModule({
@@ -49,6 +53,10 @@ import { ProfileComponent } from './pages/profile/profile.component';
     YearPickerDialogComponent,
     CalendarPickerDialogComponent,
     NumberLeadZeroPipePipe,
+    AddPaymentComponent,
+    UpdateReferenceNumberComponent,
+    ReceiptComponent,
+    PrintDialogComponent
   ],
   imports: [
     BrowserModule,

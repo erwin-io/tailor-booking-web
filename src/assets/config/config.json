@@ -21,6 +21,7 @@
   "lookup": {
     "reservationStatus": ["Pending", "Approved", "Processed", "Completed", "Declined", "Cancelled"],
     "reservationType": ["Category 1", "Category 2", "Category 3", "Category 4", "Category 5"],
+    "paymentType": [{"paymentTypeId":"1", "name": "Cash"}, {"paymentTypeId":"2", "name": "G-Cash" }],
     "roles": [
       {
         "roleId": "1",
@@ -71,6 +72,15 @@
       "create": "message/"
     },
     "reminder": "reminder/",
-    "orderItemType": "order-item-type/"
+    "orderItemType": "order-item-type/",
+    "payment": {
+      "getById": "payments/",
+      "create": "payments",
+      "void": "payments/void/",
+      "updateReferenceNumber": "payments/updateReferenceNumber/"
+    },
+    "reports": {
+      "getPaymentsInvoice": "reports/getPaymentsInvoice"
+    }
   }
 }
