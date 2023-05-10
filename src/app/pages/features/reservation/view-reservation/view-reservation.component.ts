@@ -478,6 +478,7 @@ export class ViewReservationComponent implements OnInit {
     
       const dialogRefPrint = this.dialog.open(PrintDialogComponent, {
         maxWidth: '1000px',
+        width: '500px',
         maxHeight: '720px',
         closeOnNavigation: true,
         panelClass: 'print-dialog',
