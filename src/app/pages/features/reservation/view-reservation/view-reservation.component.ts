@@ -129,9 +129,6 @@ export class ViewReservationComponent implements OnInit {
     this.allowedAction.approval =
       this.storageService.getLoginUser().role.roleId ===
         this.roleEnum.ADMIN.toString();
-    this.allowedAction.payment =
-      this.storageService.getLoginUser().role.roleId ===
-        this.roleEnum.ADMIN.toString();
     this.allowedAction.process =
       this.storageService.getLoginUser().role.roleId ===
         this.roleEnum.ADMIN.toString();
@@ -141,13 +138,12 @@ export class ViewReservationComponent implements OnInit {
     this.allowedAction.decline =
       this.storageService.getLoginUser().role.roleId ===
         this.roleEnum.ADMIN.toString();
+
     this.allowedAction.payment =
     this.storageService.getLoginUser().role.roleId ===
       this.roleEnum.ADMIN.toString() ||
     this.storageService.getLoginUser().role.roleId ===
-      this.roleEnum.STAFF.toString() ||
-    this.storageService.getLoginUser().role.roleId ===
-      this.roleEnum.STAFF.toString();
+      this.roleEnum.CASHIER.toString();
   }
 
   initReservationAction() {
