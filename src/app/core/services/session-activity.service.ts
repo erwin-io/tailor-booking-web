@@ -77,13 +77,14 @@ export class SessionActivityService {
     }
   }
 
-  handleLogout() {
+  async handleLogout() {
     this.stop();
+    const user = this.storageService.getLoginUser();
+    await this.authService.logout(user.userId);
     this.storageService.saveAccessToken(null);
     this.storageService.saveRefreshToken(null);
     this.storageService.saveLoginUser(null);
     window.location.href = 'auth/login';
-    this.authService.logout();
   }
 
   resetSession() {

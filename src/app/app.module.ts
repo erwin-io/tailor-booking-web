@@ -34,6 +34,7 @@ import { AddPaymentComponent } from './component/add-payment/add-payment.compone
 import { UpdateReferenceNumberComponent } from './component/update-reference-number/update-reference-number.component';
 import { ReceiptComponent } from './pages/receipt/receipt.component';
 import { PrintDialogComponent } from './component/print-dialog/print-dialog.component';
+import { UserLogsComponent } from './pages/features/user-logs/user-logs.component';
 
 
 @NgModule({
@@ -56,7 +57,7 @@ import { PrintDialogComponent } from './component/print-dialog/print-dialog.comp
     AddPaymentComponent,
     UpdateReferenceNumberComponent,
     ReceiptComponent,
-    PrintDialogComponent
+    PrintDialogComponent,
   ],
   imports: [
     BrowserModule,

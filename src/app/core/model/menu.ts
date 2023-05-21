@@ -41,5 +41,5 @@ export let menu: NavItem[] = [
         isParent: false,
       },
     ]
-  }
+  },
 ];

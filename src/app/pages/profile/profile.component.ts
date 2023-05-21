@@ -37,10 +37,10 @@ export class ProfileComponent implements OnDestroy {
     console.log(this.router.url);
   }
 
-  initMenu() {
+  async initMenu() {
     const user = this.storageService.getLoginUser();
     if (!user || !user.role) {
-      this.authService.logout();
+      await this.authService.logout(user.userId);
       this.storageService.saveAccessToken(null);
       this.storageService.saveRefreshToken(null);
       this.storageService.saveLoginUser(null);
@@ -99,11 +99,12 @@ export class ProfileComponent implements OnDestroy {
     });
 
     dialogRef.componentInstance.alertDialogConfig = dialogData;
-    dialogRef.componentInstance.conFirm.subscribe((data: any) => {
+    dialogRef.componentInstance.conFirm.subscribe(async (data: any) => {
       this.authService.redirectUrl = this.router.url;
       console.log(this.router.url);
       console.log(this.authService.redirectUrl);
-      this.authService.logout();
+      const user = this.storageService.getLoginUser();
+      await this.authService.logout(user.userId);
       this.storageService.saveAccessToken(null);
       this.storageService.saveRefreshToken(null);
       this.storageService.saveLoginUser(null);

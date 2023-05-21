@@ -17,6 +17,7 @@ const routes: Routes = [
         { path: 'reservations', canActivate: [AuthGuard], loadChildren: () => import('./pages/features/reservation/reservation.module').then(m => m.ReservationModule) },
         { path: 'configuration', canActivate: [AuthGuard], loadChildren: () => import('./pages/features/configuration/configuration.module').then(m => m.ConfigurationModule) },
         { path: 'security', canActivate: [AuthGuard], loadChildren: () => import('./pages/features/security/security.module').then(m => m.SecurityModule) },
+        { path: 'user-logs', canActivate: [AuthGuard], loadChildren: () => import('./pages/features/user-logs/user-logs.module').then(m => m.UserLogsModule) },
       ]
     },
     { path: 'profile',

@@ -37,6 +37,12 @@ export class StorageService {
   saveSessionExpiredDate(value: any){
     return this.set('sessionExpiredDate', value);
   }
+  getDeviceInfo(){
+    return this.get('deviceInfo');
+  }
+  saveDeviceInfo(value: any){
+    return this.set('deviceInfo', value);
+  }
   private set(key: string, value: any){
     localStorage.setItem(key, value);
   }

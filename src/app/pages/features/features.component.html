@@ -29,6 +29,7 @@
     <mat-nav-list>
       <app-menu-list-item [item]="defaultMenuItem" (click)="!opened ? sidenav.toggle() : false"></app-menu-list-item>
       <app-menu-list-item *ngFor="let item of menu" [item]="item" (onChildItemClick)="!opened ? sidenav.toggle() : false" (click)="!opened && !item.isParent? sidenav.toggle() : false"></app-menu-list-item>
+      <app-menu-list-item [item]="userLogsMenuItem" *ngIf="isAllowedToUserLogs" (click)="!opened ? sidenav.toggle() : false"></app-menu-list-item>
       <app-menu-list-item [item]="signOutMenuItem" (click)="handleSignOut()"></app-menu-list-item>
     </mat-nav-list>
   </mat-sidenav>

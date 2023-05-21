@@ -106,8 +106,9 @@ export class TokenInterceptor implements HttpInterceptor {
     return request;
   }
 
-  private handleLogout(){
-    this.authService.logout();
+  private async handleLogout(){
+    const user = this.storageService.getLoginUser();
+    await this.authService.logout(user.userId);
   }
 
 }

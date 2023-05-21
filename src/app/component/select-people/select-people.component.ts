@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { RoleEnum } from 'src/app/core/enums/role.enum';
 import { Customer } from 'src/app/core/model/customer.model';
 import { Staff } from 'src/app/core/model/staff.model';
 import { UserService } from 'src/app/core/services/user.service';
@@ -54,7 +55,7 @@ export class SelectPeopleComponent implements OnInit {
       })
       .subscribe(async res => {
         if(res.success){
-          this.list = res.data.length > 0 ? res.data.filter(x=>x.user.role.roleId === "2").map((v:Staff)=> {
+          this.list = res.data.length > 0 ? res.data.filter(x=>x.user.role.roleId === RoleEnum.STAFF.toString()).map((v:Staff)=> {
             return { id: v.staffId, fullName: v.fullName}
           }): [];
           this.isLoading = false;

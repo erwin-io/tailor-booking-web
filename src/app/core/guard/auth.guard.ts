@@ -15,9 +15,9 @@ export class AuthGuard implements CanActivate {
     this.sessionTimeout = Number(this.appconfig.config.sessionConfig.sessionTimeout);
   }
 
-  canActivate(
+  async canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): boolean {
+    state: RouterStateSnapshot): Promise<boolean> {
       console.log(next);
     const url: string = state.url;
     // this.checkURLRedirect(url, next.queryParams ? Object.entries(next.queryParams) : []);
@@ -30,7 +30,8 @@ export class AuthGuard implements CanActivate {
       if (diffTime > 0) {
         this.authService.redirectUrl = url;
         console.log('session expire line 32');
-        this.authService.logout();
+        const user = this.storageService.getLoginUser();
+        await this.authService.logout(user?.userId);
         return false;
       } else {
         today.setTime(today.getTime() + this.sessionTimeout * 1000);
@@ -39,7 +40,8 @@ export class AuthGuard implements CanActivate {
     } else {
       this.authService.redirectUrl = url;
       console.log('session expire line 41');
-      this.authService.logout();
+      const user = this.storageService.getLoginUser();
+      await this.authService.logout(user?.userId);
       return false;
     }
 
@@ -100,7 +102,8 @@ export class AuthGuard implements CanActivate {
     this.router.navigate([newPath], { replaceUrl: true, queryParams: { redirected: 'true' }});
   }
 
-  handleLogout() {
-    this.authService.logout();
+  async handleLogout() {
+    const user = this.storageService.getLoginUser();
+    await this.authService.logout(user?.userId);
   }
 }

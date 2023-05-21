@@ -31,18 +31,20 @@ export class AuthService implements IServices {
     );
   }
 
-  logout(): Observable<any> {
+  async logout(userId: string) {
+    if(userId && userId !== "") {
+      await this.http.post<any>(environment.apiBaseUrl + this.appconfig.config.apiEndPoints.auth.logout, { userId })
+      .pipe(
+        tap(_ => this.isLoggedIn = true),
+        catchError(this.handleError('logout', []))
+      ).toPromise();
+    }
     this.storageService.saveAccessToken(null);
     this.storageService.saveRefreshToken(null);
     this.storageService.saveSessionExpiredDate(null);
     this.storageService.saveLoginUser(null);
     this.router.navigate(['/auth/login'], { replaceUrl: true });
-
-    return this.http.get<any>(environment.apiBaseUrl + this.appconfig.config.apiEndPoints.auth.logout)
-    .pipe(
-      tap(_ => this.isLoggedIn = false),
-      catchError(this.handleError('logout', []))
-    );
+    return;
   }
 
   register(data: any, userType: number){

@@ -21,6 +21,9 @@ import { YearPickerDialogComponent } from 'src/app/component/year-picker-dialog/
 import { MatDialog } from '@angular/material/dialog';
 import { CalendarPickerDialogComponent } from 'src/app/component/calendar-picker-dialog/calendar-picker-dialog.component';
 import { SlideInterface } from 'src/app/shared/image-slider/types/slide.interface';
+import { DeviceDetectorService } from 'ngx-device-detector';
+
+
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -55,6 +58,7 @@ export class HomeComponent implements OnInit {
     { url: '../../../../assets/img/vector/home-banner-black.jpg', title: 'black' }
   ];
   constructor(
+    private deviceService: DeviceDetectorService,
     private storageService: StorageService,
     private dialog: MatDialog,
     private snackBar: Snackbar
@@ -62,6 +66,9 @@ export class HomeComponent implements OnInit {
     this.user = this.storageService.getLoginUser();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const device = this.deviceService.getDeviceInfo();
+    this.storageService.saveDeviceInfo(JSON.stringify(device));
+  }
 
 }

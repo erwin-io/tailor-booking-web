@@ -9,7 +9,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import * as moment from "moment";
 import { Observable, forkJoin, startWith, map } from "rxjs";
-import { RoleEnum } from "src/app/core/enums/role.enum copy";
+import { RoleEnum } from "src/app/core/enums/role.enum";
 import { AppConfigService } from "src/app/core/services/app-config.service";
 import { ReservationService } from "src/app/core/services/reservation.service";
 import { StorageService } from "src/app/core/storage/storage.service";

@@ -29,7 +29,19 @@
       },
       {
         "roleId": "2",
-        "name": "Front desk"
+        "name": "Manager"
+      },
+      {
+        "roleId": "3",
+        "name": "Staff"
+      },
+      {
+        "roleId": "4",
+        "name": "Cashier"
+      },
+      {
+        "roleId": "5",
+        "name": "Guest"
       }]
   },
   "apiEndPoints": {
@@ -81,6 +93,9 @@
     },
     "reports": {
       "getPaymentsInvoice": "reports/getPaymentsInvoice"
+    },
+    "activityLog": {
+      "getUserLogActivity": "activity-log/getUserLogActivity"
     }
   }
 }

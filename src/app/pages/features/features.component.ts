@@ -11,6 +11,7 @@ import { NavItem } from 'src/app/core/model/nav-item';
 import { menu } from 'src/app/core/model/menu';
 import { LoginResult } from 'src/app/core/model/loginresult.model';
 import { environment } from 'src/environments/environment';
+import { RoleEnum } from 'src/app/core/enums/role.enum';
 
 @Component({
   selector: 'app-features',
@@ -26,6 +27,11 @@ export class FeaturesComponent implements OnDestroy {
     displayName: 'Dashboard',
     iconName: 'dashboard',
     route: 'dashboard',
+  } as NavItem;
+  userLogsMenuItem = {
+    displayName: 'User Logs',
+    iconName: 'watch_later',
+    route: 'user-logs',
   } as NavItem;
   signOutMenuItem = {
     displayName: 'Sign Out',
@@ -49,10 +55,15 @@ export class FeaturesComponent implements OnDestroy {
     this.authService.redirectUrl = this.router.url;
   }
 
-  initMenu() {
+  get isAllowedToUserLogs() {
+    return (this.currentUser.role.roleId === RoleEnum.ADMIN.toString() ||
+    this.currentUser.role.roleId === RoleEnum.MANAGER.toString());
+  }
+
+  async initMenu() {
     this.currentUser = this.storageService.getLoginUser();
     if (!this.currentUser || !this.currentUser.role) {
-      this.authService.logout();
+      await this.authService.logout(this.currentUser.userId);
       this.storageService.saveAccessToken(null);
       this.storageService.saveRefreshToken(null);
       this.storageService.saveLoginUser(null);
@@ -117,11 +128,11 @@ export class FeaturesComponent implements OnDestroy {
     });
 
     dialogRef.componentInstance.alertDialogConfig = dialogData;
-    dialogRef.componentInstance.conFirm.subscribe((data: any) => {
+    dialogRef.componentInstance.conFirm.subscribe(async (data: any) => {
       this.authService.redirectUrl = this.router.url;
       console.log(this.router.url);
       console.log(this.authService.redirectUrl);
-      this.authService.logout();
+      await this.authService.logout(this.currentUser.userId);
       this.storageService.saveAccessToken(null);
       this.storageService.saveRefreshToken(null);
       this.storageService.saveLoginUser(null);

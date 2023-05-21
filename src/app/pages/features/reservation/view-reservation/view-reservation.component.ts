@@ -11,7 +11,7 @@ import { ScheduleDialogComponent } from "src/app/component/schedule-dialog/sched
 import { SelectPeopleComponent } from "src/app/component/select-people/select-people.component";
 import { ViewCustomerInfoComponent } from "src/app/component/view-customer-info/view-customer-info.component";
 import { ReservationStatusEnum } from "src/app/core/enums/reservation-status.enum";
-import { RoleEnum } from "src/app/core/enums/role.enum copy";
+import { RoleEnum } from "src/app/core/enums/role.enum";
 import { Messages } from "src/app/core/model/messages.model";
 import { OrderItem, Reservation } from "src/app/core/model/reservation.model";
 import { Staff } from "src/app/core/model/staff.model";
