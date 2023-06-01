@@ -4,6 +4,7 @@ import { Staff } from './staff.model';
 
 export class Reservation {
   reservationId: string;
+  reservationCode: string;
   reqCompletionDate: string;
   estCompletionDate: string;
   description: string;

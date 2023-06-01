@@ -21,7 +21,7 @@
   "lookup": {
     "reservationStatus": ["Pending", "Approved", "Processed", "Completed", "Declined", "Cancelled"],
     "reservationType": ["Category 1", "Category 2", "Category 3", "Category 4", "Category 5"],
-    "paymentType": [{"paymentTypeId":"1", "name": "Cash"}, {"paymentTypeId":"2", "name": "G-Cash" }],
+    "paymentType": [{"paymentTypeId":"1", "name": "Cash"}],
     "roles": [
       {
         "roleId": "1",
@@ -72,6 +72,7 @@
     "reservation": {
       "getByAdvanceSearch": "reservation/getByAdvanceSearch",
       "getById": "reservation/",
+      "getByCode": "reservation/getByCode/",
       "getReservationForADay": "reservation/getReservationForADay/",
       "createReservation": "reservation/createReservation",
       "rescheduleReservation": "reservation/rescheduleReservation",

@@ -118,8 +118,8 @@ export class ViewReservationComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUserId = this.storageService.getLoginUser().userId;
-    const reservationId = this.route.snapshot.paramMap.get('reservationId');
-    this.initReservation(reservationId);
+    const reservationCode = this.route.snapshot.paramMap.get('reservationCode');
+    this.initReservation(reservationCode);
   }
 
   ngAfterViewInit() {
@@ -157,10 +157,10 @@ export class ViewReservationComponent implements OnInit {
       this.statusEnum.PENDING.toString();
   }
 
-  initReservation(reservationId: string) {
+  initReservation(reservationCode: string) {
     this.isLoading = true;
     try {
-      this.reservationService.getById(reservationId).subscribe(
+      this.reservationService.getByCode(reservationCode).subscribe(
         async (res) => {
           if (res.success) {
             if(res.data.staff && res.data.staff.staffId) {
@@ -306,7 +306,7 @@ export class ViewReservationComponent implements OnInit {
                   this.isProcessing = false;
                   dialogRef.componentInstance.isProcessing = this.isProcessing;
                   this.snackBar.snackbarSuccess("Reservation is now being process!");
-                  this.initReservation(this.reservation.reservationId);
+                  this.initReservation(this.reservation.reservationCode);
                 } else {
                   this.isProcessing = false;
                   dialogRef.componentInstance.isProcessing = this.isProcessing;
@@ -410,7 +410,7 @@ export class ViewReservationComponent implements OnInit {
                   else if(reservationStatusId === this.statusEnum.CANCELLED) {
                     this.snackBar.snackbarSuccess("Reservation cancelled!");
                   }
-                  this.initReservation(this.reservation.reservationId);
+                  this.initReservation(this.reservation.reservationCode);
                 } else {
                   this.isProcessing = false;
                   dialogRef.componentInstance.isProcessing = this.isProcessing;
@@ -484,8 +484,8 @@ export class ViewReservationComponent implements OnInit {
         dialogRefPrint.close();
       });
       this.currentUserId = this.storageService.getLoginUser().userId;
-      const reservationId = this.route.snapshot.paramMap.get('reservationId');
-      this.initReservation(reservationId);
+      const reservationCode = this.route.snapshot.paramMap.get('reservationCode');
+      this.initReservation(reservationCode);
     });
   }
 
@@ -501,8 +501,8 @@ export class ViewReservationComponent implements OnInit {
     dialogRef.componentInstance.conFirm.subscribe((data: any) => {
       dialogRef.close();
       this.currentUserId = this.storageService.getLoginUser().userId;
-      const reservationId = this.route.snapshot.paramMap.get('reservationId');
-      this.initReservation(reservationId);
+      const reservationCode = this.route.snapshot.paramMap.get('reservationCode');
+      this.initReservation(reservationCode);
     });
   }
 
@@ -539,8 +539,8 @@ export class ViewReservationComponent implements OnInit {
                 this.isProcessing = false;
                 dialogRef.componentInstance.isProcessing = this.isProcessing;
                 this.snackBar.snackbarSuccess("Payment void!");
-                const reservationId = this.route.snapshot.paramMap.get('reservationId');
-                await this.initReservation(reservationId);
+                const reservationCode = this.route.snapshot.paramMap.get('reservationCode');
+                await this.initReservation(reservationCode);
                 dialogRef.close();
               } else {
                 this.isProcessing = false;

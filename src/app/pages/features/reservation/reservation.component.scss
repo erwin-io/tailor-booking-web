@@ -58,7 +58,7 @@ table{
       }
     }
   }
- .mat-column-reservationId {
+ .mat-column-reservationCode {
   flex: 0 0 3% !important;
   width: 3% !important;
   padding-left: 0!important;
@@ -107,8 +107,14 @@ table{
   }
  }
 
+ @media only screen and (max-width: 470px) {
+  .mat-column-reservationCode {
+    display: none!important;
+  }
+ }
+
  @media only screen and (max-width: 414px) {
-  .mat-column-reservationId {
+  .mat-column-reservationCode {
     display: none!important;
   }
   .mat-column-assignedPerson {

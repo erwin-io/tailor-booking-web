@@ -115,6 +115,32 @@
   
               <mat-card-content fxLayout="column">
                 <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
+                  <!-- Reservation Code -->
+                  <mat-list
+                    *ngIf="!isLoading; else elseLoadingLoadingReservationCode">
+                    <mat-list-item >
+                      <div mat-line>
+                        <strong>{{ reservation.reservationCode }}</strong>
+                      </div>
+                    </mat-list-item>
+                  </mat-list>
+                  <ng-template #elseLoadingLoadingReservationCode>
+                    <mat-list-item>
+                      <div mat-line>
+                        <ngx-skeleton-loader
+                          fxFlex
+                          [theme]="{ height: '20px', width: '20%' }"
+                        ></ngx-skeleton-loader>
+                      </div>
+                      <div mat-line>
+                        <ngx-skeleton-loader
+                          fxFlex
+                          [theme]="{ height: '20px', width: '20%' }"
+                        ></ngx-skeleton-loader>
+                      </div>
+                    </mat-list-item>
+                  </ng-template>
+                  <!-- end -->
                   <!-- Reservation type -->
                   <mat-list
                     *ngIf="!isLoading; else elseLoadingLoadingReservationLevel">

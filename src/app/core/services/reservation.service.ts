@@ -26,6 +26,19 @@ export class ReservationService implements IServices {
       );
   }
 
+  getByCode(reservationCode: string): Observable<ApiResponse<Reservation>> {
+    return this.http
+      .get<any>(
+        environment.apiBaseUrl +
+          this.appconfig.config.apiEndPoints.reservation.getByCode +
+          reservationCode
+      )
+      .pipe(
+        tap((_) => this.log('reservation')),
+        catchError(this.handleError('reservation', []))
+      );
+  }
+
   getById(reservationId: string): Observable<ApiResponse<Reservation>> {
     return this.http
       .get<any>(

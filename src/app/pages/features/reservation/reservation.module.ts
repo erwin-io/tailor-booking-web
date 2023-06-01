@@ -19,7 +19,7 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'details/:reservationId',
+    path: 'details/:reservationCode',
     component: ViewReservationComponent
   },
 ];

@@ -69,7 +69,7 @@ export class ReservationComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.displayedColumns = ["reservationId", "customer", "reqCompletionDate", "assignedPerson", "estCompletionDate", "reservationStatus", "controls"];
+    this.displayedColumns = ["reservationCode", "customer", "reqCompletionDate", "assignedPerson", "estCompletionDate", "reservationStatus", "controls"];
     this.selectedStatus = this.allStatus;
     this.selectedReservationType = this.allReservationType;
     this.filteredStatus = this.filterSearchStatusCtrl.valueChanges.pipe(
@@ -154,6 +154,7 @@ export class ReservationComponent implements OnInit {
           this.dataSource.data = res.data.length > 0 ? res.data.map((d)=>{
             return {
               reservationId: d.reservationId,
+              reservationCode: d.reservationCode,
               reqCompletionDate: d.reqCompletionDate,
               estCompletionDate: d.estCompletionDate || d.estCompletionDate != "" ? d.estCompletionDate : "NA",
               customer: d.customer.fullName,
