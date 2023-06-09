@@ -1,148 +1,167 @@
-table{
-  width: 100%;
- }
- th.mat-sort-header-sorted {
-   color: black;
- }
+.page-view-container {
+  .button {
+    cursor: pointer;
+    height: 45px;
 
- mat-table {
-  thead {
-   th {
-    .mat-cell {
-     word-wrap: break-word !important;
-     white-space: unset !important;
-     overflow-wrap: break-word;
-     word-wrap: break-word;
-     word-break: break-word;
-     -ms-hyphens: auto;
-     -moz-hyphens: auto;
-     -webkit-hyphens: auto;
-     hyphens: auto;
+    &:hover {
+      background-color: #4593ff;
+      color: white;
     }
-   }
+  }
+}
+
+table {
+  width: 100%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+mat-table {
+  thead {
+    th {
+      .mat-cell {
+        word-wrap: break-word !important;
+        white-space: unset !important;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        word-break: break-word;
+        -ms-hyphens: auto;
+        -moz-hyphens: auto;
+        -webkit-hyphens: auto;
+        hyphens: auto;
+      }
+    }
   }
 
   tbody {
     td {
-     .mat-cell {
-      word-wrap: break-word !important;
-      white-space: unset !important;
-      overflow-wrap: break-word;
-      word-wrap: break-word;
-      word-break: break-word;
-      -ms-hyphens: auto;
-      -moz-hyphens: auto;
-      -webkit-hyphens: auto;
-      hyphens: auto;
-     }
-    }
-   }
- }
-
-  ::ng-deep .table-reservation {
-    tr.mat-header-row {
-      .mat-header-cell {
-        padding-right: 20px!important;
-        &:last-child {
-          padding-right: 0!important;
-        }
-      }
-    }
-    tr.mat-row {
       .mat-cell {
-        height: 80px!important;
-        padding-right: 20px!important;
-        &:last-child {
-          padding-right: 0!important;
-        }
+        word-wrap: break-word !important;
+        white-space: unset !important;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        word-break: break-word;
+        -ms-hyphens: auto;
+        -moz-hyphens: auto;
+        -webkit-hyphens: auto;
+        hyphens: auto;
       }
     }
-  }
- .mat-column-reservationCode {
-  flex: 0 0 3% !important;
-  width: 3% !important;
-  padding-left: 0!important;
- }
-
- .mat-column-customer {
-  flex: 0 0 30% !important;
-  width: 30% !important;
- }
-
- .mat-column-reqCompletionDate {
-  flex: 0 0 15% !important;
-  width: 15% !important;
- }
-
- .mat-column-assignedPerson {
-  flex: 0 0 30% !important;
-  width: 30% !important;
- }
-
- .mat-column-estCompletionDate {
-  flex: 0 0 15% !important;
-  width: 15% !important;
- }
-
- .mat-column-reservationStatus {
-  flex: 0 0 5% !important;
-  width: 5% !important;
- }
-
- .mat-column-controls {
-   flex: 0 0 1% !important;
-   width: 1% !important;
-   padding-right: 0!important;
- }
-
- @media only screen and (max-width: 768px) {
-  .mat-column-assignedPerson {
-    display: none!important;
-  }
-  .mat-column-estCompletionDate {
-    display: none!important;
-  }
-  .mat-column-reservationStatus {
-    display: none!important;
-  }
- }
-
- @media only screen and (max-width: 470px) {
-  .mat-column-reservationCode {
-    display: none!important;
-  }
- }
-
- @media only screen and (max-width: 414px) {
-  .mat-column-reservationCode {
-    display: none!important;
-  }
-  .mat-column-assignedPerson {
-    display: none!important;
-  }
-  .mat-column-estCompletionDate {
-    display: none!important;
-  }
-  .mat-column-reservationStatus {
-    display: none!important;
-  }
- }
-
- .table-no-data {
-  background-color: #ECEFF1;
-  padding: 20px;
-  color: #424242 !important;
-  span {
-    text-align: left;
-    font-size: 15px!important;
   }
 }
 
-.mat-form-field,div {
-  &.isLargeScreen{
-    padding-right: 10px!important;
+::ng-deep .table-reservation {
+  tr.mat-header-row {
+    .mat-header-cell {
+      padding-right: 20px !important;
+
+      &:last-child {
+        padding-right: 0 !important;
+      }
+    }
+  }
+
+  tr.mat-row {
+    .mat-cell {
+      height: 80px !important;
+      padding-right: 20px !important;
+
+      &:last-child {
+        padding-right: 0 !important;
+      }
+    }
+  }
+}
+
+.mat-column-reservationId {
+  flex: 0 0 3% !important;
+  width: 3% !important;
+  padding-left: 0 !important;
+}
+
+.mat-column-customer {
+  flex: 0 0 30% !important;
+  width: 30% !important;
+}
+
+.mat-column-reqCompletionDate {
+  flex: 0 0 15% !important;
+  width: 15% !important;
+}
+
+.mat-column-assignedPerson {
+  flex: 0 0 30% !important;
+  width: 30% !important;
+}
+
+.mat-column-estCompletionDate {
+  flex: 0 0 15% !important;
+  width: 15% !important;
+}
+
+.mat-column-reservationStatus {
+  flex: 0 0 5% !important;
+  width: 5% !important;
+}
+
+.mat-column-controls {
+  flex: 0 0 1% !important;
+  width: 1% !important;
+  padding-right: 0 !important;
+}
+
+@media only screen and (max-width: 768px) {
+  .mat-column-assignedPerson {
+    display: none !important;
+  }
+
+  .mat-column-estCompletionDate {
+    display: none !important;
+  }
+
+  .mat-column-reservationStatus {
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 414px) {
+  .mat-column-reservationId {
+    display: none !important;
+  }
+
+  .mat-column-assignedPerson {
+    display: none !important;
+  }
+
+  .mat-column-estCompletionDate {
+    display: none !important;
+  }
+
+  .mat-column-reservationStatus {
+    display: none !important;
+  }
+}
+
+.table-no-data {
+  background-color: #ECEFF1;
+  padding: 20px;
+  color: #424242 !important;
+
+  span {
+    text-align: left;
+    font-size: 15px !important;
+  }
+}
+
+.mat-form-field,
+div {
+  &.isLargeScreen {
+    padding-right: 10px !important;
+
     &:last-child {
-    padding-right: 0!important;
+      padding-right: 0 !important;
     }
   }
 }

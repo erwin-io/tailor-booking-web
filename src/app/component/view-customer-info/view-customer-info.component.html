@@ -8,6 +8,10 @@
           <mat-icon>person</mat-icon>
           <h3 class="group-info-text">{{customerData.fullName}}</h3>
         </div>
+        <div fxFlex="100" fxLayout="row" class="group-info">
+          <mat-icon>face</mat-icon>
+          <h3 class="group-info-text">{{customerData.gender.name}}</h3>
+        </div>
       </div>
       <br>
       <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
@@ -35,11 +39,7 @@
             <mat-icon>location_on</mat-icon>
             <h3 class="group-info-text">{{customerData.address}}</h3>
           </div>
-          <div fxLayout="column" class="group-info" fxLayoutAlign="start">
-            <h4 class="group-info-text"><b>Gender</b></h4>
-            <h3 class="group-info-text">{{customerData.gender.name}}</h3>
           </div>
-        </div>
       </div>
     </div>
   </div>

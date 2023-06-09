@@ -128,22 +128,32 @@ export class ViewReservationComponent implements OnInit {
   initAllowedAction() {
     this.allowedAction.approval =
       this.storageService.getLoginUser().role.roleId ===
-        this.roleEnum.ADMIN.toString();
+        this.roleEnum.ADMIN.toString() ||
+        this.storageService.getLoginUser().role.roleId ===
+        this.roleEnum.STAFF.toString();
     this.allowedAction.process =
       this.storageService.getLoginUser().role.roleId ===
-        this.roleEnum.ADMIN.toString();
+        this.roleEnum.ADMIN.toString() ||
+        this.storageService.getLoginUser().role.roleId ===
+        this.roleEnum.STAFF.toString();
     this.allowedAction.complete =
       this.storageService.getLoginUser().role.roleId ===
-        this.roleEnum.ADMIN.toString();
+        this.roleEnum.ADMIN.toString() ||
+        this.storageService.getLoginUser().role.roleId ===
+        this.roleEnum.STAFF.toString();
     this.allowedAction.decline =
       this.storageService.getLoginUser().role.roleId ===
-        this.roleEnum.ADMIN.toString();
+        this.roleEnum.ADMIN.toString() ||
+        this.storageService.getLoginUser().role.roleId ===
+        this.roleEnum.STAFF.toString();
 
     this.allowedAction.payment =
     this.storageService.getLoginUser().role.roleId ===
       this.roleEnum.ADMIN.toString() ||
     this.storageService.getLoginUser().role.roleId ===
-      this.roleEnum.CASHIER.toString();
+      this.roleEnum.CASHIER.toString() ||
+      this.storageService.getLoginUser().role.roleId ===
+      this.roleEnum.MANAGER.toString();
   }
 
   initReservationAction() {
@@ -242,7 +252,7 @@ export class ViewReservationComponent implements OnInit {
     });
     dialogRef.componentInstance.title = "Select date";
     dialogRef.componentInstance.dateFieldName = "Estimated completion date";
-    dialogRef.componentInstance.data = { date: this.reservation.estCompletionDate && this.reservation.estCompletionDate != "" ? this.reservation.estCompletionDate : moment().format("YYYY-MM-DD") };
+    dialogRef.componentInstance.data = { date: this.reservation.reqCompletionDate && this.reservation.reqCompletionDate != "" ? this.reservation.reqCompletionDate : moment().format("YYYY-MM-DD") };
     dialogRef.componentInstance.canSelectTime = false;
     dialogRef.componentInstance.conFirm.subscribe(async (data: { date: string }) => {
       if(data){

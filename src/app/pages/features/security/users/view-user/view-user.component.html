@@ -1,30 +1,34 @@
 <div class="page-view-container">
   <mat-card>
     <mat-card-header>
-      <mat-card-subtitle>User information</mat-card-subtitle>
+      <mat-card-title>User Information</mat-card-title>
       <div fxFlex></div>
-      <button matTooltip="More" mat-icon-button [matMenuTriggerFor]="menu" *ngIf="!isLoading" [ngClass]="{ 'hidden': currentUserId === userData.user.userId }" >
+      <button matTooltip="More" mat-icon-button [matMenuTriggerFor]="menu" *ngIf="!isLoading"
+        [ngClass]="{ 'hidden': currentUserId === userData.user.userId }">
         <mat-icon>more_vert</mat-icon>
       </button>
-      <mat-menu #menu="matMenu" xPosition="before" >
-        <button mat-menu-item routerLink="/security/users/edit/{{userData.user.userId}}" *ngIf="!isLoading" >Edit</button>
-        <button mat-menu-item (click)="openUpatePassword(userData.user.userId)" *ngIf="!isLoading && userData.user.userType.userTypeId === '1'" >Update password</button>
-        <button mat-menu-item *ngIf="!isLoading" (click)="toggleEnable(userData.user.userId)">{{userData.user.enable ? 'Disable user' : 'Enable user'}}</button>
+      <mat-menu #menu="matMenu" xPosition="before">
+        <button mat-menu-item routerLink="/security/users/edit/{{userData.user.userId}}"
+          *ngIf="!isLoading">Edit</button>
+        <button mat-menu-item (click)="openUpatePassword(userData.user.userId)"
+          *ngIf="!isLoading && userData.user.userType.userTypeId === '1'">Update password</button>
+        <button mat-menu-item *ngIf="!isLoading" (click)="toggleEnable(userData.user.userId)">{{userData.user.enable ?
+          'Disable user' : 'Enable user'}}</button>
       </mat-menu>
     </mat-card-header>
 
-    <mat-card-content fxLayout="column" >
+    <mat-card-content fxLayout="column">
       <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
         <div fxFlex="100" fxLayout="row" class="group-info">
           <mat-icon>person</mat-icon>
-          <h3 class="group-info-text"*ngIf="!isLoading; else elseLoadinguFullName">{{userData.fullName}}</h3>
+          <h3 class="group-info-text" *ngIf="!isLoading; else elseLoadinguFullName">{{userData.fullName}}</h3>
           <ng-template #elseLoadinguFullName>
             <ngx-skeleton-loader fxFlex [theme]="{ height: '20px', width: '20%'}"></ngx-skeleton-loader>
           </ng-template>
         </div>
         <div fxFlex="100" fxLayout="row" class="group-info">
           <mat-icon>alternate_email</mat-icon>
-          <h3 class="group-info-text"*ngIf="!isLoading; else elseLoadinguUsername">{{userData.user.username}}</h3>
+          <h3 class="group-info-text" *ngIf="!isLoading; else elseLoadinguUsername">{{userData.user.username}}</h3>
           <ng-template #elseLoadinguUsername>
             <ngx-skeleton-loader fxFlex [theme]="{ height: '20px', width: '20%'}"></ngx-skeleton-loader>
           </ng-template>
@@ -65,16 +69,43 @@
               <ngx-skeleton-loader fxFlex [theme]="{ height: '20px', width: '20%'}"></ngx-skeleton-loader>
             </ng-template>
           </div>
-          <div fxLayout="column" class="group-info" fxLayoutAlign="start">
+          <div fxLayout="row" class="group-info">
+            <mat-icon>face</mat-icon>
+            <h3 class="group-info-text" *ngIf="!isLoading; else elseLoadingGender">{{userData.gender.name}}</h3>
+            <ng-template #elseLoadingGender>
+              <ngx-skeleton-loader fxFlex [theme]="{ height: '20px', width: '20%'}"></ngx-skeleton-loader>
+            </ng-template>
+          </div>
+          <!-- <div fxLayout="column" class="group-info" fxLayoutAlign="start">
             <h4 class="group-info-text"><b>Gender</b></h4>
+            <h3 class="group-info-text" *ngIf="!isLoading; else elseLoadingGender">{{userData.gender.name}}</h3>
+            <ng-template #elseLoadingGender>
+              <ngx-skeleton-loader fxFlex [theme]="{ height: '20px', width: '20%'}"></ngx-skeleton-loader>
+            </ng-template>
+          </div> -->
+        </div>
+      </div>
+
+      <!-- <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
+        <div fxFlex="100" fxLayoutAlign="start">
+          <h4 class="group-info-text"><b>Gender</b></h4>
+        </div>
+        <div fxLayout="column" class="group-info" fxLayoutAlign="start">
+          <div fxLayout="row" class="group-info">
+            <mat-icon>face</mat-icon>
             <h3 class="group-info-text" *ngIf="!isLoading; else elseLoadingGender">{{userData.gender.name}}</h3>
             <ng-template #elseLoadingGender>
               <ngx-skeleton-loader fxFlex [theme]="{ height: '20px', width: '20%'}"></ngx-skeleton-loader>
             </ng-template>
           </div>
         </div>
-      </div>
-      <div fxFlex="100" fxLayout="column" fxLayoutAlign="start" *ngIf="!isLoading && userData.user.userType.userTypeId === '1'">
+      </div> -->
+
+
+
+
+      <div fxFlex="100" fxLayout="column" fxLayoutAlign="start"
+        *ngIf="!isLoading && userData.user.userType.userTypeId === '1'">
         <div fxFlex="100" fxLayoutAlign="start">
           <h4 class="group-info-text"><b>Role</b></h4>
         </div>
@@ -89,12 +120,14 @@
         </div>
       </div>
       <br>
-      <div *ngIf="!isLoading && userData.user.userType.userTypeId === '1'" fxFlex="100" fxLayout="column" fxLayoutAlign="start">
+      <div *ngIf="!isLoading && userData.user.userType.userTypeId === '1'" fxFlex="100" fxLayout="column"
+        fxLayoutAlign="start">
         <div fxFlex="100" fxLayoutAlign="start">
           <h4 class="group-info-text"><b>Page Access</b></h4>
         </div>
         <div fxFlex="100" fxLayout="column" *ngIf="!isLoading; else elseLoadingPageAccess">
-          <div *ngIf="accessToDisplay.length > 0; else noAccessTemp" fxLayout="column" class="group-info" fxLayoutAlign="start">
+          <div *ngIf="accessToDisplay.length > 0; else noAccessTemp" fxLayout="column" class="group-info"
+            fxLayoutAlign="start">
             <div *ngFor="let row of accessToDisplay" fxLayout="row" class="group-info">
               <mat-icon>{{row.iconName}}</mat-icon>
               <h3 class="group-info-text">{{row.displayName}}</h3>
@@ -110,7 +143,26 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button matTooltip="Back to list" mat-stroked-button [routerLink]="!isLoading ? userData.user.userType.userTypeId === '1' ? '/security/users' : '/security/users/customers' : '/security/users'" color="primary">Back</button>
+      <button matTooltip="Back to list" mat-stroked-button
+        [routerLink]="!isLoading ? userData.user.userType.userTypeId === '1' ? '/security/users' : '/security/users/customers' : '/security/users'"
+        color="primary">Back</button>
+
+      <button mat-raised-button color="primary" matTooltip="Edit"
+        routerLink="/security/users/edit/{{userData.user.userId}}">
+        Edit
+      </button>
+      <button mat-raised-button color="primary" matTooltip="Edit" (click)="openUpatePassword(userData.user.userId)"
+        *ngIf="!isLoading && userData.user.userType.userTypeId === '1'">
+        Update Password
+      </button>
+      <button mat-raised-button color="warn" matTooltip="Disable User" *ngIf="!isLoading"
+        (click)="toggleEnable(userData.user.userId)">
+        {{userData.user.enable ?
+        'Disable user' : 'Enable user'}}
+      </button>
+
+
+
     </mat-card-actions>
   </mat-card>
 </div>

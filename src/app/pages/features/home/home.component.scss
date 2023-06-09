@@ -1,6 +1,27 @@
+.page-container {
+  margin-top: 1em;
 
-.pie-chart-holder  {
-  justify-content: space-between!important;
+  box-sizing: border-box;
+
+  mat-card {
+    background-color: white;
+
+
+    mat-grid-tile {
+      font-size: 1em;
+      background: rgb(79, 166, 242);
+      color: white;
+      border-radius: 5px;
+    }
+  }
+
+}
+
+
+
+.pie-chart-holder {
+  justify-content: space-between !important;
+
   .filter-options {
     display: flex;
     flex-direction: row;
@@ -9,16 +30,19 @@
     column-gap: 10px;
   }
 }
-.chart-holder  {
-}
+
+.chart-holder {}
+
 #pieChart {
   display: flex;
 }
+
 #areaChart {
   max-width: 100%;
 }
+
 .page-view-container {
   mat-card {
-    margin-bottom: 10px!important;
+    margin-bottom: 10px !important;
   }
 }

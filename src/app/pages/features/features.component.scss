@@ -119,3 +119,15 @@ button.menu-button {
     }
   }
 }
+
+.foot {
+  background-color: transparent !important;
+  font-size: 1rem;
+  display: flex;
+  color: #808080;
+
+  a {
+    color: #808080;
+    text-decoration: none;
+  }
+}

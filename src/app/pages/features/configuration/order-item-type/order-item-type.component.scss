@@ -1,27 +1,45 @@
-table{
-    width: 100%;
-   }
-  
-   mat-table {
-    thead {
-     th {
-      .mat-cell {
-       word-wrap: break-word !important;
-       white-space: unset !important;
-       overflow-wrap: break-word;
-       word-wrap: break-word;
-       word-break: break-word;
-       -ms-hyphens: auto;
-       -moz-hyphens: auto;
-       -webkit-hyphens: auto;
-       hyphens: auto;
-      }
-     }
+.page-view-container {
+  .button {
+    cursor: pointer;
+    height: 45px !important;
+
+    &:hover {
+      background-color: #4593ff;
+      color: white;
     }
-  
-    tbody {
-      td {
-       .mat-cell {
+  }
+
+
+}
+
+table {
+  width: 100%;
+  ;
+
+  .primary {
+    background-color: rgb(32, 229, 32);
+    border-radius: 5px;
+
+    &:hover {
+      background-color: rgb(81, 255, 81);
+    }
+
+  }
+
+  .warning {
+    background-color: rgb(229, 91, 32);
+    border-radius: 5px;
+
+    &:hover {
+      background-color: rgb(255, 144, 96);
+    }
+  }
+}
+
+mat-table {
+  thead {
+    th {
+      .mat-cell {
         word-wrap: break-word !important;
         white-space: unset !important;
         overflow-wrap: break-word;
@@ -31,36 +49,54 @@ table{
         -moz-hyphens: auto;
         -webkit-hyphens: auto;
         hyphens: auto;
-       }
       }
-     }
-   }
-  
-  
-   .mat-column-name {
-    flex: 0 0 80% !important;
-    width: 80% !important;
-   }
-  
-   .mat-column-controls {
-     flex: 0 0 1% !important;
-     width: 1% !important;
-     padding-right: 0!important;
-   }
-  
-  
-   .table-no-data {
-    background-color: #ECEFF1;
-    padding: 20px;
-    color: #424242 !important;
-    span {
-      text-align: left;
-      font-size: 15px!important;
     }
   }
-  
-  .order-item-type-dialog {
-    max-width: 500px!important;
-    width: 500px!important;
+
+  tbody {
+    td {
+      .mat-cell {
+        word-wrap: break-word !important;
+        white-space: unset !important;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        word-break: break-word;
+        -ms-hyphens: auto;
+        -moz-hyphens: auto;
+        -webkit-hyphens: auto;
+        hyphens: auto;
+      }
+
+
+    }
   }
-  
+}
+
+
+.mat-column-name {
+  flex: 0 0 80% !important;
+  width: 80% !important;
+}
+
+.mat-column-controls {
+  flex: 0 0 1% !important;
+  width: 1% !important;
+  padding-right: 0 !important;
+}
+
+
+.table-no-data {
+  background-color: #ECEFF1;
+  padding: 20px;
+  color: #424242 !important;
+
+  span {
+    text-align: left;
+    font-size: 15px !important;
+  }
+}
+
+.order-item-type-dialog {
+  max-width: 500px !important;
+  width: 500px !important;
+}

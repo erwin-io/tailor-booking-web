@@ -1,14 +1,29 @@
-<div class="page-view-container">
+<div class="page-container">
   <mat-card>
     <mat-card-header>
-      <mat-card-subtitle>Dashboard</mat-card-subtitle>
       <div fxFlex></div>
+      <mat-card-title>Dashboard</mat-card-title>
+      <mat-card-subtitle>ipsum dolor sit amet</mat-card-subtitle>
     </mat-card-header>
+
+    <mat-card-content>
+      <mat-grid-list cols="2" rowHeight="4:1.5">
+        <mat-grid-tile><a href="/reservations"> Orders: {{dataSource.data.length}}</a></mat-grid-tile>
+        <mat-grid-tile>Total Orders: {{dataSource.data.length}}</mat-grid-tile>
+        <mat-grid-tile><a routerLink="/security/users/staff"> Available Tailors: {{ staffDataSource.data.length }}</a></mat-grid-tile>
+        <mat-grid-tile><a routerLink="/security/users/customers">Customers: {{ customerDataSource.data.length }}</a></mat-grid-tile>
+      </mat-grid-list>
+    </mat-card-content>
+
+    <!-- <mat-card-header>
+      <mat-card-subtitle>Copyright &copy; 2022 <a href="#">Arbon's Tailoring and Alterations</a></mat-card-subtitle>
+    </mat-card-header> -->
+
+    <!--     
     <mat-card-content>
       <div style="width: 100%; height: 600px; margin: 0 auto">
         <image-slider [slides]="slides"></image-slider>
       </div>
-      
-    </mat-card-content>
+    </mat-card-content> -->
   </mat-card>
 </div>
