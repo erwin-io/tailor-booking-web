@@ -62,10 +62,10 @@
       "getById": "users/",
       "createStaff": "users/staff",
       "createCustomer": "users/customer",
-      "udpdateCustomer": "users/customer",
-      "udpdateStaff": "users/staff",
+      "updateCustomer": "users/customer",
+      "updateStaff": "users/staff",
       "toggleEnable": "users/toggleEnable",
-      "udpdatePassword": "users/udpdatePassword",
+      "updatePassword": "users/updatePassword",
       "changePassword": "users/changePassword"
     },
     "role": "roles/",

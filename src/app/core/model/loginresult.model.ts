@@ -7,7 +7,7 @@ export class LoginResult {
   username: string;
   userType: UserType;
   fullName: string;
-  firtstName: string;
+  firstName: string;
   middleName: string;
   lastName: string;
   email: string;

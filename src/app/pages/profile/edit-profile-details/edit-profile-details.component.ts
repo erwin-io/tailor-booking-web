@@ -160,12 +160,12 @@ export class EditProfileDetailsComponent implements OnInit {
       try{
         this.isProcessing = true;
         const formData = this.formData;
-        await this.userService.udpdateStaff(formData)
+        await this.userService.updateStaff(formData)
           .subscribe(async res => {
             if (res.success) {
               console.log(res.data);
               this.currentUser.fullName = res.data.fullName;
-              this.currentUser.firtstName = res.data.firstName;
+              this.currentUser.firstName = res.data.firstName;
               this.currentUser.middleName = res.data.middleName;
               this.currentUser.lastName = res.data.lastName;
               this.currentUser.gender = res.data.gender;

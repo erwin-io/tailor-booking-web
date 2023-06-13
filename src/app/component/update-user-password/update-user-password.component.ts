@@ -88,7 +88,7 @@ export class UpdateUserPasswordComponent implements OnInit {
         try {
           await this.
           userService
-            .udpdatePassword(param)
+            .updatePassword(param)
             .subscribe(
               async (res) => {
                 if (res.success) {

@@ -221,7 +221,7 @@ export class EditUserComponent implements OnInit, AfterViewChecked  {
         this.isProcessing = true;
         const userData = this.formData;
         if(Number(this.userData.user.userType.userTypeId) === 1) {
-          await this.userService.udpdateStaff(userData)
+          await this.userService.updateStaff(userData)
             .subscribe(async res => {
               if (res.success) {
                 this.snackBar.snackbarSuccess('Saved!');
@@ -244,7 +244,7 @@ export class EditUserComponent implements OnInit, AfterViewChecked  {
               dialogRef.close();
             });
         } else {
-          await this.userService.udpdateCustomer(userData)
+          await this.userService.updateCustomer(userData)
             .subscribe(async res => {
               if (res.success) {
                 this.snackBar.snackbarSuccess('Saved!');

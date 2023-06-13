@@ -89,16 +89,16 @@ export class UserService implements IServices {
     );
   }
 
-  udpdateCustomer(data: any): Observable<ApiResponse<Customer>> {
-    return this.http.put<any>(environment.apiBaseUrl + this.appconfig.config.apiEndPoints.user.udpdateCustomer, data)
+  updateCustomer(data: any): Observable<ApiResponse<Customer>> {
+    return this.http.put<any>(environment.apiBaseUrl + this.appconfig.config.apiEndPoints.user.updateCustomer, data)
     .pipe(
       tap(_ => this.log('user')),
       catchError(this.handleError('user', []))
     );
   }
 
-  udpdateStaff(data: any): Observable<any> {
-    return this.http.put<any>(environment.apiBaseUrl + this.appconfig.config.apiEndPoints.user.udpdateStaff, data)
+  updateStaff(data: any): Observable<any> {
+    return this.http.put<any>(environment.apiBaseUrl + this.appconfig.config.apiEndPoints.user.updateStaff, data)
     .pipe(
       tap(_ => this.log('user')),
       catchError(this.handleError('user', []))
@@ -121,8 +121,8 @@ export class UserService implements IServices {
     );
   }
 
-  udpdatePassword(data: any): Observable<ApiResponse<Staff>> {
-    return this.http.put<any>(environment.apiBaseUrl + this.appconfig.config.apiEndPoints.user.udpdatePassword, data)
+  updatePassword(data: any): Observable<ApiResponse<Staff>> {
+    return this.http.put<any>(environment.apiBaseUrl + this.appconfig.config.apiEndPoints.user.updatePassword, data)
     .pipe(
       tap(_ => this.log('user')),
       catchError(this.handleError('user', []))
