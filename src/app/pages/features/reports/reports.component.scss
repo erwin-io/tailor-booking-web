@@ -1,0 +1,161 @@
+table{
+    width: 100%;
+   }
+   th.mat-sort-header-sorted {
+     color: black;
+   }
+  
+   mat-table {
+    thead {
+     th {
+      .mat-cell {
+       word-wrap: break-word !important;
+       white-space: unset !important;
+       overflow-wrap: break-word;
+       word-wrap: break-word;
+       word-break: break-word;
+       -ms-hyphens: auto;
+       -moz-hyphens: auto;
+       -webkit-hyphens: auto;
+       hyphens: auto;
+      }
+     }
+    }
+  
+    tbody {
+      td {
+       .mat-cell {
+        word-wrap: break-word !important;
+        white-space: unset !important;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        word-break: break-word;
+        -ms-hyphens: auto;
+        -moz-hyphens: auto;
+        -webkit-hyphens: auto;
+        hyphens: auto;
+       }
+      }
+     }
+   }
+  
+    ::ng-deep .table-reservation {
+      tr.mat-header-row {
+        .mat-header-cell {
+          padding-right: 20px!important;
+          &:last-child {
+            padding-right: 0!important;
+          }
+        }
+      }
+      tr.mat-row {
+        .mat-cell {
+          height: 80px!important;
+          padding-right: 20px!important;
+          &:last-child {
+            padding-right: 0!important;
+          }
+        }
+      }
+    }
+  
+   .mat-column-customerName {
+    flex: 0 0 25% !important;
+    width: 25% !important;
+   }
+  
+   .mat-column-amount {
+    flex: 0 0 10% !important;
+    width: 10% !important;
+   }
+  
+   .mat-column-paymentDate {
+    flex: 0 0 10% !important;
+    width: 10% !important;
+   }
+  
+   .mat-column-referenceNo {
+    flex: 0 0 15% !important;
+    width: 15% !important;
+   }
+  
+   .mat-column-paymentType {
+    flex: 0 0 5% !important;
+    width: 5% !important;
+   }
+
+   .mat-column-reservationCode {
+    flex: 0 0 10% !important;
+    width: 10% !important;
+    padding-left: 0!important;
+   }
+  
+   .mat-column-tailorName {
+    flex: 0 0 20% !important;
+    width: 20% !important;
+   }
+  
+  
+   @media only screen and (max-width: 768px) {
+    .mat-column-tailorName {
+      display: none!important;
+    }
+   }
+  
+   @media only screen and (max-width: 580px) {
+    .mat-column-reservationCode {
+      display: none!important;
+    }
+    .mat-column-tailorName {
+      display: none!important;
+    }
+   }
+  
+   @media only screen and (max-width: 414px) {
+    .mat-column-reservationCode {
+      display: none!important;
+    }
+    .mat-column-tailorName {
+      display: none!important;
+    }
+    .mat-column-paymentType {
+      display: none!important;
+    }
+   }
+  
+   .table-no-data {
+    background-color: #ECEFF1;
+    padding: 20px;
+    color: #424242 !important;
+    span {
+      text-align: left;
+      font-size: 15px!important;
+    }
+  }
+  
+  .mat-form-field,div {
+    &.isLargeScreen{
+      padding-right: 10px!important;
+      &:last-child {
+      padding-right: 0!important;
+      }
+    }
+  }
+  
+
+  .report-controls {
+    margin-bottom: 20px!important;
+    .report-controls-holder {
+      align-items: center!important;
+      @media only screen and (max-width: 959px) {
+        align-items: unset!important;
+      }
+      
+      ::ng-deep mat-form-field {
+        .mat-form-field-wrapper {
+          margin: 0!important;
+          padding: 0!important;
+        }
+      }
+    }
+  }

@@ -1,0 +1,88 @@
+.top-holder {
+    margin-top: 10px;
+    display: flex;
+    width: 100%;
+    flex-grow: 1;
+    height: auto;
+    margin: 20px;
+    .card-tray {
+        margin: 10px;
+        .card-holder {
+            height: auto;
+            mat-card {
+                display: flex;
+                color: #fff!important;
+                mat-card-content {
+                    display: flex;
+                    width: 100%;
+                    height: 100%;
+                    box-sizing: border-box;
+                    ngx-skeleton-loader {
+                        display: block;
+                        width: 100%;
+                        ::ng-deep .loader {
+                            margin: 0!important ;
+                        }
+                    }
+                }
+            }
+            &.card-box {
+                mat-card {
+                    height: 200px;
+                    background-image: url(../../../../../../assets/img/vector/graph.png);
+                    background-position: bottom;
+                    background-origin: border-box;
+                    background-size: cover;
+                    .details {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        .label {
+                            font-size: 2em;
+                            line-height: 1;
+                            margin: 0;
+                        }
+                        .value {
+                            font-size: 4em;
+                            font-weight: bold;
+                            line-height: 1;
+                            margin: 0;
+                        }
+                    }
+                    &.progress {
+                        background-color: #EDE7F6;
+                        mat-card-content {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            row-gap: 20px;
+                            ngx-skeleton-loader {
+                            }
+                        }
+                    }
+                }
+            }
+            &.card-list {
+                mat-card {
+                    align-items: center!important;
+                    min-height: 50px;
+                    .details {
+                        display: flex;
+                        flex-direction: row;
+                        .label {
+                            line-height: 1;
+                            margin: 0;
+                        }
+                        .value {
+                            font-size: 2em;
+                            font-weight: bold;
+                            line-height: 1;
+                            text-align: right;
+                            margin: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

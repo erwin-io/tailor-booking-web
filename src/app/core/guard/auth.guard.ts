@@ -18,7 +18,6 @@ export class AuthGuard implements CanActivate {
   async canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Promise<boolean> {
-      console.log(next);
     const url: string = state.url;
     // this.checkURLRedirect(url, next.queryParams ? Object.entries(next.queryParams) : []);
     if (this.storageService.getSessionExpiredDate()) {
@@ -29,7 +28,6 @@ export class AuthGuard implements CanActivate {
       const diffTime = today - sessionExpiredDate;
       if (diffTime > 0) {
         this.authService.redirectUrl = url;
-        console.log('session expire line 32');
         const user = this.storageService.getLoginUser();
         await this.authService.logout(user?.userId);
         return false;
@@ -39,7 +37,6 @@ export class AuthGuard implements CanActivate {
       }
     } else {
       this.authService.redirectUrl = url;
-      console.log('session expire line 41');
       const user = this.storageService.getLoginUser();
       await this.authService.logout(user?.userId);
       return false;
@@ -98,7 +95,6 @@ export class AuthGuard implements CanActivate {
     } else {
       newPath = path;
     }
-    console.log(newPath + "");
     this.router.navigate([newPath], { replaceUrl: true, queryParams: { redirected: 'true' }});
   }
 

@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { BYPASS_LOG } from '../interceptors/token.interceptors';
 import { ApiResponse } from '../model/api-response.model';
 import { AppConfigService } from './app-config.service';
+import { SalesModel } from '../model/sales.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,16 +13,19 @@ import { AppConfigService } from './app-config.service';
 export class ReportsService {
   constructor(private http: HttpClient, private appconfig: AppConfigService) {}
 
-  getPaymentsInvoice(params: any): Observable<any> {
-    const config: any = {params, responseType: 'blob'};
+  getSalesAdvance(params: any): Observable<ApiResponse<SalesModel[]>> {
     return this.http
       .get<any>(
         environment.apiBaseUrl +
-          this.appconfig.config.apiEndPoints.reports.getPaymentsInvoice,
-          config,
+          this.appconfig.config.apiEndPoints.reports.getSalesAdvance,
+          {params}
+      )
+      .pipe(
+        tap((_) => this.log('reports')),
+        catchError(this.handleError('reports', []))
       );
   }
-  
+
   handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       this.log(

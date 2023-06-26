@@ -1,0 +1,21 @@
+
+<mat-form-field appearance="outline" fxFlex="100" 
+(click)="pickerYear.open()">
+    <mat-label>Select year</mat-label>
+    <input
+      matInput
+      placeholder="To"
+      [formControl]="yearCtrl"
+      [matDatepicker]="pickerYear"
+      [max]="yearCtrl"
+      readonly="true"
+    />
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="pickerYear"
+    ></mat-datepicker-toggle>
+    <mat-datepicker #pickerYear 
+    panelClass="multi-year"
+    (yearSelected)="pickerYear.close();selected($event)"
+    startView="multi-year"></mat-datepicker>
+  </mat-form-field>

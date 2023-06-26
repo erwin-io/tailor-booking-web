@@ -100,7 +100,7 @@
             </mat-form-field>
           </div>
         </div>
-        <div fxFlex="100" [ngClass]="{ 'hidden': isLoading }">
+        <div fxFlex="100" [ngClass]="{ 'hidden': isLoading }" class="table-holder">
           <table class="table-reservation" mat-table matSort [dataSource]="dataSource" >
 
             <ng-container matColumnDef="reservationCode">

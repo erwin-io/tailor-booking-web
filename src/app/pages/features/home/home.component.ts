@@ -24,51 +24,19 @@ import { SlideInterface } from 'src/app/shared/image-slider/types/slide.interfac
 import { DeviceDetectorService } from 'ngx-device-detector';
 
 
-
-export type ChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  xaxis: ApexXAxis;
-  stroke: ApexStroke;
-  tooltip: ApexTooltip;
-  dataLabels: ApexDataLabels;
-};
-
-export type PieChartOptions = {
-  series: ApexNonAxisChartSeries;
-  chart: ApexChart;
-  responsive: ApexResponsive[];
-  labels: any;
-};
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  isLoading;
   user: LoginResult;
-
-  summary: any[];
-  vetSummary: any[];
-  slides: SlideInterface[] = [
-    { url: '../../../../assets/img/vector/app_banner-long.png', title: 'banner' },
-    { url: '../../../../assets/img/vector/home-banner-contact.jpg', title: 'contact' },
-    { url: '../../../../assets/img/vector/home-banner-black.jpg', title: 'black' }
-  ];
   constructor(
-    private deviceService: DeviceDetectorService,
-    private storageService: StorageService,
-    private dialog: MatDialog,
-    private snackBar: Snackbar
-  ) {
+    private storageService: StorageService) {
     this.user = this.storageService.getLoginUser();
   }
 
   ngOnInit(): void {
-    const device = this.deviceService.getDeviceInfo();
-    this.storageService.saveDeviceInfo(JSON.stringify(device));
   }
 
 }

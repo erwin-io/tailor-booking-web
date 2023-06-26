@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PrintDialogComponent } from './print-dialog.component';
+import { InternalBodyComponent } from './internal-body.component';
 
-describe('PrintDialogComponent', () => {
-  let component: PrintDialogComponent;
-  let fixture: ComponentFixture<PrintDialogComponent>;
+describe('InternalBodyComponent', () => {
+  let component: InternalBodyComponent;
+  let fixture: ComponentFixture<InternalBodyComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PrintDialogComponent ]
+      declarations: [ InternalBodyComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PrintDialogComponent);
+    fixture = TestBed.createComponent(InternalBodyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

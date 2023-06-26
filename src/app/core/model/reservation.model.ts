@@ -18,6 +18,9 @@ export class Reservation {
   serviceFee: number;
   payments: Payment[];
   otherFee: number = 0;
+  submitItemsBeforeDateTime: Date;
+  toPickupDateTime: Date;
+  reasonToDecline: string;
 }
 
 export class ReservationStatus {

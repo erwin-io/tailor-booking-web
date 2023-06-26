@@ -1,0 +1,65 @@
+@font-face {
+    font-family: "report-font";
+    src: url("../fonts/Poppins-Regular.ttf");
+}
+
+* {
+    font-family: "report-font";
+    font-smooth: 2em!important;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+text-rendering: optimizeLegibility !important;
+-webkit-font-smoothing: antialiased !important;
+}
+  #title {
+    text-align: center;
+    padding-top: 30px;
+  }
+  #sub-title {
+    padding-top: 10px;
+    text-align: center;
+    padding-bottom: 30px;
+  }
+  
+  .table-bordered {
+    border: 1px solid #ddd !important;
+  }
+  
+  table caption {
+      padding: .5em 0;
+  }
+  
+  @media screen and (max-width: 767px) {
+    table caption {
+      display: none;
+    }
+  }
+  
+  .p {
+    text-align: center;
+    padding-top: 140px;
+    font-size: 14px;
+  }
+
+  .container.table {
+    margin: 0;
+  }
+
+  .row.table {
+    margin: 0;
+  }
+
+  table {
+    font-size: 1em;
+    white-space: normal!important;
+    overflow-wrap: anywhere!important;
+}
+
+.text-left {
+  text-align: left;
+}
+
+@media print {
+  table {
+    font-size: 0.7em!important;
+  }
+}

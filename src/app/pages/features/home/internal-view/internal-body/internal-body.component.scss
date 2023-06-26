@@ -1,0 +1,23 @@
+.body-holder {
+    display: flex;
+    width: auto;
+    height: auto;
+    flex-grow: 1;
+    margin: 20px;
+    flex-direction: column;
+    flex-grow: 1;
+    mat-card {
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+        ::ng-deep #salesChart {
+            width: 100%!important;
+            .apexcharts-canvas {
+                width: 100%!important;
+                .apexcharts-svg {
+                    width: 100%!important;
+                }
+            }
+        }
+    }
+}

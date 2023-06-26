@@ -1,0 +1,21 @@
+
+<mat-form-field appearance="outline" fxFlex="100"
+(click)="pickerMonth.open()">
+    <mat-label>Select month</mat-label>
+    <input
+      matInput
+      placeholder="To"
+      [formControl]="monthCtrl"
+      [matDatepicker]="pickerMonth"
+      [max]="maxDate"
+      readonly="true"
+    />
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="pickerMonth"
+    ></mat-datepicker-toggle>
+    <mat-datepicker #pickerMonth 
+    panelClass="multi-year"
+    (monthSelected)="pickerMonth.close();selected($event)"
+    startView="multi-year"></mat-datepicker>
+  </mat-form-field>

@@ -33,8 +33,10 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { AddPaymentComponent } from './component/add-payment/add-payment.component';
 import { UpdateReferenceNumberComponent } from './component/update-reference-number/update-reference-number.component';
 import { ReceiptComponent } from './pages/receipt/receipt.component';
-import { PrintDialogComponent } from './component/print-dialog/print-dialog.component';
 import { UserLogsComponent } from './pages/features/user-logs/user-logs.component';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { DateConstant } from './core/constant/date.constant';
+import { MatYearMonthPickerModule } from './component/mat-year-month-picker/mat-year-month-picker.module';
 
 
 @NgModule({
@@ -57,7 +59,6 @@ import { UserLogsComponent } from './pages/features/user-logs/user-logs.componen
     AddPaymentComponent,
     UpdateReferenceNumberComponent,
     ReceiptComponent,
-    PrintDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,7 +72,9 @@ import { UserLogsComponent } from './pages/features/user-logs/user-logs.componen
     FormsModule,
     ReactiveFormsModule,
     MatTimepickerModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    NgxMaterialTimepickerModule,
+    MatYearMonthPickerModule
   ],
   providers: [
     CallService,

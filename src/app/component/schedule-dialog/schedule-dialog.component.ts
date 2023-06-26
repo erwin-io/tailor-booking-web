@@ -16,6 +16,7 @@ import { AlertDialogModel } from 'src/app/shared/alert-dialog/alert-dialog-model
 import { AlertDialogComponent } from 'src/app/shared/alert-dialog/alert-dialog.component';
 import * as moment from 'moment';
 import { Snackbar } from 'src/app/core/ui/snackbar';
+import { DateConstant } from 'src/app/core/constant/date.constant';
 @Component({
   selector: 'app-schedule-dialog',
   templateUrl: './schedule-dialog.component.html',
@@ -24,8 +25,8 @@ import { Snackbar } from 'src/app/core/ui/snackbar';
 })
 export class ScheduleDialogComponent implements OnInit {
   data: any;
-  time;
-  date: FormControl = new FormControl();
+  dateCtrl: FormControl = new FormControl();
+  timeCtrl: FormControl = new FormControl();
   // time:FormControl = new FormControl([null, Validators.required]);
   defaultValue: Date;
   isProcessing = false;
@@ -42,24 +43,28 @@ export class ScheduleDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<ScheduleDialogComponent>
   ) {
     dialogRef.disableClose = true;
-    this.date.addValidators([Validators.required]);
+    this.dateCtrl.addValidators([Validators.required]);
   }
   ngOnInit(): void {
-    this.date.setValue(this.data.date);
-    this.time = this.data.time;
+    this.dateCtrl.setValue(this.data.date);
+    this.timeCtrl.setValue(moment(this.data.time, DateConstant.DATE_LANGUAGE).format("hh:mm a"));
   }
 
   get formValid() {
     return (
-      this.date.valid &&
-      this.canSelectTime ? (this.time &&
-      (this.data.date != this.date.value ||
-        this.time != this.data.time)) : true
+      this.dateCtrl.valid &&
+      this.canSelectTime ? this.timeCtrl.valid : true
     );
   }
 
   onSubmit(): void {
     if (this.formValid) {
+      const param = {
+        date: moment(this.dateCtrl.value).format(
+          'YYYY-MM-DD'
+        ),
+        time: this.canSelectTime ? this.timeCtrl.value : null,
+      };
       const dialogData = new AlertDialogModel();
       dialogData.title = 'Confirm date';
       dialogData.confirmButton = {
@@ -81,12 +86,6 @@ export class ScheduleDialogComponent implements OnInit {
         if (confirmed) {
           this.isProcessing = true;
           dialogRef.componentInstance.isProcessing = this.isProcessing;
-          const param = {
-            date: moment(this.date.value).format(
-              'YYYY-MM-DD'
-            ),
-            time: this.canSelectTime ? moment(this.time).format('hh:mm') : null,
-          };
           this.isProcessing = false;
           dialogRef.componentInstance.isProcessing = this.isProcessing;
           dialogRef.close();

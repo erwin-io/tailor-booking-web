@@ -91,11 +91,11 @@ export class ReservationService implements IServices {
       );
   }
 
-  updateReservationStatus(data: any): Observable<ApiResponse<Reservation>> {
+  approveOrder(data: any): Observable<ApiResponse<Reservation>> {
     return this.http
       .put<any>(
         environment.apiBaseUrl +
-          this.appconfig.config.apiEndPoints.reservation.updateReservationStatus,
+          this.appconfig.config.apiEndPoints.reservation.approveOrder,
         data
       )
       .pipe(
@@ -109,6 +109,32 @@ export class ReservationService implements IServices {
       .put<any>(
         environment.apiBaseUrl +
           this.appconfig.config.apiEndPoints.reservation.processOrder,
+        data
+      )
+      .pipe(
+        tap((_) => this.log('reservation')),
+        catchError(this.handleError('reservation', []))
+      );
+  }
+
+  completeOrder(data: any): Observable<ApiResponse<Reservation>> {
+    return this.http
+      .put<any>(
+        environment.apiBaseUrl +
+          this.appconfig.config.apiEndPoints.reservation.completeOrder,
+        data
+      )
+      .pipe(
+        tap((_) => this.log('reservation')),
+        catchError(this.handleError('reservation', []))
+      );
+  }
+
+  declineOrder(data: any): Observable<ApiResponse<Reservation>> {
+    return this.http
+      .put<any>(
+        environment.apiBaseUrl +
+          this.appconfig.config.apiEndPoints.reservation.declineOrder,
         data
       )
       .pipe(

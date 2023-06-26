@@ -42,7 +42,29 @@
       {
         "roleId": "5",
         "name": "Guest"
-      }]
+      }],
+    "resultType": [
+      {
+        "resultTypeId": 1,
+        "name": "Daily"
+      },
+      {
+        "resultTypeId": 2,
+        "name": "Weekly"
+      },
+      {
+        "resultTypeId": 3,
+        "name": "Monthly"
+      },
+      {
+        "resultTypeId": 4,
+        "name": "Yearly"
+      },
+      {
+        "resultTypeId": 5,
+        "name": "Custom"
+      }
+    ]
   },
   "apiEndPoints": {
     "auth": {
@@ -76,8 +98,10 @@
       "getReservationForADay": "reservation/getReservationForADay/",
       "createReservation": "reservation/createReservation",
       "rescheduleReservation": "reservation/rescheduleReservation",
-      "updateReservationStatus": "reservation/updateReservationStatus",
-      "processOrder": "reservation/processOrder"
+      "approveOrder": "reservation/approveOrder",
+      "processOrder": "reservation/processOrder",
+      "completeOrder": "reservation/completeOrder",
+      "declineOrder": "reservation/declineOrder"
     },
     "dashboard": {
     },
@@ -93,10 +117,17 @@
       "updateReferenceNumber": "payments/updateReferenceNumber/"
     },
     "reports": {
-      "getPaymentsInvoice": "reports/getPaymentsInvoice"
+      "getSalesAdvance": "reports/getSalesAdvance"
     },
     "activityLog": {
       "getUserLogActivity": "activity-log/getUserLogActivity"
+    },
+    "monitoring": {
+      "getTotalCustomers": "monitoring/getTotalCustomers",
+      "getTotalCorporatePeople": "monitoring/getTotalCorporatePeople",
+      "getTotalSales": "monitoring/getTotalSales",
+      "getTotalClosedBooking": "monitoring/getTotalClosedBooking",
+      "getReservationMonitoring": "monitoring/getReservationMonitoring"
     }
   }
 }

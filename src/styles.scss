@@ -494,12 +494,24 @@ app-features,app-profile {
    }
  }
 
- mat-dialog-container {
-  margin: 20px!important;
- }
-
  .mat-dialog-actions {
   button {
     text-transform: uppercase!important;
+  }
+}
+
+ngx-material-timepicker-container {
+  .timepicker-overlay {
+    z-index: 1000!important;
+  }
+}
+
+.mat-datepicker-popup {
+  .mat-calendar{
+    &.multi-year {
+      .mat-calendar-period-button {
+        display: none!important;
+      }
+    }
   }
 }

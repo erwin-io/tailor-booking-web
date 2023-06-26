@@ -44,6 +44,7 @@
             </div>
             <div *ngIf="allowedAction.payment" >
               <div *ngIf="!isLoading; else elseLoadingPayment" fxFlex="100">
+                <iframe src="../../../../../assets/receipt/index.html" style="visibility: hidden!important;height: 0!important;" (load)="prepareReceipt()" #receiptFrame ></iframe>
                 <h4 class="action-header-text">Payments</h4>
                 <p class="action-header-text">Status: <strong [ngStyle]="{ 'color' : isPaid ? '#00BFA5;': '#f44336;' }">{{isPaid ? 'Paid' : 'Unpaid'}}</strong></p>
                 <p *ngIf="isPaid" class="action-header-text">Payment type: <strong>{{ payment.paymentType.name }}</strong></p>
@@ -98,310 +99,410 @@
           </div>
         </div>
         <div fxFlex.gt-xs="65%" fxFlex.gt-md="80%" fxLayout="column" fxLayoutGap="20px">
-          <div fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="20px">
-            <mat-card fxFlex="100">
-              <mat-card-header>
-                <mat-card-subtitle><strong>Reservation details</strong></mat-card-subtitle>
-                <div fxFlex></div>
-                <div *ngIf="!isLoading">
-                  <h4>Status:
-                    <strong *ngIf="reservation.reservationStatus.reservationStatusId === '1'" style="color: #FFC107;">{{reservation.reservationStatus.name}}</strong>
-                    <strong *ngIf="reservation.reservationStatus.reservationStatusId === '2'" style="color: #009688;">{{reservation.reservationStatus.name}}</strong>
-                    <strong *ngIf="reservation.reservationStatus.reservationStatusId === '3'" style="color: #03A9F4;">{{reservation.reservationStatus.name}}</strong>
-                    <strong *ngIf="reservation.reservationStatus.reservationStatusId === '4'" style="color: #FF5722;">{{reservation.reservationStatus.name}}</strong>
-                  </h4>
-                </div>
-              </mat-card-header>
-  
-              <mat-card-content fxLayout="column">
-                <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
-                  <!-- Reservation Code -->
-                  <mat-list
-                    *ngIf="!isLoading; else elseLoadingLoadingReservationCode">
-                    <mat-list-item >
-                      <div mat-line>
-                        <strong>{{ reservation.reservationCode }}</strong>
-                      </div>
-                    </mat-list-item>
-                  </mat-list>
-                  <ng-template #elseLoadingLoadingReservationCode>
-                    <mat-list-item>
-                      <div mat-line>
-                        <ngx-skeleton-loader
-                          fxFlex
-                          [theme]="{ height: '20px', width: '20%' }"
-                        ></ngx-skeleton-loader>
-                      </div>
-                      <div mat-line>
-                        <ngx-skeleton-loader
-                          fxFlex
-                          [theme]="{ height: '20px', width: '20%' }"
-                        ></ngx-skeleton-loader>
-                      </div>
-                    </mat-list-item>
-                  </ng-template>
-                  <!-- end -->
-                  <!-- Reservation type -->
-                  <mat-list
-                    *ngIf="!isLoading; else elseLoadingLoadingReservationLevel">
-                    <mat-list-item >
-                      <mat-icon mat-list-icon>check_box</mat-icon>
-                      <div mat-line>
-                        <strong>{{ reservation.reservationLevel.name }}</strong>
-                      </div>
-                      <div mat-line>Reservation Level</div>
-                    </mat-list-item>
-                  </mat-list>
-                  <ng-template #elseLoadingLoadingReservationLevel>
-                    <mat-list-item>
-                      <div mat-line>
-                        <ngx-skeleton-loader
-                          fxFlex
-                          [theme]="{ height: '20px', width: '20%' }"
-                        ></ngx-skeleton-loader>
-                      </div>
-                      <div mat-line>
-                        <ngx-skeleton-loader
-                          fxFlex
-                          [theme]="{ height: '20px', width: '20%' }"
-                        ></ngx-skeleton-loader>
-                      </div>
-                    </mat-list-item>
-                  </ng-template>
-                  <!-- end -->
-                  <!-- Customer info -->
-                  <mat-list *ngIf="!isLoading; else elseLoadingLoadingCustomerInfo">
-                    <mat-list-item mat-ripple style="cursor: pointer" (click)="viewCustomerInfo(reservation.customer.user.userId)">
-                      <mat-icon mat-list-icon>person</mat-icon>
-                      <div mat-line>
-                        <strong>{{reservation.customer.fullName}}</strong>
-                      </div>
-                      <div mat-line>
-                        {{ reservation.customer.mobileNumber }}
-                      </div>
-                      <mat-icon
-                        style="position: absolute; right: 0 !important"
-                        mat-list-icon
-                        >keyboard_arrow_right</mat-icon>
-                    </mat-list-item>
-                  </mat-list>
-                  <ng-template #elseLoadingLoadingCustomerInfo>
-                    <mat-list-item>
-                      <mat-icon mat-list-icon>person</mat-icon>
-                      <div mat-line>
-                        <ngx-skeleton-loader
-                          fxFlex
-                          [theme]="{ height: '20px', width: '20%' }"
-                        ></ngx-skeleton-loader>
-                      </div>
-                      <div mat-line>
-                        <ngx-skeleton-loader
-                          fxFlex
-                          [theme]="{ height: '20px', width: '20%' }"
-                        ></ngx-skeleton-loader>
-                      </div>
-                    </mat-list-item>
-                  </ng-template>
-                  <!-- end -->
-                  <mat-divider></mat-divider>
-                  <!-- Reservation schedule -->
-                  <mat-list *ngIf="!isLoading; else elseLoadingLoadingCustomerInfo">
-                    <mat-list-item>
-                      <mat-icon mat-list-icon>date_range</mat-icon>
-                      <div mat-line>
-                        <strong>{{ reservation.reqCompletionDate | date: 'MMM dd, yyyy' }}</strong>
-                      </div>
-                    </mat-list-item>
-                  </mat-list>
-                  <ng-template #elseLoadingLoadingCustomerInfo>
-                    <mat-list-item>
-                      <mat-icon mat-list-icon>event_note</mat-icon>
-                      <div mat-line>
-                        <ngx-skeleton-loader
-                          fxFlex
-                          [theme]="{ height: '20px', width: '20%' }"
-                        ></ngx-skeleton-loader>
-                      </div>
-                      <div mat-line>
-                        <ngx-skeleton-loader
-                          fxFlex
-                          [theme]="{ height: '20px', width: '20%' }"
-                        ></ngx-skeleton-loader>
-                      </div>
-                    </mat-list-item>
-                  </ng-template>
-                  <!-- end -->
-                  <mat-divider></mat-divider>
-                  <!-- Remarks -->
-                  <mat-list *ngIf="!isLoading; else elseLoadingLoadingRemarks">
-                    <mat-list-item>
-                      <mat-icon mat-list-icon>comment</mat-icon>
-                      <div mat-line><strong>Remarks</strong></div>
-                      <div mat-line>{{ reservation.remarks }}</div>
-                    </mat-list-item>
-                  </mat-list>
-                  <ng-template #elseLoadingLoadingRemarks>
-                    <mat-list-item>
-                      <mat-icon mat-list-icon>comment</mat-icon>
-                      <div mat-line>
-                        <ngx-skeleton-loader
-                          fxFlex
-                          [theme]="{ height: '20px', width: '20%' }"
-                        ></ngx-skeleton-loader>
-                      </div>
-                      <div mat-line>
-                        <ngx-skeleton-loader
-                          fxFlex
-                          [theme]="{ height: '20px', width: '20%' }"
-                        ></ngx-skeleton-loader>
-                      </div>
-                    </mat-list-item>
-                  </ng-template>
-                  <!-- end -->
-                </div>
-                <br />
-              </mat-card-content>
-            </mat-card>
-          </div>
-          <div fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="20px"  *ngIf="!isLoading && reservation.reservationStatus.reservationStatusId !== '1'">
-            <mat-card fxFlex="100">
-              <mat-card-header>
-                <mat-card-subtitle><strong>Assigned Person</strong></mat-card-subtitle>
-                <div fxFlex></div>
-              </mat-card-header>
-  
-              <mat-card-content fxLayout="column">
-                <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
-                  <!-- Assigned person info -->
-                  <mat-list *ngIf="!isLoading; else elseLoadingLoadingCustomerInfo">
-                    <mat-list-item mat-ripple style="cursor: pointer" (click)="reservation.reservationStatus.reservationStatusId === '2' ? assign() : false">
-                      <mat-icon mat-list-icon>person</mat-icon>
-                      <div mat-line>
-                        <strong>{{assignedStaff ? assignedStaff.fullName : 'Click to assign'}}</strong>
-                      </div>
-                      <mat-icon
-                        style="position: absolute; right: 0 !important"
-                        mat-list-icon
-                        >keyboard_arrow_right</mat-icon>
-                    </mat-list-item>
-                  </mat-list>
-                  <ng-template #elseLoadingLoadingCustomerInfo>
-                    <mat-list-item>
-                      <mat-icon mat-list-icon>person</mat-icon>
-                      <div mat-line>
-                        <ngx-skeleton-loader
-                          fxFlex
-                          [theme]="{ height: '20px', width: '20%' }"
-                        ></ngx-skeleton-loader>
-                      </div>
-                    </mat-list-item>
-                  </ng-template>
-                  <!-- end -->
-                  <!-- Estimated date -->
-                  <mat-list *ngIf="!isLoading; else elseLoadingLoadingCustomerInfo">
-                    <mat-list-item mat-ripple style="cursor: pointer" (click)="reservation.reservationStatus.reservationStatusId === '2' ? selectCompletionDate() : false">
-                      <mat-icon mat-list-icon>date_range</mat-icon>
-                      <div mat-line>
-                        <strong>{{reservation.estCompletionDate && reservation.estCompletionDate !== "" ? reservation.estCompletionDate : 'Click to select date'}}</strong>
-                      </div>
-                      <mat-icon
-                        style="position: absolute; right: 0 !important"
-                        mat-list-icon
-                        >keyboard_arrow_right</mat-icon>
-                    </mat-list-item>
-                  </mat-list>
-                  <ng-template #elseLoadingLoadingCustomerInfo>
-                    <mat-list-item>
-                      <mat-icon mat-list-icon>date_range</mat-icon>
-                      <div mat-line>
-                        <ngx-skeleton-loader
-                          fxFlex
-                          [theme]="{ height: '20px', width: '20%' }"
-                        ></ngx-skeleton-loader>
-                      </div>
-                    </mat-list-item>
-                  </ng-template>
-                  <!-- end -->
-                  <!-- Service fee -->
-                  <div fxFlex="100" fxLayout="column" fxLayout.gt-sm="row" *ngIf="!isLoading; else elseLoadingLoadingServiceFee">
-                    <div fxFlex="100" fxLayout="column" style="margin: 20px 20px 0 20px;" *ngIf="['2'].includes(reservationStatusId.toString())">
-                      <mat-label fxFlex="100" fxLayout="row">Service Fee</mat-label>
-                      <mat-form-field appearance="outline" fxFlex="100" fxLayout="column">
-                        <mat-label>Service Fee</mat-label>
-                        <input
-                          matInput
-                          type="number"
-                          placeholder="Service Fee"
-                          [formControl]="serviceFee" (change)="serviceFeeChange(serviceFee?.value)">
-                          <mat-error *ngIf="serviceFee.errors && serviceFee.errors.required">{{'Please enter service fee amount'}}</mat-error>
-                      </mat-form-field>
-                    </div>
-                    <div fxFlex="100" fxLayout="column" fxLayout.gt-sm="row" *ngIf="['3','4'].includes(reservationStatusId.toString())">
-                      <mat-list >
-                        <mat-list-item>
-                          <mat-icon mat-list-icon>payment</mat-icon>
-                          <div mat-line>
-                            <strong>₱ {{serviceFeeValue}}</strong>
-                          </div>
-                          <div mat-line>Service fee</div>
-                        </mat-list-item>
-                      </mat-list>
-                    </div>
+          <div fxLayout="column" fxLayoutGap="20px">
+
+            <!-- Reservation details -->
+            <div fxFlex="100" >
+              <mat-accordion class="example-headers-align" multi>
+                <mat-expansion-panel 
+                  [expanded]="isLoading ? false : ['1','4','5','6'].includes(reservationStatusId.toString())" 
+                  [disabled]="isLoading ? true : ['1','4','5','6'].includes(reservationStatusId.toString())">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title fxFlex="100" >
+                      <div fxFlex="100" style="display: flex; color: #000;">Reservation details(
+                      <div *ngIf="!isLoading">
+                        
+                        <strong *ngIf="reservation.reservationStatus.reservationStatusId === '1'" style="color: #FFC107;">{{reservation.reservationStatus.name}}</strong>
+                        <strong *ngIf="reservation.reservationStatus.reservationStatusId === '2'" style="color: #009688;">{{reservation.reservationStatus.name}}</strong>
+                        <strong *ngIf="reservation.reservationStatus.reservationStatusId === '3'" style="color: #03A9F4;">{{reservation.reservationStatus.name}}</strong>
+                        <strong *ngIf="reservation.reservationStatus.reservationStatusId === '4'" style="color: #009688;">{{reservation.reservationStatus.name}}</strong>
+                        <strong *ngIf="reservation.reservationStatus.reservationStatusId === '5'" style="color: #FF5722;">{{reservation.reservationStatus.name}}</strong>
+                        <strong *ngIf="reservation.reservationStatus.reservationStatusId === '6'" style="color: #FF5722;">{{reservation.reservationStatus.name}}</strong>
+                       
+                      </div> )</div>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+
+                  <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
+                    <!-- Reservation Code -->
+                    <mat-list
+                      *ngIf="!isLoading; else elseLoadingLoadingReservationCode">
+                      <mat-list-item >
+                        <div mat-line>
+                          <strong>{{ reservation.reservationCode }}</strong>
+                        </div>
+                      </mat-list-item>
+                    </mat-list>
+                    <ng-template #elseLoadingLoadingReservationCode>
+                      <mat-list-item>
+                        <div mat-line>
+                          <ngx-skeleton-loader
+                            fxFlex
+                            [theme]="{ height: '20px', width: '20%' }"
+                          ></ngx-skeleton-loader>
+                        </div>
+                        <div mat-line>
+                          <ngx-skeleton-loader
+                            fxFlex
+                            [theme]="{ height: '20px', width: '20%' }"
+                          ></ngx-skeleton-loader>
+                        </div>
+                      </mat-list-item>
+                    </ng-template>
+                    <!-- end -->
+                    <!-- Reservation type -->
+                    <mat-list
+                      *ngIf="!isLoading; else elseLoadingLoadingReservationLevel">
+                      <mat-list-item >
+                        <mat-icon mat-list-icon>check_box</mat-icon>
+                        <div mat-line>
+                          <strong>{{ reservation.reservationLevel.name }}</strong>
+                        </div>
+                        <div mat-line>Reservation Level</div>
+                      </mat-list-item>
+                    </mat-list>
+                    <ng-template #elseLoadingLoadingReservationLevel>
+                      <mat-list-item>
+                        <div mat-line>
+                          <ngx-skeleton-loader
+                            fxFlex
+                            [theme]="{ height: '20px', width: '20%' }"
+                          ></ngx-skeleton-loader>
+                        </div>
+                        <div mat-line>
+                          <ngx-skeleton-loader
+                            fxFlex
+                            [theme]="{ height: '20px', width: '20%' }"
+                          ></ngx-skeleton-loader>
+                        </div>
+                      </mat-list-item>
+                    </ng-template>
+                    <!-- end -->
+                    <!-- Customer info -->
+                    <mat-list *ngIf="!isLoading; else elseLoadingLoadingCustomerInfo">
+                      <mat-list-item mat-ripple style="cursor: pointer" (click)="viewCustomerInfo(reservation.customer.user.userId)">
+                        <mat-icon mat-list-icon>person</mat-icon>
+                        <div mat-line>
+                          <strong>{{reservation.customer.fullName}}</strong>
+                        </div>
+                        <div mat-line>
+                          {{ reservation.customer.mobileNumber }}
+                        </div>
+                        <mat-icon
+                          style="position: absolute; right: 0 !important"
+                          mat-list-icon
+                          >keyboard_arrow_right</mat-icon>
+                      </mat-list-item>
+                    </mat-list>
+                    <ng-template #elseLoadingLoadingCustomerInfo>
+                      <mat-list-item>
+                        <mat-icon mat-list-icon>person</mat-icon>
+                        <div mat-line>
+                          <ngx-skeleton-loader
+                            fxFlex
+                            [theme]="{ height: '20px', width: '20%' }"
+                          ></ngx-skeleton-loader>
+                        </div>
+                        <div mat-line>
+                          <ngx-skeleton-loader
+                            fxFlex
+                            [theme]="{ height: '20px', width: '20%' }"
+                          ></ngx-skeleton-loader>
+                        </div>
+                      </mat-list-item>
+                    </ng-template>
+                    <!-- end -->
+                    <mat-divider></mat-divider>
+                    <!-- Reservation schedule -->
+                    <mat-list *ngIf="!isLoading; else elseLoadingLoadingCustomerInfo">
+                      <mat-list-item>
+                        <mat-icon mat-list-icon>date_range</mat-icon>
+                        <div mat-line>
+                          <strong>{{ reservation.reqCompletionDate | date: 'MMM dd, yyyy' }}</strong>
+                        </div>
+                        <div mat-line>
+                          Required completion date
+                        </div>
+                      </mat-list-item>
+                    </mat-list>
+                    
+                    <ng-template #elseLoadingLoadingCustomerInfo>
+                      <mat-list-item>
+                        <mat-icon mat-list-icon>event_note</mat-icon>
+                        <div mat-line>
+                          <ngx-skeleton-loader
+                            fxFlex
+                            [theme]="{ height: '20px', width: '20%' }"
+                          ></ngx-skeleton-loader>
+                        </div>
+                        <div mat-line>
+                          <ngx-skeleton-loader
+                            fxFlex
+                            [theme]="{ height: '20px', width: '20%' }"
+                          ></ngx-skeleton-loader>
+                        </div>
+                      </mat-list-item>
+                    </ng-template>
+                    <!-- end -->
+                    <mat-divider></mat-divider>
+                    <!-- Remarks -->
+                    <mat-list *ngIf="!isLoading; else elseLoadingLoadingRemarks">
+                      <mat-list-item>
+                        <mat-icon mat-list-icon>comment</mat-icon>
+                        <div mat-line><strong>Remarks</strong></div>
+                        <div mat-line>{{ reservation.remarks }}</div>
+                      </mat-list-item>
+                    </mat-list>
+                    <ng-template #elseLoadingLoadingRemarks>
+                      <mat-list-item>
+                        <mat-icon mat-list-icon>comment</mat-icon>
+                        <div mat-line>
+                          <ngx-skeleton-loader
+                            fxFlex
+                            [theme]="{ height: '20px', width: '20%' }"
+                          ></ngx-skeleton-loader>
+                        </div>
+                        <div mat-line>
+                          <ngx-skeleton-loader
+                            fxFlex
+                            [theme]="{ height: '20px', width: '20%' }"
+                          ></ngx-skeleton-loader>
+                        </div>
+                      </mat-list-item>
+                    </ng-template>
+                    <!-- end -->
                   </div>
-                  <ng-template #elseLoadingLoadingServiceFee>
-                    <mat-list-item>
-                      <mat-icon mat-list-icon>payment</mat-icon>
-                      <div mat-line>
-                        <ngx-skeleton-loader
-                          fxFlex
-                          [theme]="{ height: '20px', width: '20%' }"
-                        ></ngx-skeleton-loader>
-                      </div>
-                    </mat-list-item>
-                  </ng-template>
-                  <!-- end -->
-                  <!-- Other fee -->
-                  <div fxFlex="100" fxLayout="column" fxLayout.gt-sm="row" *ngIf="!isLoading; else elseLoadingLoadingOtherFee">
-                    <div fxFlex="100" fxLayout="column" style="margin: 0 20px 0 20px;" *ngIf="['3'].includes(reservationStatusId.toString())">
-                      <mat-label fxFlex="100" fxLayout="row">Other Fee</mat-label>
-                      <mat-form-field appearance="outline" fxFlex="100" fxLayout="column">
-                        <mat-label>Other Fee</mat-label>
-                        <input
-                          matInput
-                          type="number"
-                          placeholder="Service Fee"
-                          [formControl]="otherFee" (change)="otherFeeChange(otherFee?.value)">
-                          <mat-error *ngIf="otherFee.errors && otherFee.errors.required">{{'Please enter other fee amount'}}</mat-error>
-                      </mat-form-field>
-                    </div>
-                    <div fxFlex="100" fxLayout="column" fxLayout.gt-sm="row" *ngIf="['4','5','6'].includes(reservationStatusId.toString())">
-                      <mat-list >
-                        <mat-list-item>
-                          <mat-icon mat-list-icon>payment</mat-icon>
-                          <div mat-line>
-                            <strong>₱ {{otherFeeValue}}</strong>
-                          </div>
-                          <div mat-line>Other fee</div>
-                        </mat-list-item>
-                      </mat-list>
-                    </div>
+                  
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+            <!-- Reservation details end -->
+
+            <!-- Submission -->
+            <div fxFlex="100" *ngIf="!isLoading && !['5','6'].includes(reservationStatusId.toString())">
+              <mat-accordion class="example-headers-align" multi>
+                <mat-expansion-panel [expanded]="reservation.reservationStatus.reservationStatusId === '1'">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title fxFlex="100" >
+                      <div fxFlex="100" style="display: flex;">Submission details</div>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+
+                  <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
+                    <!-- submitItemsBeforeDateTime date -->
+                    <mat-list>
+                      <mat-list-item mat-ripple style="cursor: pointer" (click)="reservation.reservationStatus.reservationStatusId === '1' ? selectSubmissionDate() : false">
+                        <mat-icon mat-list-icon>date_range</mat-icon>
+                        <div mat-line>
+                          <strong>{{reservation.submitItemsBeforeDateTime && reservation.submitItemsBeforeDateTime !== "" ? (reservation.submitItemsBeforeDateTime | date: 'MMM dd, yyyy hh:mm a') : 'Click to select date'}}</strong>
+                        </div>
+                        <mat-icon
+                          style="position: absolute; right: 0 !important"
+                          mat-list-icon
+                          >keyboard_arrow_right</mat-icon>
+                      </mat-list-item>
+                    </mat-list>
+                    <!-- end -->
                   </div>
-                  <ng-template #elseLoadingLoadingOtherFee>
-                    <mat-list-item>
-                      <mat-icon mat-list-icon>payment</mat-icon>
-                      <div mat-line>
-                        <ngx-skeleton-loader
-                          fxFlex
-                          [theme]="{ height: '20px', width: '20%' }"
-                        ></ngx-skeleton-loader>
+                  
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+            <!-- Submission end-->
+            
+            <!-- Decline details -->
+            <div fxFlex="100" *ngIf="!isLoading && ['1', '5'].includes(reservation.reservationStatus.reservationStatusId.toString())">
+              <mat-accordion class="example-headers-align" multi>
+                <mat-expansion-panel [expanded]="['1', '5'].includes(reservation.reservationStatus.reservationStatusId.toString())" [disabled]="reservationStatusId.toString() === '1'">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title fxFlex="100" >
+                      <div fxFlex="100" style="display: flex;color: #000;">Decline details</div>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+
+                  <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
+                    <!-- Reason to decline -->
+                    <div fxFlex="100" fxLayout="column" fxLayout.gt-sm="row" >
+                      <div fxFlex="100" fxLayout="column" style="margin: 20px 20px 0 20px;" *ngIf="reservationStatusId.toString() === '1'">
+                        <mat-label fxFlex="100" fxLayout="row">Reason to decline</mat-label>
+                        <mat-form-field appearance="outline" fxFlex="100" fxLayout="column">
+                          <mat-label>Reason to decline</mat-label>
+                          <textarea
+                            matInput
+                            type="number"
+                            placeholder="Reason to decline"
+                            [formControl]="reasonToDecline"></textarea>
+                            <mat-error *ngIf="reasonToDecline.errors && reasonToDecline.errors.required">{{'Please enter reason to decline'}}</mat-error>
+                        </mat-form-field>
                       </div>
-                    </mat-list-item>
-                  </ng-template>
-                  <!-- end -->
-                </div>
-                <br />
-              </mat-card-content>
-            </mat-card>
+                      <div fxFlex="100" fxLayout="column" fxLayout.gt-sm="row" *ngIf="reservationStatusId.toString() === '5'">
+                        <mat-list >
+                          <mat-list-item>
+                            <mat-icon mat-list-icon>comment</mat-icon>
+                            <div mat-line>
+                              <strong>{{reservation.reasonToDecline}}</strong>
+                            </div>
+                            <div mat-line>Reason to decline</div>
+                          </mat-list-item>
+                        </mat-list>
+                      </div>
+                    </div>
+                    <!-- end -->
+                  </div>
+                  
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+            <!-- Decline details end-->
+
+            <!-- Assigned person -->
+            <div fxFlex="100" *ngIf="!isLoading && ['2', '3', '4'].includes(reservation.reservationStatus.reservationStatusId.toString())">
+              <mat-accordion class="example-headers-align" multi>
+                <mat-expansion-panel [expanded]="reservation.reservationStatus.reservationStatusId === '2'">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title fxFlex="100" >
+                      <div fxFlex="100" style="display: flex;">Assigned Tailor</div>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+
+                  <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
+                    <!-- Assigned person info -->
+                    <mat-list>
+                      <mat-list-item mat-ripple style="cursor: pointer" (click)="reservation.reservationStatus.reservationStatusId === '2' ? assign() : false">
+                        <mat-icon mat-list-icon>person</mat-icon>
+                        <div mat-line>
+                          <strong>{{assignedStaff ? assignedStaff.fullName : 'Click to assign'}}</strong>
+                        </div>
+                        <div mat-line>
+                          Tailor
+                        </div>
+                        <mat-icon
+                          style="position: absolute; right: 0 !important"
+                          mat-list-icon
+                          >keyboard_arrow_right</mat-icon>
+                      </mat-list-item>
+                    </mat-list>
+                    <!-- end -->
+                    <!-- Estimated date -->
+                    <mat-list>
+                      <mat-list-item mat-ripple style="cursor: pointer" (click)="reservation.reservationStatus.reservationStatusId === '2' ? selectCompletionDate() : false">
+                        <mat-icon mat-list-icon>date_range</mat-icon>
+                        <div mat-line>
+                          <strong>{{reservation.estCompletionDate && reservation.estCompletionDate !== "" ? (reservation.estCompletionDate | date: 'MMM dd, yyyy') : 'Click to select date'}}</strong>
+                        </div>
+                        <div mat-line>
+                          Estimated date to complete
+                        </div>
+                        <mat-icon
+                          style="position: absolute; right: 0 !important"
+                          mat-list-icon
+                          >keyboard_arrow_right</mat-icon>
+                      </mat-list-item>
+                    </mat-list>
+                    <!-- end -->
+                    <!-- Service fee -->
+                    <div fxFlex="100" fxLayout="column" fxLayout.gt-sm="row">
+                      <div fxFlex="100" fxLayout="column" style="margin: 20px 20px 0 20px;" *ngIf="['2'].includes(reservationStatusId.toString())">
+                        <mat-label fxFlex="100" fxLayout="row">Service Fee</mat-label>
+                        <mat-form-field appearance="outline" fxFlex="100" fxLayout="column">
+                          <mat-label>Service Fee</mat-label>
+                          <input
+                            matInput
+                            type="number"
+                            placeholder="Service Fee"
+                            [formControl]="serviceFee" (change)="serviceFeeChange(serviceFee?.value)">
+                            <mat-error *ngIf="serviceFee.errors && serviceFee.errors.required">{{'Please enter service fee amount'}}</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="100" fxLayout="column" fxLayout.gt-sm="row" *ngIf="['3','4'].includes(reservationStatusId.toString())">
+                        <mat-list >
+                          <mat-list-item>
+                            <mat-icon mat-list-icon>payment</mat-icon>
+                            <div mat-line>
+                              <strong>₱ {{serviceFeeValue}}</strong>
+                            </div>
+                            <div mat-line>Service fee</div>
+                          </mat-list-item>
+                        </mat-list>
+                      </div>
+                    </div>
+                    <!-- end -->
+                  </div>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+            <!-- Assigned person end-->
+
+            <!-- Completion -->
+            <div fxFlex="100" *ngIf="!isLoading && ['3', '4'].includes(reservationStatusId.toString())">
+              <mat-accordion class="example-headers-align" multi>
+                <mat-expansion-panel [expanded]="reservationStatusId.toString() === '3'">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title fxFlex="100" >
+                      <div fxFlex="100" style="display: flex;">Completion details</div>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+
+                  <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
+                    <!-- Estimated date -->
+                    <mat-list>
+                      <mat-list-item mat-ripple style="cursor: pointer" (click)="reservationStatusId.toString() === '3' ? selectPickupDate() : false">
+                        <mat-icon mat-list-icon>date_range</mat-icon>
+                        <div mat-line>
+                          <strong>{{reservation.toPickupDateTime && reservation.toPickupDateTime !== "" ? (reservation.toPickupDateTime | date: 'MMM dd, yyyy hh:mm a') : 'Click to select date'}}</strong>
+                        </div>
+                        <div mat-line>
+                          Pick up date and time
+                        </div>
+                        <mat-icon
+                          style="position: absolute; right: 0 !important"
+                          mat-list-icon
+                          >keyboard_arrow_right</mat-icon>
+                      </mat-list-item>
+                    </mat-list>
+                    <!-- end -->
+                    <!-- Other fee -->
+                    <div fxFlex="100" fxLayout="column" fxLayout.gt-sm="row">
+                      <div fxFlex="100" fxLayout="column" style="margin: 0 20px 0 20px;" *ngIf="['3'].includes(reservationStatusId.toString())">
+                        <mat-label fxFlex="100" fxLayout="row">Other Fee</mat-label>
+                        <mat-form-field appearance="outline" fxFlex="100" fxLayout="column">
+                          <mat-label>Other Fee</mat-label>
+                          <input
+                            matInput
+                            type="number"
+                            placeholder="Service Fee"
+                            [formControl]="otherFee" (change)="otherFeeChange(otherFee?.value)">
+                            <mat-error *ngIf="otherFee.errors && otherFee.errors.required">{{'Please enter other fee amount'}}</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="100" fxLayout="column" fxLayout.gt-sm="row" *ngIf="['4','5','6'].includes(reservationStatusId.toString())">
+                        <mat-list >
+                          <mat-list-item>
+                            <mat-icon mat-list-icon>payment</mat-icon>
+                            <div mat-line>
+                              <strong>₱ {{otherFeeValue}}</strong>
+                            </div>
+                            <div mat-line>Other fee</div>
+                          </mat-list-item>
+                        </mat-list>
+                      </div>
+                    </div>
+                    <!-- end -->
+                  </div>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+            <!-- Completion end-->
           </div>
         </div>
       </div>

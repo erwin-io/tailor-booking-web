@@ -7,7 +7,7 @@
       <input
         matInput
         placeholder="Appointment date"
-        [formControl]="date"
+        [formControl]="dateCtrl"
         autocomplete="new-date"
         [matDatepicker]="picker"
         (click)="picker.open()"
@@ -18,36 +18,26 @@
       ></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <mat-error
-        *ngIf="date.errors !== (null || undefined)"
+        *ngIf="dateCtrl.errors !== (null || undefined)"
         >{{
-          date.errors &&
-          date.errors.required
+          dateCtrl.errors &&
+          dateCtrl.errors.required
             ? "Please enter {{dateFieldName}}"
             : ""
         }}</mat-error
       >
     </mat-form-field>
-    <mat-form-field appearance="outline" fxFlex="100" *ngIf="canSelectTime"
-    (click)="t4.showDialog()">
+    <mat-form-field appearance="outline" fxFlex="100" *ngIf="canSelectTime">
       <mat-label>Time</mat-label>
-      <input
-        matTimepicker
-        #t4="matTimepicker"
-        #time4="ngModel"
-        id="timepicker-example-4"
-        mode="12h"
-        [(ngModel)]="time"
-        placeholder="Please select time..."
-        name="time-4"
-        autocomplete="new-date"
-        [disableDialogOpenOnClick]="true"
-        readonly="true"
-
-      />
-      <mat-icon matSuffix>access_time</mat-icon>
-      <mat-error *ngIf="time4.touched && time4.invalid"
-        >Invalid Date</mat-error
-      >
+      <input 
+        matInput 
+        [ngxTimepicker]="timePicker"
+        placeholder="Time"
+        [formControl]="timeCtrl"
+        autocomplete="new-time"
+        >
+      <ngx-material-timepicker #timePicker></ngx-material-timepicker>
+      <mat-icon matSuffix (click)="timePicker.open()">access_time</mat-icon>
     </mat-form-field>
   </div>
 </div>

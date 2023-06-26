@@ -1,0 +1,61 @@
+<div class="top-holder" fxLayout="column" fxFlex="100">
+    <div class="card-tray" fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="20" *ngIf="['1','2'].includes(user.role.roleId.toString())">
+        <div class="card-holder" fxFlex.gt-sm="50%" fxFlex.gt-md="33.3%" fxFlex="100" ngClass="card-list" ngClass.gt-sm="card-box">
+            <mat-card style="background-color: #455A64;" *ngIf="!isLoading; else elseLoadingCard">
+                <mat-card-content>
+                    <div fxFlex="100" fxLayoutGap="20" class="details">
+                        <h1 class="label">Total Customers</h1>
+                        <h1 fxFlex.gt-sm="100%" fxFlex class="value">{{totalCustomers}}</h1>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="card-holder" fxFlex.gt-sm="50%" fxFlex.gt-md="33.3%" fxFlex="100" ngClass="card-list" ngClass.gt-sm="card-box">
+            <mat-card style="background-color: #00796B ;" *ngIf="!isLoading; else elseLoadingCard">
+                <mat-card-content>
+                    <div fxFlex="100" fxLayoutGap="20" class="details">
+                        <h1 class="label">Total Corporate Users</h1>
+                        <h1 fxFlex.gt-sm="100%" fxFlex class="value">{{totalCorpUsers}}</h1>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+    <div class="card-tray" fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="20" *ngIf="['1','2','3','4'].includes(user.role.roleId.toString())">
+        <div class="card-holder" fxFlex.gt-sm="50%" fxFlex.gt-md="33.3%" fxFlex="100" ngClass="card-list" ngClass.gt-sm="card-box" *ngIf="['1','2','3','4'].includes(user.role.roleId.toString())">
+            <mat-card style="background-color: #512DA8 ;" *ngIf="!isLoading; else elseLoadingCard">
+                <mat-card-content>
+                    <div fxFlex="100" fxLayoutGap="20" class="details">
+                        <h1 class="label">{{['3'].includes(user.role.roleId.toString()) ? 'My Total Sales' : 'Total Sales'}}</h1>
+                        <h1 fxFlex.gt-sm="100%" fxFlex class="value">₱{{totalSales}}</h1>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="card-holder" fxFlex.gt-sm="50%" fxFlex.gt-md="33.3%" fxFlex="100" ngClass="card-list" ngClass.gt-sm="card-box" *ngIf="['1','2','3','4'].includes(user.role.roleId.toString())">
+            <mat-card style="background-color: #D32F2F;" *ngIf="!isLoading; else elseLoadingCard">
+                <mat-card-content>
+                    <div fxFlex="100" fxLayoutGap="20" class="details">
+                        <h1 class="label">{{['3'].includes(user.role.roleId.toString()) ? 'My Total Closed Bookings' : 'Total Closed Bookings'}}</h1>
+                        <h1 fxFlex.gt-sm="100%" fxFlex class="value">{{totalClosedBooking}}</h1>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>
+
+
+
+<ng-template #elseLoadingCard>
+    <mat-card class="progress">
+        <mat-card-content>
+            <ngx-skeleton-loader
+              [theme]="{ height: '20px'}"
+            ></ngx-skeleton-loader>
+            <ngx-skeleton-loader
+              [theme]="{ height: '80px'}"
+            ></ngx-skeleton-loader>
+        </mat-card-content>
+      </mat-card>
+</ng-template>

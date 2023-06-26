@@ -8,7 +8,6 @@ import { ReportsService } from 'src/app/core/services/reports.service';
 import { Snackbar } from 'src/app/core/ui/snackbar';
 import { AlertDialogModel } from 'src/app/shared/alert-dialog/alert-dialog-model';
 import { AlertDialogComponent } from 'src/app/shared/alert-dialog/alert-dialog.component';
-import { PrintDialogComponent } from '../print-dialog/print-dialog.component';
 
 @Component({
   selector: 'app-add-payment',
@@ -113,12 +112,12 @@ export class AddPaymentComponent  implements OnInit {
                 .subscribe(
                   async (res) => {
                     if (res.success) {
+                      this.conFirm.emit(true);
                       this.snackBar.snackbarSuccess("Reservation paid!");
                       dialogRef.close();
                       this.isProcessing = false;
                       dialogRef.componentInstance.isProcessing = this.isProcessing;
                       this.isLoading = false;
-                      this.conFirm.emit(true);
                     } else {
                       this.isProcessing = false;
                       this.error = Array.isArray(res.message)

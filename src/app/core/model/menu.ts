@@ -23,6 +23,12 @@ export let menu: NavItem[] = [
     ]
   },
   {
+    displayName: 'Reports',
+    iconName: 'assessment',
+    route: 'reports',
+    isParent: false
+  },
+  {
     displayName: 'Security',
     iconName: 'security',
     route: 'security',

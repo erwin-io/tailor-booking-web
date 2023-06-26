@@ -1,0 +1,188 @@
+<div class="page-view-container">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-subtitle>Reports</mat-card-subtitle>
+        <div fxFlex></div>
+      </mat-card-header>
+      <mat-card-content fxLayout="column" >
+        <div fxFlex="100" class="report-controls">
+          <div class="report-controls-holder" fxFlex="20" fxFlex.xs="100" fxFlex.sm="40" fxLayoutGap="10" fxFlex.md="40" fxLayout="column" fxLayout.gt-sm="row">
+            
+            <mat-form-field appearance="outline" appearance="outline" fxFlex="100">
+              <mat-label>Report results</mat-label>
+              <mat-select (selectionChange)="resultTypeSelected()"
+                [formControl]="resultTypeCtrl">
+                <mat-option *ngFor="let item of resultTypeOptions" [value]="item.resultTypeId">{{item.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            
+            <mat-form-field appearance="outline" fxFlex.xs="100" *ngIf="resultTypeCtrl.value === 1">
+              <mat-label>Date</mat-label>
+              <input
+                matInput
+                placeholder="From"
+                [formControl]="dailyCtrl"
+                [matDatepicker]="datePicker"
+                (click)="datePicker.open()"
+                [max]="maxDate"
+                readonly="true"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="datePicker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #datePicker></mat-datepicker>
+            </mat-form-field>
+
+            <app-mat-year-month-picker fxFlex.xs="100" (dateChange)="pickerWeekSelected($event)" *ngIf="resultTypeCtrl.value === 2;"></app-mat-year-month-picker>
+            
+            <mat-form-field appearance="outline" appearance="outline" fxFlex="100" *ngIf="resultTypeCtrl.value === 2;">
+              <mat-label>Report results</mat-label>
+              <mat-select
+                [formControl]="selectedWeekCtrl" (selectionChange)="dataSource.data = []">
+                <mat-option *ngFor="let item of weekOptions;" [value]="item">{{item.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <app-mat-year-month-picker fxFlex.xs="100" (dateChange)="pickerMonthSelected($event)" *ngIf="resultTypeCtrl.value === 3"></app-mat-year-month-picker>
+
+            <app-mat-year-picker fxFlex.xs="100" (dateChange)="pickerYearSelected($event)" *ngIf="resultTypeCtrl.value === 4"></app-mat-year-picker>
+
+
+            <mat-form-field appearance="outline" fxFlex.xs="100" *ngIf="resultTypeCtrl.value === 5">
+              <mat-label>From</mat-label>
+              <input
+                matInput
+                placeholder="From"
+                [formControl]="from"
+                [matDatepicker]="pickerFrom"
+                (click)="pickerFrom.open()"
+                [max]="maxDate"
+                readonly="true"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="pickerFrom"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #pickerFrom></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" fxFlex.xs="100" *ngIf="resultTypeCtrl.value === 5">
+              <mat-label>To</mat-label>
+              <input
+                matInput
+                placeholder="To"
+                [formControl]="to"
+                [matDatepicker]="pickerTo"
+                (click)="pickerTo.open()"
+                [max]="maxDate"
+                readonly="true"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="pickerTo"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #pickerTo></mat-datepicker>
+            </mat-form-field>
+
+            <div >
+              <button matTooltip="Generate report" mat-raised-button color="primary" [disabled]="!filterDirty" (click)="generateReport()">Generate report</button>
+            </div>
+            <div fxFlex="100">
+              <button 
+                *ngIf="dataSource.data.length > 0" 
+                (click)="print()"
+                mat-fab 
+                extended 
+                color="primary"
+                matTooltip="Print"
+                >
+                <mat-icon>local_printshop</mat-icon>
+              </button>
+            </div>
+            <div >
+              <button 
+                *ngIf="dataSource.data.length > 0" 
+                (click)="export()"
+                mat-fab 
+                extended 
+                style="background-color: #00BFA5"
+                matTooltip="Export"
+                >
+                <mat-icon>save_alt</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div fxLayout="row" >
+            <div fxFlex="100" [ngClass]="{ 'hidden': isLoading }" class="table-holder">
+              <table class="table-reservation" mat-table matSort [dataSource]="dataSource" >
+    
+                <ng-container matColumnDef="customerName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Customer </th>
+                  <td mat-cell *matCellDef="let element"> {{element.customerName }} </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="amount">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
+                  <td mat-cell *matCellDef="let element"> ₱{{element.amount}} </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="paymentDate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Payment Date </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.paymentDate | date:"MMMM dd, YYYY" }} </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="referenceNo">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Reference number </th>
+                  <td mat-cell *matCellDef="let element"> {{element.referenceNo}} </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="paymentType">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Payment type </th>
+                  <td mat-cell *matCellDef="let element"> {{element.paymentType}} </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="reservationCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Reservation </th>
+                  <td mat-cell *matCellDef="let element"> {{element.reservationCode}} </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="tailorName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Tailor </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.tailorName }} </td>
+                </ng-container>
+    
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+              <div class="table-no-data" *ngIf="dataSource.data.length === 0">
+                <span>No sales to show</span>
+              </div>
+    
+              <mat-paginator #paginator [pageSize]="pageSize" [pageSizeOptions]="[10, 20, 50, 100]"
+                             showFirstLastButtons
+                             aria-label="Select page of periodic elements">
+              </mat-paginator>
+            </div>
+            <div *ngIf="isLoading">
+              <table class="mat-table" role="table">
+                <thead role="rowgroup">
+                  <tr role="row" class="mat-header-row">
+                     <th role="columnheader" class="mat-header-cell" *ngFor="let row of loaderData"> {{col}} </th>
+                  </tr>
+               </thead>
+                <tbody>
+                   <tr class="mat-row " *ngFor="let row of loaderData">
+                      <td role="cell" *ngFor="let col of displayedColumns" class="mat-cell mat-column-'{{col}}'"><ngx-skeleton-loader [theme]="{ height: '30px'}"></ngx-skeleton-loader></td>
+                   </tr>
+                </tbody>
+             </table>
+            </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <iframe #iframe src="../../../../assets/report/index.html" (load)="initPrint()" style="visibility: hidden!important;height: 0!important"></iframe>
+  
